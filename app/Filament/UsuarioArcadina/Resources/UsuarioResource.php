@@ -23,7 +23,15 @@ class UsuarioResource extends Resource
     {
         return $form
             ->schema([
-                //
+                //  //agrego el formulario dependiendo de la BD
+                Forms\Components\TextInput::make('mail')
+                    ->required()
+                    ->email()
+                    ->maxLength(255)
+                    ->extraInputAttributes(['tabindex' => 1]),
+                Forms\Components\TextInput::make('pass')
+                    ->required()
+                    ->extraInputAttributes(['tabindex' => 2])
             ]);
     }
 
@@ -31,7 +39,11 @@ class UsuarioResource extends Resource
     {
         return $table
             ->columns([
-                //
+                //ahora se agregan las columnas de la tabla 
+                Tables\Columns\TextColumn::make('mail')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('usuario')
+                    ->searchable(),
             ])
             ->filters([
                 //
