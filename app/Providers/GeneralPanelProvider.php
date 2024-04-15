@@ -17,6 +17,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+//importo el loginpropio que he creado
+
+use app\Filament\Auth\Loginpropio;
 
 class GeneralPanelProvider extends PanelProvider
 {
@@ -26,7 +29,7 @@ class GeneralPanelProvider extends PanelProvider
             ->default()
             ->id('general')
             ->path('general')
-            ->login()
+            ->login(Loginpropio::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
