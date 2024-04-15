@@ -53,6 +53,7 @@ class GeneralPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->authGuard('usuario');
     }
 }
