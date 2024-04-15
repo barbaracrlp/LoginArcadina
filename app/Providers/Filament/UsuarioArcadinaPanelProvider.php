@@ -25,6 +25,7 @@ class UsuarioArcadinaPanelProvider extends PanelProvider
         return $panel
             ->id('usuarioArcadina')
             ->path('usuario')
+            ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
