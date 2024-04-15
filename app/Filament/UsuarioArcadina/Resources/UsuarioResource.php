@@ -44,6 +44,8 @@ class UsuarioResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('usuario')
                     ->searchable(),
+                    Tables\Columns\TextColumn::make('nivel')
+                    ->searchable(),
             ])
             ->filters([
                 //
