@@ -38,8 +38,8 @@ class Login extends BasePage implements HasForms
         $data = $this->form->getState();
 
         if (! Filament::auth()->attempt([
-            'samaccountname' => $data['username'],
-            'password' => $data['password'],
+            'usuario' => $data['username'],
+            'pass' => $data['password'],
         ], $data['remember'])) {
             $this->addError('username', __('filament::login.messages.failed'));
 
