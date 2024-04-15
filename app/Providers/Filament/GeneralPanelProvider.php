@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\Auth;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -26,7 +27,7 @@ class GeneralPanelProvider extends PanelProvider
             ->default()
             ->id('general')
             ->path('general')
-            ->login()
+            ->login(Auth::class)
             ->colors([
                 'primary' => Color::Amber,
             ])

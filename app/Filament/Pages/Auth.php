@@ -16,7 +16,8 @@ class Auth extends BaseLogin
     {
         return $form
         ->schema([
-            TextInput::make('usuario')
+            TextInput::make('mail')
+            ->label("Usuario")
             ->required()
             ->maxLength(255)
             ->autofocus()
@@ -28,10 +29,19 @@ class Auth extends BaseLogin
     public function getPasswordFormComponent():Component
     {
        return TextInput::make('pass')
+       ->label("Contraseña")
             ->required()
             ->password()
             ->extraInputAttributes(['tabindex' => 2]);
             
+    }
+
+    protected function getCredentialsFromFormData(array $data): array
+    {
+        return [
+            'mail' => $data['email'],
+            'pass' => $data['password'],
+        ];
     }
 
 }
