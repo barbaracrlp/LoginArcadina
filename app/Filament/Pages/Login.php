@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Auth\Loginpropio;
+namespace App\Filament\Pages\Login;
 
 
 use Filament\Forms\Form;
