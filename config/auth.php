@@ -36,9 +36,9 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'usuario' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'usuarios',
         ],
     ],
 
@@ -58,18 +58,25 @@ return [
     | Supported: "database", "eloquent"
     |
     */
+/**Comento tambien el provider original */
+    // 'providers' => [
+    //     'users' => [
+    //         'driver' => 'eloquent',
+    //         'model' => env('AUTH_MODEL', App\Models\User::class),
+    //     ],
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+    //     // 'users' => [
+    //     //     'driver' => 'database',
+    //     //     'table' => 'users',
+    //     // ],
+    // ],
+//crea un nuevo proveedor de los usuarios como tal
+    'providers'=>[
+        'usuarios'=>[
+            'driver'=>'eloquent',
+            'model'=> App\Models\usuario::class,
+        ]
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -89,6 +96,8 @@ return [
     | quickly generating a very large amount of password reset tokens.
     |
     */
+
+
 
     'passwords' => [
         'users' => [
