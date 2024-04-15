@@ -17,6 +17,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+//importo el login propio
+use App\Filament\Auth\Login;
 
 class UsuarioArcadinaPanelProvider extends PanelProvider
 {
@@ -25,7 +27,7 @@ class UsuarioArcadinaPanelProvider extends PanelProvider
         return $panel
             ->id('usuarioArcadina')
             ->path('usuario')
-            ->login()
+            ->login(Login::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
