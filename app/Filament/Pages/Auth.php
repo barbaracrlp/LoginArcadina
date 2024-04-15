@@ -10,13 +10,15 @@ use Filament\Pages\Auth\Login as BaseLogin;
 
 class Auth extends BaseLogin
 {
+
+    /**Agrego el nuevo metodo de autentificacion  */
     /**puedo hacer el formulario de primeras ya, pero le tendre que devolver bien la data */
 
     public function form(Form $form): Form
     {
         return $form
         ->schema([
-            TextInput::make('mail')
+            TextInput::make('email')
             ->label("Usuario")
             ->required()
             ->maxLength(255)
@@ -28,7 +30,7 @@ class Auth extends BaseLogin
 
     public function getPasswordFormComponent():Component
     {
-       return TextInput::make('pass')
+       return TextInput::make('password')
        ->label("Contraseña")
             ->required()
             ->password()
@@ -39,10 +41,12 @@ class Auth extends BaseLogin
     protected function getCredentialsFromFormData(array $data): array
     {
         return [
-            'mail' => $data['mail'],
-            'pass' => $data['pass'],
+            'email' => $data['mail'],
+            'password' => $data['pass'],
         ];
     }
+
+
 
 }
 
