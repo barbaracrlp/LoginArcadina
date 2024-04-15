@@ -5,17 +5,19 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser,HasName
 {
     
     use HasFactory, Notifiable;
 
     protected $table='usuarios';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -57,5 +59,11 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return ($this->nivel)>=9;
+    }
+
+    /**Funcion para que coja el nombre del usuario como usuario en vez del "name" que es default */
+    public function getFilamentName(): string
+    {
+        return "{$this->usuario}";
     }
 }

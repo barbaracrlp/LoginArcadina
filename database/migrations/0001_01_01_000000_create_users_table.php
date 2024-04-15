@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('usuario');
             $table->string('pass')->unique();
             $table->string('mail');
+            $table->integer('nivel');
             
             // $table->string('nombre');
             // $table->string('telefono');

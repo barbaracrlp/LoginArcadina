@@ -1,67 +1,43 @@
 <?php
-
 namespace App\Filament\Pages\Auth;
 
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
-use DanHarrin\LivewireRateLimiting\WithRateLimiting;
-use Filament\Facades\Filament;
-use Filament\Forms\ComponentContainer;
-use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Component;
+use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Http\Responses\Auth\Contracts\LoginResponse;
-use Illuminate\Contracts\View\View;
-use Livewire\Component;
-use Filament\Http\Livewire\Auth\Login as BasePage;
+//ahora la importacion del login
 
-class Login extends BasePage implements HasForms
+use Filament\Pages\Auth\Login as BaseLogin;
+
+class Auth extends BaseLogin
 {
+    /**puedo hacer el formulario de primeras ya, pero le tendre que devolver bien la data */
 
-    public $username = '';
-    public $password = '';
-    public $remember = false;
-
-    public function authenticate(): ?LoginResponse
+    public function form(Form $form): Form
     {
-        try {
-            $this->rateLimit(5);
-        } catch (TooManyRequestsException $exception) {
-            $this->addError('username', __('filament::login.messages.throttled', [
-                'seconds' => $exception->secondsUntilAvailable,
-                'minutes' => ceil($exception->secondsUntilAvailable / 60),
-            ]));
-
-            return null;
-        }
-
-        $data = $this->form->getState();
-
-        if (! Filament::auth()->attempt([
-            'usuario' => $data['username'],
-            'pass' => $data['password'],
-        ], $data['remember'])) {
-            $this->addError('username', __('filament::login.messages.failed'));
-
-            return null;
-        }
-
-        return app(LoginResponse::class);
+        return $form
+        ->schema([
+            TextInput::make('usuario')
+            ->required()
+            ->maxLength(255)
+            ->autofocus()
+            ->extraInputAttributes(['tabindex' => 1]),
+            $this->getPasswordFormComponent()
+        ]);
     }
 
-    protected function getFormSchema(): array
+    public function getPasswordFormComponent():Component
     {
-        return [
-            TextInput::make('username')
-                ->label(__('Username'))
-                ->required()
-                ->autocomplete(),
-            TextInput::make('password')
-                ->label(__('filament::login.fields.password.label'))
-                ->password()
-                ->required(),
-            Checkbox::make('remember')
-                ->label(__('filament::login.fields.remember.label')),
-        ];
+       return TextInput::make('pass')
+            ->required()
+            ->password()
+            ->extraInputAttributes(['tabindex' => 2]);
+            
     }
+
 }
+
+
+
+
+
+?>
