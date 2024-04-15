@@ -39,8 +39,8 @@ class Auth extends BaseLogin
     protected function getCredentialsFromFormData(array $data): array
     {
         return [
-            'email' => $data['mail'],
-            'password' => $data['pass'],
+            'mail' => $data['mail'],
+            'pass' => $data['pass'],
         ];
     }
 
