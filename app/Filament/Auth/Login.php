@@ -18,8 +18,8 @@ use Filament\Http\Livewire\Auth\Login as BasePage;
 class Login extends BasePage implements HasForms
 {
 
-    public $mail = '';
-    public $pass = '';
+    public $email = '';
+    public $password = '';
     public $remember = false;
 
     public function authenticate(): ?LoginResponse
@@ -27,7 +27,7 @@ class Login extends BasePage implements HasForms
         try {
             $this->rateLimit(5);
         } catch (TooManyRequestsException $exception) {
-            $this->addError('mail', __('filament::login.messages.throttled', [
+            $this->addError('email', __('filament::login.messages.throttled', [
                 'seconds' => $exception->secondsUntilAvailable,
                 'minutes' => ceil($exception->secondsUntilAvailable / 60),
             ]));
@@ -38,10 +38,10 @@ class Login extends BasePage implements HasForms
         $data = $this->form->getState();
 
         if (! Filament::auth()->attempt([
-            'mail' => $data['mail'],
-            'pass' => $data['pass'],
+            'mail' => $data['email'],
+            'pass' => $data['password'],
         ], $data['remember'])) {
-            $this->addError('mail', __('filament::login.messages.failed'));
+            $this->addError('email', __('filament::login.messages.failed'));
 
             return null;
         }
@@ -52,12 +52,12 @@ class Login extends BasePage implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            TextInput::make('mail')
+            TextInput::make('email')
                 ->label(__('Email'))
                 ->required()
                 ->email()
                 ->autocomplete(),
-            TextInput::make('pass')
+            TextInput::make('password')
                 ->label(__('filament::login.fields.password.label'))
                 ->password()
                 ->required(),
