@@ -11,7 +11,7 @@ class contenido extends Model
     use HasFactory;
     protected $table='contenido';
       // Cambio el nombre a ver si así si que lo cambia a la columna que toca
-      const UPDATED_AT = 'f_mod';
+      const UPDATED_AT = 'f_modi';
 
     //añado las propiedades fillable
     /**se ve que al no haberlo hecho filament no puede saber qué propiedades son mass asignable
