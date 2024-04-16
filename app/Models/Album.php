@@ -14,10 +14,21 @@ class Album extends Model
 
     protected $table='contenido';
 
+    //funcion para sacar los albumes a partir de contenido
+    public function contenido(){
+        return $this->morphOne('App\Models\contenido','sacatipos');
+    }
 
+    public function scopeAlbums($query){
+        return $query->whereHas('contenido',function($query){
+            $query->where('tipo','album');
+        });
+    }
     //relacion de belongTo para contenido
 
-    public function contenido():BelongsTo{
-        return $this->belongsTo(contenido::class);
-    }
+    // public function contenido():BelongsTo{
+    //     return $this->belongsTo(contenido::class);
+    // }
+
+    
 }

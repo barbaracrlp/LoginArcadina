@@ -64,13 +64,7 @@ class ContenidoResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\CheckboxColumn::make('publicado'),
-                // Tables\Columns\TextColumn::make('estado')
-                //     ->color(fn (string $state): string => match ($state) {
-                //         0 => 'gray',
-                //         2 => 'warning',
-                //         1 => 'success',
-                //         99 => 'danger',
-                //     }),
+             
                 Tables\Columns\TextColumn::make('tipo')
                     ->sortable()
                     ->searchable(),

@@ -28,6 +28,12 @@ class contenido extends Model
     // Indica si el modelo debe registrar automáticamente las marcas de tiempo.
     // public $timestamps = false;
 
+    //agrego funcion para poder diferenciar entre los diferentes tipos
+    public function sacatipos()
+    {
+        return $this->morphTo();
+
+    }
 
     //la relacion con los albumes
     //galeria de la parte de booking

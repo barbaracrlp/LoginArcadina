@@ -42,7 +42,21 @@ class AlbumResource extends Resource
     {
         return $table
             ->columns([
-                //
+                //las columnas 
+                 //ahora la columna
+                 Tables\Columns\TextColumn::make('titulo')
+                 ->label('Título')
+                 ->sortable()
+                 ->searchable(),
+             Tables\Columns\CheckboxColumn::make('publicado'),
+          
+             Tables\Columns\TextColumn::make('tipo')
+                 ->sortable()
+                 ->searchable(),
+                 Tables\Columns\TextColumn::make('estado')
+                 ->sortable()
+                 ->searchable(),
+
             ])
             ->filters([
                 //
