@@ -1,55 +1,69 @@
 <?php
+
 namespace App\Filament\Auth;
 
-use Filament\Pages\Auth\Login as BaseAuth;
-//importo las cosas
-
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use Filament\Facades\Filament;
+use Filament\Forms\ComponentContainer;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
-use Filament\forms\Components\Component;
-use Filament\Forms\Form;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse;
+use Illuminate\Contracts\View\View;
+use Livewire\Component;
+use Filament\Http\Livewire\Auth\Login as BasePage;
 
-class Login extends BaseAuth{
+class Login extends BasePage implements HasForms
+{
 
-    public function form(Form $form): Form
+    public $mail = '';
+    public $pass = '';
+    public $remember = false;
+
+    public function authenticate(): ?LoginResponse
     {
-        return $form
-        ->schema([
-            $this->getEmailFormComponent(),
-            $this->getPasswordFormComponent()
-        ])->statePath('data');
+        try {
+            $this->rateLimit(5);
+        } catch (TooManyRequestsException $exception) {
+            $this->addError('mail', __('filament::login.messages.throttled', [
+                'seconds' => $exception->secondsUntilAvailable,
+                'minutes' => ceil($exception->secondsUntilAvailable / 60),
+            ]));
+
+            return null;
+        }
+
+        $data = $this->form->getState();
+
+        if (! Filament::auth()->attempt([
+            'mail' => $data['mail'],
+            'pass' => $data['pass'],
+        ], $data['remember'])) {
+            $this->addError('mail', __('filament::login.messages.failed'));
+
+            return null;
+        }
+
+        return app(LoginResponse::class);
     }
 
-    //ahora sobreescribo las funciones del login original
-     protected function getEmailFormComponent(): Component
-     {
-        return TextInput::make('mail')
-        ->label('Email')
-        ->email()
-        ->required()
-        ->autofocus()
-        ->extraInputAttributes(['tabindex'=>1]);
-     }
-
-     protected function getPasswordFormComponent(): Component
-     {
-        return TextInput::make('pass')
-        ->label('Contraseña')
-        ->required()
-        ->extraInputAttributes(['tabindex'=>2]);
-     }
-
-     //la de como recibir los dtos
-     protected function getCredentialsFromFormData(array $data): array
-     {
+    protected function getFormSchema(): array
+    {
         return [
-            'mail'=>$data['mail'],
-            'pass'=>$data['pass'],
+            TextInput::make('mail')
+                ->label(__('Email'))
+                ->required()
+                ->email()
+                ->autocomplete(),
+            TextInput::make('pass')
+                ->label(__('filament::login.fields.password.label'))
+                ->password()
+                ->required(),
+            Checkbox::make('remember')
+                ->label(__('filament::login.fields.remember.label')),
         ];
-     }
-
+    }
 
 }
-
-
-
-?>
