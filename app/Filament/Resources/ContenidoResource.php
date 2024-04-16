@@ -6,6 +6,7 @@ use App\Filament\Resources\ContenidoResource\Pages;
 use App\Filament\Resources\ContenidoResource\RelationManagers;
 use App\Models\Contenido;
 use Filament\Forms;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -38,13 +39,15 @@ class ContenidoResource extends Resource
                 //es la fecha de creacion
                 Forms\Components\TextInput::make('contenido'),
                 Forms\Components\TextInput::make('tipo')
-                ->label('Tipo'),
+                ->label('Tipo')
+                ->disabled(),
                 // Forms\Components\TextInput::make('f_crea')
                 // ->label("Fecha de Creacion"),
-                Forms\Components\TextInput::make('f_modi')
+                // Forms\Components\TextInput::make('f_modi')
+                DateTimePicker::make('f_modi')
                 ->label('Última modificacion')
-                ->default(now())
-                ->disabled() ,
+                ->disabled()
+                ->format('Y-m-d H:i:s'),
                 Forms\Components\Checkbox::make('publicado')
                 ->label('Publicar'),
 
