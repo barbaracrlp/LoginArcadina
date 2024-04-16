@@ -39,8 +39,8 @@ class ContenidoResource extends Resource
                 Forms\Components\TextInput::make('contenido'),
                 Forms\Components\TextInput::make('tipo')
                 ->label('Tipo'),
-                Forms\Components\TextInput::make('f_crea')
-                ->label("Fecha de Creacion"),
+                // Forms\Components\TextInput::make('f_crea')
+                // ->label("Fecha de Creacion"),
                 Forms\Components\TextInput::make('f_modi')
                 ->label('Última modificacion'),
                 Forms\Components\Checkbox::make('publicado')

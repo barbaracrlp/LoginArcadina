@@ -11,6 +11,22 @@ class contenido extends Model
     use HasFactory;
     protected $table='contenido';
 
+    //añado las propiedades fillable
+    /**se ve que al no haberlo hecho filament no puede saber qué propiedades son mass asignable
+     * ponerlas en el array 
+     */
+    protected $fillable= [
+        'titulo',
+        'contenido',
+        'tipo',
+        'f_modi',
+        'publicado',
+    ];
+
+    // Indica si el modelo debe registrar automáticamente las marcas de tiempo.
+    public $timestamps = false;
+
+
     //la relacion con los albumes
     //galeria de la parte de booking
     public function albums():HasMany{
