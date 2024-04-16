@@ -13,6 +13,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
+use Illuminate\Validation\ValidationException;
 use Filament\Http\Livewire\Auth\Login as BasePage;
 
 class Login extends BasePage implements HasForms
@@ -64,6 +65,13 @@ class Login extends BasePage implements HasForms
             Checkbox::make('remember')
                 ->label(__('filament::login.fields.remember.label')),
         ];
+    }
+
+    protected function throwFailureValidationException(): never
+    {
+        throw ValidationException::withMessages([
+            'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
+        ]);
     }
 
 }
