@@ -17,13 +17,24 @@ class AlbumResource extends Resource
 {
     protected static ?string $model = Album::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-film';
+
+    protected static ?string $navigationLabel= 'Album';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                //agrego primero el formulario 
+                Forms\Components\TextInput::make('titulo')
+                ->required()
+                ->label('Título')
+                ->maxLength(255)
+                ->autofocus()
+                ->extraInputAttributes(['tabindex'=>1]),
+                //la fecha com a tal es crea al fer el commit a la DB no al crear una galeria
+                //es la fecha de creacion
+
             ]);
     }
 
