@@ -62,7 +62,21 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', App\Models\Usuario::class),
+            'database'=> [
+                'model'=> App\Models\Usuario::class,
+                'sync_passwords'=>'false',
+                'sync_attibutes'=>[
+                    'name'=>'usuario',
+                    'email'=>'mail',
+                    'password'=>'pass',
+                ],
+                'sync_existing' => [
+                    'name'=>'usuario',
+                    'email'=>'mail',
+                    'password'=>'pass',
+                ],
+            ],
         ],
 
         // 'users' => [
