@@ -42,7 +42,9 @@ class ContenidoResource extends Resource
                 // Forms\Components\TextInput::make('f_crea')
                 // ->label("Fecha de Creacion"),
                 Forms\Components\TextInput::make('f_modi')
-                ->label('Última modificacion'),
+                ->label('Última modificacion')
+                ->default(now())
+                ->disabled() ,
                 Forms\Components\Checkbox::make('publicado')
                 ->label('Publicar'),
 
@@ -79,7 +81,8 @@ class ContenidoResource extends Resource
 
                 Filter::make('tipo')
                 ->query(fn (Builder $query): Builder => $query->where('tipo', 'album'))
-                ->label('Albumes'),
+                ->label('Albumes')
+                ->default(),
                 /**creo otro filtro para las galerias */
                 Filter::make('tipo2')
                 ->query(fn (Builder $query): Builder => $query->where('tipo', 'gallery'))

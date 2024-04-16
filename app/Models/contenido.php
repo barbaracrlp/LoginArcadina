@@ -10,6 +10,8 @@ class contenido extends Model
 {
     use HasFactory;
     protected $table='contenido';
+      // Cambio el nombre a ver si así si que lo cambia a la columna que toca
+      const UPDATED_AT = 'f_mod';
 
     //añado las propiedades fillable
     /**se ve que al no haberlo hecho filament no puede saber qué propiedades son mass asignable
@@ -24,7 +26,7 @@ class contenido extends Model
     ];
 
     // Indica si el modelo debe registrar automáticamente las marcas de tiempo.
-    public $timestamps = false;
+    // public $timestamps = false;
 
 
     //la relacion con los albumes
