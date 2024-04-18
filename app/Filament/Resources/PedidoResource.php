@@ -34,7 +34,7 @@ class PedidoResource extends Resource
                 Forms\components\TextInput::make('numero')
                 ->disabled()
                 ->label('Numero'),
-                Forms\Components\TextInput::make('Nombre')
+                Forms\Components\TextInput::make('nombre')
                 ->disabled()
                 ->label('Nombre'),
                 DatePicker::make('fecha')
@@ -81,6 +81,20 @@ class PedidoResource extends Resource
         return $table
             ->columns([
                 //Ahora las columnas iguales que lo otro
+                Tables\Columns\TextColumn::make('numero')
+                ->label('Numero'),
+                Tables\Columns\TextColumn::make('nombre')
+                ->label('Nombre'),
+                Tables\Columns\TextColumn::make('fecha')
+                ->label('Fecha')
+                ->dateTime('Y-m-d'),
+                Tables\Columns\TextColumn::make('tipo')
+                ->label('Tipo'),
+                Tables\Columns\TextColumn::make('estado')
+                //voy a crear enums para asi conseguir los colores siempre
+                //no se si funcionara
+
+
             ])
             ->filters([
                 //
