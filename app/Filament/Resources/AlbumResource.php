@@ -64,6 +64,12 @@ class AlbumResource extends Resource
                  ->sortable()
                  ->searchable(),
              Tables\Columns\CheckboxColumn::make('publicado'),
+             Tables\Columns\ToggleColumn::make('publicado')
+             ->label('Publicado')
+                ->onIcon('heroicon-s-eye')
+                ->offIcon('heroicon-m-eye-slash')
+                ->onColor('success')
+                ->offColor('danger'),
           
              Tables\Columns\TextColumn::make('tipo')
                  ->sortable()
