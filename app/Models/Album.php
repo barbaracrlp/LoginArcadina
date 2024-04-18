@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use App\Scopes\AlbumScope;
 //
 
 class Album extends Model
@@ -15,20 +15,17 @@ class Album extends Model
     protected $table='contenido';
 
     //funcion para sacar los albumes a partir de contenido
-    public function contenido(){
-        return $this->morphOne('App\Models\contenido','sacatipos');
-    }
 
-    public function scopeAlbums($query){
-        return $query->whereHas('contenido',function($query){
-            $query->where('tipo','album');
-        });
-    }
     //relacion de belongTo para contenido
 
     // public function contenido():BelongsTo{
     //     return $this->belongsTo(contenido::class);
     // }
-
+    
+        protected static function boot()
+        {
+            parent::boot();
+            static::addGlobalScope(new AlbumScope);
+        }
     
 }
