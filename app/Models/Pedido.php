@@ -22,9 +22,10 @@ class Pedido extends Model
         'direccion',
         'telefono',
         'comentario',
+        'tipo'
     ]
     ;
 
     //boot como tal no me hace falta tenerlo
-    
+
 }
