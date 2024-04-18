@@ -35,7 +35,7 @@ class GeneralPanelProvider extends PanelProvider
                 'danger' => Color::Red,
                 'info' => Color::Blue,
                 'success' => Color::Emerald,
-                'warning' => Color::Orange
+                'warning' => Color::Orange,
             ])
             ->brandName("Arcadina")
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

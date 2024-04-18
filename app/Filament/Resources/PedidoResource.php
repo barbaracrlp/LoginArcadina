@@ -15,6 +15,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+//importo los colores 
+use Filament\Support\Colors\Color;
+
 class PedidoResource extends Resource
 {
     protected static ?string $model = Pedido::class;
@@ -45,9 +48,31 @@ class PedidoResource extends Resource
                 ->numeric()
                 ->inputMode('decimal'),
                 //para los estados voy a hacer un select
-                
-
-
+                //al final cambio a togglebuttons pero no se si se podran definir las acciones
+                //si no se pueden será mejor dejarlo como select y ya 
+                Forms\Components\ToggleButtons::make('estado')
+                ->options([
+                    0=>'Sin Confirmar',
+                    1=>'Pendiente de Cobro',
+                    2=>'Cobrado',
+                    3=>'Pendiente de Proceso',
+                    4=>'En Proceso',
+                    5=>'Enviado',
+                    7=>'Completado',
+                    6=>'Cancelado',  
+                ])
+                //se pueden agregar tambien iconos, uno para cada opcion, pero ya 
+                //sobrecargaria el front (creo yo vamos)
+                ->colors([
+                    0=>Color::Zinc,
+                    1=>Color::Red,
+                    2=>Color::Orange,
+                    3=>Color::Purple,
+                    4=>Color::Blue,
+                    5=>Color::Green,
+                    7=>color::Emerald,
+                    6=>Color::Neutral,  
+                ]),
             ]);
     }
 
@@ -55,7 +80,7 @@ class PedidoResource extends Resource
     {
         return $table
             ->columns([
-                //
+                //Ahora las columnas iguales que lo otro
             ])
             ->filters([
                 //
