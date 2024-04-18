@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EstadoPedido;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,6 +27,10 @@ class Pedido extends Model
         'notas',
     ]
     ;
+
+    protected $casts= [
+        'estado'=> EstadoPedido::class,
+    ];
 
     //boot como tal no me hace falta tenerlo
 

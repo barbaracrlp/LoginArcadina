@@ -36,6 +36,12 @@ class GeneralPanelProvider extends PanelProvider
                 'info' => Color::Blue,
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
+                'sin'=>Color::Zinc,
+                'pendiente'=>Color::Purple,
+                'enviado'=>Color::Green,
+                'neutral'=>Color::Neutral,
+
+
             ])
             ->brandName("Arcadina")
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

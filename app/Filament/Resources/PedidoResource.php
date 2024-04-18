@@ -31,25 +31,6 @@ class PedidoResource extends Resource
         return $form
             ->schema([
                 //agregamos los elementos del formulario
-                Forms\components\TextInput::make('numero')
-                ->disabled()
-                ->label('Numero'),
-                Forms\Components\TextInput::make('nombre')
-                ->disabled()
-                ->label('Nombre'),
-                DatePicker::make('fecha')
-                ->label('Fecha')
-                ->disabled()
-                ->displayFormat('Y-m-d'),
-                Forms\Components\TextInput::make('tipo')
-                ->label('Tipo'),
-                TextInput::make('total')
-                ->label('Total')
-                ->numeric()
-                ->inputMode('decimal'),
-                //para los estados voy a hacer un select
-                //al final cambio a togglebuttons pero no se si se podran definir las acciones
-                //si no se pueden será mejor dejarlo como select y ya 
                 Forms\Components\ToggleButtons::make('estado')
                 ->options([
                     0=>'Sin Confirmar',
@@ -72,7 +53,30 @@ class PedidoResource extends Resource
                     5=>Color::Green,
                     7=>color::Emerald,
                     6=>Color::Neutral,  
-                ]),
+                ])
+                ->inline()
+                ->grouped()
+                ->columnSpanFull(),
+                Forms\components\TextInput::make('numero')
+                ->disabled()
+                ->label('Numero'),
+                Forms\Components\TextInput::make('nombre')
+                ->disabled()
+                ->label('Nombre'),
+                DatePicker::make('fecha')
+                ->label('Fecha')
+                ->disabled()
+                ->displayFormat('Y-m-d'),
+                Forms\Components\TextInput::make('tipo')
+                ->label('Tipo'),
+                TextInput::make('total')
+                ->label('Total')
+                ->numeric()
+                ->inputMode('decimal'),
+                //para los estados voy a hacer un select
+                //al final cambio a togglebuttons pero no se si se podran definir las acciones
+                //si no se pueden será mejor dejarlo como select y ya 
+               
             ]);
     }
 
@@ -93,6 +97,9 @@ class PedidoResource extends Resource
                 Tables\Columns\TextColumn::make('estado')
                 //voy a crear enums para asi conseguir los colores siempre
                 //no se si funcionara
+                ->badge(),
+                Tables\Columns\TextInputColumn::make('comentario')
+                ->label('Comentarios'),
 
 
             ])
