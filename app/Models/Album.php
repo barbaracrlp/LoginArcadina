@@ -14,6 +14,16 @@ class Album extends Model
 
     protected $table='contenido';
 
+    const UPDATED_AT ='f_modi';
+
+    protected $fillable= [
+        'titulo',
+        'contenido',
+        'tipo',
+        'f_modi',
+        'publicado',
+    ];
+
     //funcion para sacar los albumes a partir de contenido
 
     //relacion de belongTo para contenido

@@ -6,6 +6,7 @@ use App\Filament\Resources\AlbumResource\Pages;
 use App\Filament\Resources\AlbumResource\RelationManagers;
 use App\Models\Album;
 use Filament\Forms;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -32,6 +33,16 @@ class AlbumResource extends Resource
                 ->maxLength(255)
                 ->autofocus()
                 ->extraInputAttributes(['tabindex'=>1]),
+                Forms\Components\TextInput::make('contenido'),
+                Forms\Components\TextInput::make('tipo')
+                ->label('Tipo')
+                ->disabled(),
+                DateTimePicker::make('f_modi')
+                ->label('Última modificacion')
+                ->disabled()
+                ->format('Y-m-d H:i:s'),
+                Forms\Components\Checkbox::make('publicado')
+                ->label('Publicar'),
                 //la fecha com a tal es crea al fer el commit a la DB no al crear una galeria
                 //es la fecha de creacion
 
