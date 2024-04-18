@@ -20,7 +20,11 @@ class AlbumResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-film';
 
-    protected static ?string $navigationLabel= 'Album';
+    protected static ?string $navigationLabel= 'Galerías';
+
+    protected static ?string $navigationGroup = "Images";
+
+    
 
     public static function form(Form $form): Form
     {

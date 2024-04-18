@@ -26,6 +26,10 @@ class PedidoResource extends Resource
 
     protected static ?string $navigationLabel= 'Pedidos';
 
+    protected static ?string $navigationGroup = "Tienda";
+
+   
+
     public static function form(Form $form): Form
     {
         return $form
@@ -55,7 +59,7 @@ class PedidoResource extends Resource
                     6=>Color::Neutral,  
                 ])
                 ->inline()
-                ->grouped()
+                // ->grouped()
                 ->columnSpanFull(),
                 Forms\components\TextInput::make('numero')
                 ->disabled()
