@@ -22,7 +22,8 @@ class Pedido extends Model
         'direccion',
         'telefono',
         'comentario',
-        'tipo'
+        'tipo',
+        'notas',
     ]
     ;
 

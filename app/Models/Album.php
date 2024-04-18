@@ -37,5 +37,9 @@ class Album extends Model
             parent::boot();
             static::addGlobalScope(new AlbumScope);
         }
-    
+    //tengo que añadir un cast al booleano de publicado para que eloquent lo guarde bien
+
+    protected $casts= [
+        'publicado'=>'boolean',
+    ];
 }

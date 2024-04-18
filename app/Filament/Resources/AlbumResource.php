@@ -41,8 +41,12 @@ class AlbumResource extends Resource
                 ->label('Última modificacion')
                 ->disabled()
                 ->format('Y-m-d H:i:s'),
-                Forms\Components\Checkbox::make('publicado')
-                ->label('Publicar'),
+                Forms\Components\Toggle::make('publicado')
+                ->label('Publicado')
+                ->onIcon('heroicon-s-eye')
+                ->offIcon('heroicon-m-eye-slash')
+                ->onColor('success')
+                ->offColor('danger'),
                 //la fecha com a tal es crea al fer el commit a la DB no al crear una galeria
                 //es la fecha de creacion
 
