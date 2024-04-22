@@ -62,14 +62,15 @@ class PedidoResource extends Resource
                 ->inline()
                 // ->grouped()
                 ->columnSpanFull()
-                ->prefixAction(
-                    Action::make('cambiaEstado')
-                    ->action(
-                        function ( ){
-                            //aqui en teoria tengo que definir la accion que hace la peticion al htt
-                        }
-                    )
-                ),
+                // ->prefixAction(
+                //     Action::make('cambiaEstado')
+                //     ->action(
+                //         function ( ){
+                //             //aqui en teoria tengo que definir la accion que hace la peticion al htt
+                //         }
+                //     )
+                // )
+                ,
                 Forms\components\TextInput::make('numero')
                 ->disabled()
                 ->label('Numero'),
