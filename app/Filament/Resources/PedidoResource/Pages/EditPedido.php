@@ -85,6 +85,8 @@ class EditPedido extends EditRecord
     public function save(bool $shouldRedirect = true, bool $shouldSendSavedNotification = true):void
 {
 
+    error_log('Guardando registro...');
+
     $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
 
     $response=Http::post('http://localhost:3000/ajaxsubmit.php',$data);
@@ -92,8 +94,12 @@ class EditPedido extends EditRecord
     if($response->successful()){
         parent::save($shouldRedirect, $shouldSendSavedNotification);//aqui el parent save no me funciona  
 
+        error_log('La petición fue exitosa.');
     }
     else{
+
+        error_log('La petición falló: ' . $response->status());
+        
         $errorResponse=$response->body();
         //muestro una ventana de error con el mensaje de error
         // Filament::component('edit-pedido')->message('Error al procesar la solicitud '.$errorResponse)
