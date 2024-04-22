@@ -90,6 +90,11 @@ class PedidoResource extends Resource
                 //para los estados voy a hacer un select
                 //al final cambio a togglebuttons pero no se si se podran definir las acciones
                 //si no se pueden será mejor dejarlo como select y ya 
+                DatePicker::make('f_modificacion')
+                ->label('Última modificacion')
+                ->disabled()
+                ->displayFormat('Y-m-d')
+                ,
                
             ]);
     }
@@ -145,4 +150,6 @@ class PedidoResource extends Resource
             'edit' => Pages\EditPedido::route('/{record}/edit'),
         ];
     }
+
+    
 }

@@ -59,9 +59,8 @@ class EditPedido extends EditRecord
         // $responseData=$response->json();en esta linea tendria la respuesta, pero como tal no me hace falta
             //aqui tengo que buscar como redirigir otra vez a la página de
 
-             // Registra un mensaje de información en los registros de Laravel
-        \Illuminate\Support\Facades\Log::info('La petición fue exitosa: ' . $response->body());
-        
+       alert('la respuesta es '.$response);
+
         /**Si es exitosa la peticion entonces guardo automaticamente */
          /**Al llamar al metodo original en teoria ya se redirije automaticamente
          * como en filament normal
