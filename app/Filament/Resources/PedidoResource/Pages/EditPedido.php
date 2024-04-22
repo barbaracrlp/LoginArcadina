@@ -45,48 +45,62 @@ class EditPedido extends EditRecord
 //con estos metodos en teria se sobreescribe el metodo
 
 
-    protected function saving():void
-    {
+    // protected function saving():void
+    // {
        
 
-        $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
+    //     $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
 
-        $response=Http::post('http://localhost:3000/ajaxsubmit.php',$data);
-        //en la peticion paso la url del APi y despues le paso el array con TODOS los datos
-        //del record, que corresponde con el formulario del recurso
+    //     $response=Http::post('http://localhost:3000/ajaxsubmit.php',$data);
+    //     //en la peticion paso la url del APi y despues le paso el array con TODOS los datos
+    //     //del record, que corresponde con el formulario del recurso
 
-        if($response->successful()){
-        // $responseData=$response->json();en esta linea tendria la respuesta, pero como tal no me hace falta
-            //aqui tengo que buscar como redirigir otra vez a la página de
+    //     if($response->successful()){
+    //     // $responseData=$response->json();en esta linea tendria la respuesta, pero como tal no me hace falta
+    //         //aqui tengo que buscar como redirigir otra vez a la página de
 
-       alert('la respuesta es '.$response);
+    //    alert('la respuesta es '.$response);
 
-        /**Si es exitosa la peticion entonces guardo automaticamente */
-         /**Al llamar al metodo original en teoria ya se redirije automaticamente
-         * como en filament normal
-         */
-        parent::saving(); //guarda con los metodos normales, a la DB 
-        //esto se podría quitar si no quieres cambiar directamente la DB
+    //     /**Si es exitosa la peticion entonces guardo automaticamente */
+    //      /**Al llamar al metodo original en teoria ya se redirije automaticamente
+    //      * como en filament normal
+    //      */
+    //     parent::saving(); //guarda con los metodos normales, a la DB 
+    //     //esto se podría quitar si no quieres cambiar directamente la DB
 
-        }
-        else
-        {
-            $errorResponse=$response->body();
-            //muestro una ventana de error con el mensaje de error
-            // Filament::component('edit-pedido')->message('Error al procesar la solicitud '.$errorResponse)
-            // ->variant('danger');
+    //     }
+    //     else
+    //     {
+    //         $errorResponse=$response->body();
+    //         //muestro una ventana de error con el mensaje de error
+    //         // Filament::component('edit-pedido')->message('Error al procesar la solicitud '.$errorResponse)
+    //         // ->variant('danger');
 
-            $this->addError('error','Error al procesar la Solicitud: '.$errorResponse);
-        }
+    //         $this->addError('error','Error al procesar la Solicitud: '.$errorResponse);
+    //     }
+    // }
 
+    //copio en teoria la funcion original del vendor 
 
+    public function save(bool $shouldRedirect = true, bool $shouldSendSavedNotification = true):void
+{
 
+    $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
 
+    $response=Http::post('http://localhost:3000/ajaxsubmit.php',$data);
 
-
+    if($response->successful()){
+        parent::save();
     }
+    else{
+        $errorResponse=$response->body();
+        //muestro una ventana de error con el mensaje de error
+        // Filament::component('edit-pedido')->message('Error al procesar la solicitud '.$errorResponse)
+        // ->variant('danger');
 
-    //en el record tengo lo que son todos los datos de ese momento 
+        $this->addError('error','Error al procesar la Solicitud: '.$errorResponse);
+    }
+}    //en el record tengo lo que son todos los datos de ese momento 
     //record es la instancia de pedido que hay 
 
 }
