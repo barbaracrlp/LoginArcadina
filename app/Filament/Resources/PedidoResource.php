@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PedidoResource\Pages;
 use App\Filament\Resources\PedidoResource\RelationManagers;
 use App\Models\Pedido;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
@@ -60,7 +61,15 @@ class PedidoResource extends Resource
                 ])
                 ->inline()
                 // ->grouped()
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->prefixAction(
+                    Action::make('cambiaEstado')
+                    ->action(
+                        function ( ){
+                            //aqui en teoria tengo que definir la accion que hace la peticion al htt
+                        }
+                    )
+                ),
                 Forms\components\TextInput::make('numero')
                 ->disabled()
                 ->label('Numero'),

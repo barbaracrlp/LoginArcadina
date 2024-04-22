@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\EstadoPedido;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Pedido extends Model
 {
@@ -34,4 +35,8 @@ class Pedido extends Model
 
     //boot como tal no me hace falta tenerlo
 
+
+    public function detallePedido():HasOne{
+        return $this->hasOne(DetallePedido::class);
+    }
 }
