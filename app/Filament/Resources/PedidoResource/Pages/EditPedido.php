@@ -90,7 +90,8 @@ class EditPedido extends EditRecord
     $response=Http::post('http://localhost:3000/ajaxsubmit.php',$data);
 
     if($response->successful()){
-        parent::save();
+        parent::save($shouldRedirect, $shouldSendSavedNotification);//aqui el parent save no me funciona  
+
     }
     else{
         $errorResponse=$response->body();
