@@ -86,11 +86,16 @@ class EditPedido extends EditRecord
 {
 
     error_log('Guardando registro...');
+    //aqui no tengo que guardar el record sino el estado del formulario
+    $data=$this->form->getState(afterValidate:function(){
+        $this->callHook('afterValidate');
+        $this->callHook('beforeSave');
+    });
 
-    $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
-
-    error_log(implode(',',$data));
-    $response=Http::post('http://localhost:3000/ajaxquery.php',$data);
+    // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
+    error_log(json_encode($data));
+    error_log('arriba esta la variable que saca del formulario');
+    $response=Http::post('http://localhost:3000/ajaxsubmit.php',$data);
     error_log('Separacion');
     error_log($response);
     if($response->successful()){
