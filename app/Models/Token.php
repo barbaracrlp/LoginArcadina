@@ -33,16 +33,19 @@ class Token extends Model
     }
 
     /**Primera funcion para crear un token nuevo */
-    public function newToken():void
+    public static function newToken():bool
     {   
 
         //creo el token como tal
         $token= md5(uniqid('dinacms_token',true));
+
+        error_log($token." <--token ");
         //creo la fecha de caducidad
         $caducity=date('Y-m-d H:i:s',strtotime('+24 hours'));
+        error_log($caducity." <--token ");
          try{
 
-            $insert=DB::table('auth_token')->insert([
+            $insert=DB::table('auth_tokens')->insert([
                 'userid'=>4,
                 'token'=>$token,
                 'caducity'=>$caducity
@@ -50,6 +53,7 @@ class Token extends Model
             if (!$insert) {
                 throw new Exception('Error inserting token into database.');
             }
+            return (bool) $insert;
          }
          catch(Exception $e){
             error_log('Error creating the new Token '.$e->getMessage());
@@ -69,5 +73,6 @@ class Token extends Model
     public function isToken(){
         //en esta tengo que buscar si hay algun token del mismo usuario que tenga una caducidad 
         //que yo quiero
+
     }
 }

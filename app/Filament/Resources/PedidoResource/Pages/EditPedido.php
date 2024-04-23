@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PedidoResource\Pages;
 
 use App\Filament\Resources\PedidoResource;
+use App\Models\Token;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\EditRecord;
@@ -109,7 +110,15 @@ $dataFinal=json_encode($data);
 
 error_log($dataFinal);
 error_log("Lo de arriba en taoeria debe tener el id ");
+/**llamoa  la peticion de creacion de un token nuevo */
 
+$tokenCreated=Token::newToken();
+if($tokenCreated){
+    error_log('el token se crea bien en la DB');
+}
+else{
+    error_log('Noooooo se ha creado el token '); 
+}
 
 
 
@@ -120,27 +129,27 @@ error_log("Lo de arriba en taoeria debe tener el id ");
  * no hubo manera de cambiar
  */
 
-    $response=Http::post('http://localhost:3000/ajaxsubmit.php',$dataFinal);
-    error_log('Separacion');
-    error_log($response);
-    if($response->successful()){
-        parent::save($shouldRedirect, $shouldSendSavedNotification);//aqui el parent save no me funciona  
+    // $response=Http::post('http://localhost:3000/ajaxsubmit.php',$dataFinal);
+    // error_log('Separacion');
+    // error_log($response);
+    // if($response->successful()){
+    //     parent::save($shouldRedirect, $shouldSendSavedNotification);//aqui el parent save no me funciona  
 
-        error_log('La petición fue exitosa.');
-    }
-    else{
+    //     error_log('La petición fue exitosa.');
+    // }
+    // else{
 
-        error_log('La petición falló: ' . $response->status());
-        error_log('Separacion');
-        error_log('La petición falló: ' . $response->body());
+    //     error_log('La petición falló: ' . $response->status());
+    //     error_log('Separacion');
+    //     error_log('La petición falló: ' . $response->body());
 
-        $errorResponse=$response->body();
-        //muestro una ventana de error con el mensaje de error
-        // Filament::component('edit-pedido')->message('Error al procesar la solicitud '.$errorResponse)
-        // ->variant('danger');
+    //     $errorResponse=$response->body();
+    //     //muestro una ventana de error con el mensaje de error
+    //     // Filament::component('edit-pedido')->message('Error al procesar la solicitud '.$errorResponse)
+    //     // ->variant('danger');
 
-        $this->addError('error','Error al procesar la Solicitud: '.$errorResponse);
-    }
+    //     $this->addError('error','Error al procesar la Solicitud: '.$errorResponse);
+    // }
 }    //en el record tengo lo que son todos los datos de ese momento 
     //record es la instancia de pedido que hay 
 
