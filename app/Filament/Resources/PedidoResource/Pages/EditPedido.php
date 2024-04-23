@@ -91,10 +91,29 @@ class EditPedido extends EditRecord
         $this->callHook('afterValidate');
         $this->callHook('beforeSave');
     });
+$id_nuevo=$this->record->id;
 
+error_log($id_nuevo);
     // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
     error_log(json_encode($data));
     error_log('arriba esta la variable que saca del formulario');
+/**aqui saco los datos del formulario y le añado las variables que sean necesario añadir para 
+ * hacer la peticion 
+ * 
+ */
+$data=json_encode($data); //guardo todo el formulario como   json
+$data = json_decode($data, true);//a arreglo asociativo
+$data['id']=$id_nuevo;//añado la variable nueva
+
+$dataFinal=json_encode($data);
+
+error_log($dataFinal);
+error_log("Lo de arriba en taoeria debe tener el id ");
+
+
+
+
+
     $response=Http::post('http://localhost:3000/ajaxsubmit.php',$data);
     error_log('Separacion');
     error_log($response);
