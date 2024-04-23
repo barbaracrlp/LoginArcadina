@@ -73,9 +73,12 @@ class Token extends Model
         ->where('userid','=',4)
         ->where('caducity','>',$date)
         ->orderBy('caducity')
-        ->limit(1);
+        ->limit(1)
+        ->get(['token']);//añado el get a ver si asi solo me coje la columna
 
-       error_log(json_encode($token));
+        $valorToken=$token->token;
+       error_log($token);
+       error_log($valorToken." este es el valor solo del token ");
 
         return 'el token se ha sacado';
     }
