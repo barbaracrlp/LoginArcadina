@@ -113,13 +113,24 @@ class Token extends Model
         error_log(" Valor del token -->" . $token);
 
         //si no encuentra token quiero que me cree uno nuevo pero primero que devuelva un
+        // if ($token === null)
+        // {
+        //     return 'esta vacio';
+        // }
+        // else
+        // {
+        //     return $token;
+        // }
+        //las primeras condiciones si que funcionan
+
         if ($token === null)
         {
-            return 'esta vacio';
+            $token=Token::newToken();
+            error_log('Creo un nuevo token');
+            error_log('me devuelve el token que acabo de crear->'.$token);
         }
-        else
-        {
-            return $token;
-        }
+        
+        return $token;
+        
     }
 }
