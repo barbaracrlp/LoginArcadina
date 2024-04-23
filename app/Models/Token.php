@@ -32,7 +32,7 @@ class Token extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**Primera funcion para crear un token  */
+    /**Primera funcion para crear un token nuevo */
     public function newToken():void
     {   
 
@@ -56,5 +56,18 @@ class Token extends Model
          }
     }
 
+    /**funcion general para saber si coger un token o no  */
+    public function selectToken():void
+    {
+        //primero llamo a la funcion de si hay token o no
+        //luego tengo que devolver el que ha encontrado o llamar a crear un token
+        //devuelvo el mismo modelo de TOken? o los datos 
 
+
+    }
+
+    public function isToken(){
+        //en esta tengo que buscar si hay algun token del mismo usuario que tenga una caducidad 
+        //que yo quiero
+    }
 }
