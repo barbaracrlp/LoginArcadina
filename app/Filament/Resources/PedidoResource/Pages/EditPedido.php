@@ -22,33 +22,33 @@ class EditPedido extends EditRecord
         ];
     }
 
-//     //ahora creo la funcion que antes de guardar el pedido se haga la llamada http al API
-//     protected function beforeSave():void
-//     {
-//         //aqui como tal va la llamada http 
-//         //para poder sacar el token de auth para el api, necesitare cambiar de alguna manera el login no sé como
-//    //si qeu funciona y redirije a la funcion que toca
-//    //necesite la $data, té que estar guardat
-//    $url='http://localhost:3000/ajaxsubmit.php';
+    //     //ahora creo la funcion que antes de guardar el pedido se haga la llamada http al API
+    //     protected function beforeSave():void
+    //     {
+    //         //aqui como tal va la llamada http 
+    //         //para poder sacar el token de auth para el api, necesitare cambiar de alguna manera el login no sé como
+    //    //si qeu funciona y redirije a la funcion que toca
+    //    //necesite la $data, té que estar guardat
+    //    $url='http://localhost:3000/ajaxsubmit.php';
 
-//    //pongo la url del mocking
-//    //https:// Domain/gestion/api/tipollamada
-//    //el tipo de llamada en teoría es un submit
+    //    //pongo la url del mocking
+    //    //https:// Domain/gestion/api/tipollamada
+    //    //el tipo de llamada en teoría es un submit
 
-//    //lo que necesitoe s como sacar el token de autentificacio per a poder conectarme al api
-//    //volver a mirar lo de conectar el api con lo de ronda solo para poner el API token 
-//    //luego hacer la llamada con este medoto? no sé si funcionara la verdad
-//    //vuelvo a mirar lo del api
+    //    //lo que necesitoe s como sacar el token de autentificacio per a poder conectarme al api
+    //    //volver a mirar lo de conectar el api con lo de ronda solo para poner el API token 
+    //    //luego hacer la llamada con este medoto? no sé si funcionara la verdad
+    //    //vuelvo a mirar lo del api
 
-//     }
+    //     }
 
 
-//con estos metodos en teria se sobreescribe el metodo
+    //con estos metodos en teria se sobreescribe el metodo
 
 
     // protected function saving():void
     // {
-       
+
 
     //     $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
 
@@ -83,94 +83,94 @@ class EditPedido extends EditRecord
 
     //copio en teoria la funcion original del vendor 
 
-    public function save(bool $shouldRedirect = true, bool $shouldSendSavedNotification = true):void
-{
+    public function save(bool $shouldRedirect = true, bool $shouldSendSavedNotification = true): void
+    {
 
-    error_log('Guardando registro...');
-    //aqui no tengo que guardar el record sino el estado del formulario
-    $data=$this->form->getState(afterValidate:function(){
-        $this->callHook('afterValidate');
-        $this->callHook('beforeSave');
-    });
-$id_nuevo=$this->record->id;
+        error_log('Guardando registro...');
+        //aqui no tengo que guardar el record sino el estado del formulario
+        $data = $this->form->getState(afterValidate: function () {
+            $this->callHook('afterValidate');
+            $this->callHook('beforeSave');
+        });
+        $id_nuevo = $this->record->id;
 
-error_log($id_nuevo);
-    // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
-    error_log(json_encode($data));
-    error_log('arriba esta la variable que saca del formulario');
-/**aqui saco los datos del formulario y le añado las variables que sean necesario añadir para 
- * hacer la peticion 
- * 
- */
-$data=json_encode($data); //guardo todo el formulario como   json
-$data = json_decode($data, true);//a arreglo asociativo
-$data['id']=$id_nuevo;//añado la variable nueva
+        error_log($id_nuevo);
+        // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
+        error_log(json_encode($data));
+        error_log('arriba esta la variable que saca del formulario');
+        /**aqui saco los datos del formulario y le añado las variables que sean necesario añadir para 
+         * hacer la peticion 
+         * 
+         */
+        $data = json_encode($data); //guardo todo el formulario como   json
+        $data = json_decode($data, true); //a arreglo asociativo
+        $data['id'] = $id_nuevo; //añado la variable nueva
 
-$dataFinal=json_encode($data);
-
-error_log($dataFinal);
-error_log("Lo de arriba en taoeria debe tener el id ");
-/**llamoa  la peticion de creacion de un token nuevo */
-
-// $tokenCreated=Token::newToken();
-// if($tokenCreated){
-//     error_log('el token se crea bien en la DB');
-// }
-// else{
-//     error_log('Noooooo se ha creado el token '); 
-// }
-
-$buscatoken=Token::getToken();
-
-error_log('Busca un Token :'.$buscatoken);
+         //busco el token
+         $token=Token::getToken();
+         error_log(' Token :' . $token);
+ 
+         $data['auth_token']=$token;//añado la variable nueva
 
 
-//a la peticion le paso ya un JSON con los datos del formulario que no son disabled 
-//le añado a mano también el id del formulario
-/**posible solucion al token pasar datos del usuario aunque aun estoy iniciando session 
- * con los usuarios de Filament
- * no hubo manera de cambiar
- */
+        $dataFinal = json_encode($data);
+
+        error_log($dataFinal);
+       
+        
+        //$dataFinal son los parámetros que se envian a la API
+
+        /**Aqui ya tengo que implementar la copia de lo que hace la funcion del codigo del doc de la API original */
+
+        /**podria dividir la funcion de save en dos como tal, una donde saque los datos y devuelva todos los parametros
+         * que necesito enviar al API
+         * la otra donde realmente llame al api como en el DOC
+         */
+       
+
+
+        //a la peticion le paso ya un JSON con los datos del formulario que no son disabled 
+        //le añado a mano también el id del formulario
+        /**posible solucion al token pasar datos del usuario aunque aun estoy iniciando session 
+         * con los usuarios de Filament
+         * no hubo manera de cambiar
+         */
 
 
 
 
- /**Todo esto es la peticion, de momento me paro para ir probando lo del token
-  * 
+        /**Todo esto es la peticion, de momento me paro para ir probando lo del token
+         * 
   
-  */
+         */
 
-    // $response=Http::post('http://localhost:3000/ajaxsubmit.php',$dataFinal);
-    // error_log('Separacion');
-    // error_log($response);
-    // if($response->successful()){
-    //     parent::save($shouldRedirect, $shouldSendSavedNotification);//aqui el parent save no me funciona  
+        // $response=Http::post('http://localhost:3000/ajaxsubmit.php',$dataFinal);
+        // error_log('Separacion');
+        // error_log($response);
+        // if($response->successful()){
+        //     parent::save($shouldRedirect, $shouldSendSavedNotification);//aqui el parent save no me funciona  
 
-    //     error_log('La petición fue exitosa.');
-    // }
-    // else{
+        //     error_log('La petición fue exitosa.');
+        // }
+        // else{
 
-    //     error_log('La petición falló: ' . $response->status());
-    //     error_log('Separacion');
-    //     error_log('La petición falló: ' . $response->body());
+        //     error_log('La petición falló: ' . $response->status());
+        //     error_log('Separacion');
+        //     error_log('La petición falló: ' . $response->body());
 
-    //     $errorResponse=$response->body();
-    //     //muestro una ventana de error con el mensaje de error
-    //     // Filament::component('edit-pedido')->message('Error al procesar la solicitud '.$errorResponse)
-    //     // ->variant('danger');
+        //     $errorResponse=$response->body();
+        //     //muestro una ventana de error con el mensaje de error
+        //     // Filament::component('edit-pedido')->message('Error al procesar la solicitud '.$errorResponse)
+        //     // ->variant('danger');
 
-    //     $this->addError('error','Error al procesar la Solicitud: '.$errorResponse);
-    // }
+        //     $this->addError('error','Error al procesar la Solicitud: '.$errorResponse);
+        // }
 
-/**Todo esto es la peticion, de momento me paro para ir probando lo del token 
- * 
- * 
-*/
-
-
-
-
-}    //en el record tengo lo que son todos los datos de ese momento 
+        /**Todo esto es la peticion, de momento me paro para ir probando lo del token 
+         * 
+         * 
+         */
+    }    //en el record tengo lo que son todos los datos de ese momento 
     //record es la instancia de pedido que hay 
 
 }

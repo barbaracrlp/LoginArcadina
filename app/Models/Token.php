@@ -95,7 +95,9 @@ class Token extends Model
      * me devuelva el token en si 
      */
 
-    /**funcion que busca en la base de datos */
+    /**funcion que busca en la base de datos si hay token válido 
+     * si no lo hay crea uno nuevo y lo añade a la BD
+     */
     public static function getToken(): String
     {
 
