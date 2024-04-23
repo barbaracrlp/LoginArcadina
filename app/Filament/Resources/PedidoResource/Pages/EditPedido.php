@@ -113,8 +113,14 @@ error_log("Lo de arriba en taoeria debe tener el id ");
 
 
 
+//a la peticion le paso ya un JSON con los datos del formulario que no son disabled 
+//le añado a mano también el id del formulario
+/**posible solucion al token pasar datos del usuario aunque aun estoy iniciando session 
+ * con los usuarios de Filament
+ * no hubo manera de cambiar
+ */
 
-    $response=Http::post('http://localhost:3000/ajaxsubmit.php',$data);
+    $response=Http::post('http://localhost:3000/ajaxsubmit.php',$dataFinal);
     error_log('Separacion');
     error_log($response);
     if($response->successful()){
