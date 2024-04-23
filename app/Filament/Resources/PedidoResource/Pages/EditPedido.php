@@ -122,7 +122,7 @@ error_log("Lo de arriba en taoeria debe tener el id ");
 
 $buscatoken=Token::getToken();
 
-error_log('Busca un Token '.$buscatoken);
+error_log('Busca un Token :'.$buscatoken);
 
 
 //a la peticion le paso ya un JSON con los datos del formulario que no son disabled 

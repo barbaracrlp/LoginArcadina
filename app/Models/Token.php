@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\DB;
 class Token extends Model
 {
     use HasFactory;
-//en teoria esto no hace falta si creo las funciones que necesito
-//y llamo directamente a la tabla desde la query pero porsi
-    protected $table='auth_tokens';
-    const UPDATED_AT=null;
-    const CREATED_AT=null;
+    //en teoria esto no hace falta si creo las funciones que necesito
+    //y llamo directamente a la tabla desde la query pero porsi
+    protected $table = 'auth_tokens';
+    const UPDATED_AT = null;
+    const CREATED_AT = null;
 
-    protected $fillable=[
+    protected $fillable = [
         'userid',
         'token',
         'caducity',
@@ -28,60 +28,98 @@ class Token extends Model
 
 
     //en teoria esta relacion como tal no me haria falta pero porsi
-    public function user():BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
-    /**Primera funcion para crear un token nuevo */
-    public static function newToken():bool
-    {   
+    // /**Primera funcion para crear un token nuevo */
+    // public static function newToken():bool
+    // {   
+
+    //     //creo el token como tal
+    //     $token= md5(uniqid('dinacms_token',true));
+
+    //     error_log($token." <--token ");
+    //     //creo la fecha de caducidad
+    //     $caducity=date('Y-m-d H:i:s',strtotime('+24 hours'));
+    //     error_log($caducity." <--token ");
+    //      try{
+
+    //         $insert=DB::table('auth_tokens')->insert([
+    //             'userid'=>4,
+    //             'token'=>$token,
+    //             'caducity'=>$caducity
+    //         ]);
+    //         if (!$insert) {
+    //             throw new Exception('Error inserting token into database.');
+    //         }
+    //         return (bool) $insert;
+    //      }
+    //      catch(Exception $e){
+    //         error_log('Error creating the new Token '.$e->getMessage());
+    //      }
+    // }
+
+    /**Primera funcion para crear un token nuevo y devuelve el token */
+    public static function newToken(): String
+    {
+        //como me crea el token y sé que funciona no hace falta que me devuelva un booleano
+        //sino que me puede devolver directamente el token que se añade a la DB
 
         //creo el token como tal
-        $token= md5(uniqid('dinacms_token',true));
+        $token = md5(uniqid('dinacms_token', true));
 
-        error_log($token." <--token ");
+        error_log($token . " <--token ");
         //creo la fecha de caducidad
-        $caducity=date('Y-m-d H:i:s',strtotime('+24 hours'));
-        error_log($caducity." <--token ");
-         try{
+        $caducity = date('Y-m-d H:i:s', strtotime('+24 hours'));
+        error_log($caducity . " <--token ");
+        try {
 
-            $insert=DB::table('auth_tokens')->insert([
-                'userid'=>4,
-                'token'=>$token,
-                'caducity'=>$caducity
+            $insert = DB::table('auth_tokens')->insert([
+                'userid' => 4,
+                'token' => $token,
+                'caducity' => $caducity
             ]);
             if (!$insert) {
                 throw new Exception('Error inserting token into database.');
             }
-            return (bool) $insert;
-         }
-         catch(Exception $e){
-            error_log('Error creating the new Token '.$e->getMessage());
-         }
+            return  $token;
+        } catch (Exception $e) {
+            error_log('Error creating the new Token ' . $e->getMessage());
+        }
     }
+
     /**necesito una funcion que me devuelva el token
      * primero que busque si hay uno, sino que cree otro , que al crearlo correctamente
      * me devuelva el token en si 
      */
-    public static function getToken():String
+
+    /**funcion que busca en la base de datos */
+    public static function getToken(): String
     {
 
-        $date=date('Y-m-d H:i:s', strtotime('+12 hours'));
+        $date = date('Y-m-d H:i:s', strtotime('+12 hours'));
+        error_log($date);
+        $token = DB::table('auth_tokens')
+            ->select('token')
+            ->where('userid', '=', 4)
+            ->where('caducity', '>', $date)
+            ->orderBy('caducity')
+            ->limit(1)
+            // ->get(['token']);//añado el get a ver si asi solo me coje la columna
+            ->value('token');
 
-        $token=DB::table('auth_tokens')
-        ->select('token')
-        ->where('userid','=',4)
-        ->where('caducity','>',$date)
-        ->orderBy('caducity')
-        ->limit(1)
-        ->get(['token']);//añado el get a ver si asi solo me coje la columna
+        error_log(" Valor del token -->" . $token);
 
-        $valorToken=$token->token;
-       error_log($token);
-       error_log($valorToken." este es el valor solo del token ");
-
-        return 'el token se ha sacado';
+        //si no encuentra token quiero que me cree uno nuevo pero primero que devuelva un
+        if ($token === null)
+        {
+            return 'esta vacio';
+        }
+        else
+        {
+            return $token;
+        }
     }
-
- 
 }
