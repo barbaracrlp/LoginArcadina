@@ -112,14 +112,17 @@ error_log($dataFinal);
 error_log("Lo de arriba en taoeria debe tener el id ");
 /**llamoa  la peticion de creacion de un token nuevo */
 
-$tokenCreated=Token::newToken();
-if($tokenCreated){
-    error_log('el token se crea bien en la DB');
-}
-else{
-    error_log('Noooooo se ha creado el token '); 
-}
+// $tokenCreated=Token::newToken();
+// if($tokenCreated){
+//     error_log('el token se crea bien en la DB');
+// }
+// else{
+//     error_log('Noooooo se ha creado el token '); 
+// }
 
+$buscatoken=Token::getToken();
+
+error_log('Busca un Token '.$buscatoken);
 
 
 //a la peticion le paso ya un JSON con los datos del formulario que no son disabled 
@@ -128,6 +131,14 @@ else{
  * con los usuarios de Filament
  * no hubo manera de cambiar
  */
+
+
+
+
+ /**Todo esto es la peticion, de momento me paro para ir probando lo del token
+  * 
+  
+  */
 
     // $response=Http::post('http://localhost:3000/ajaxsubmit.php',$dataFinal);
     // error_log('Separacion');
@@ -150,6 +161,15 @@ else{
 
     //     $this->addError('error','Error al procesar la Solicitud: '.$errorResponse);
     // }
+
+/**Todo esto es la peticion, de momento me paro para ir probando lo del token 
+ * 
+ * 
+*/
+
+
+
+
 }    //en el record tengo lo que son todos los datos de ese momento 
     //record es la instancia de pedido que hay 
 

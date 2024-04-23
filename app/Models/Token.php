@@ -59,20 +59,26 @@ class Token extends Model
             error_log('Error creating the new Token '.$e->getMessage());
          }
     }
-
-    /**funcion general para saber si coger un token o no  */
-    public function selectToken():void
+    /**necesito una funcion que me devuelva el token
+     * primero que busque si hay uno, sino que cree otro , que al crearlo correctamente
+     * me devuelva el token en si 
+     */
+    public static function getToken():String
     {
-        //primero llamo a la funcion de si hay token o no
-        //luego tengo que devolver el que ha encontrado o llamar a crear un token
-        //devuelvo el mismo modelo de TOken? o los datos 
 
+        $date=date('Y-m-d H:i:s', strtotime('+12 hours'));
 
+        $token=DB::table('auth_tokens')
+        ->select('token')
+        ->where('userid','=',4)
+        ->where('caducity','>',$date)
+        ->orderBy('caducity')
+        ->limit(1);
+
+       error_log(json_encode($token));
+
+        return 'el token se ha sacado';
     }
 
-    public function isToken(){
-        //en esta tengo que buscar si hay algun token del mismo usuario que tenga una caducidad 
-        //que yo quiero
-
-    }
+ 
 }
