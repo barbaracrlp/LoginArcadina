@@ -92,9 +92,13 @@ class EditPedido extends EditRecord
             $this->callHook('afterValidate');
             $this->callHook('beforeSave');
         });
-        $id_nuevo = $this->record->id;
 
+        $id_nuevo = $this->record->id;
+        $estado_nuevo=$data['estado'];
+        //aqui tengo guardado el estado nuevo
         error_log($id_nuevo);
+        error_log("estado nuevo: ".$estado_nuevo);
+
         // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
         error_log(json_encode($data));
         error_log('arriba esta la variable que saca del formulario');
@@ -110,13 +114,20 @@ class EditPedido extends EditRecord
          $token=Token::getToken();
          error_log(' Token :' . $token);
  
-         $data['auth_token']=$token;//añado la variable nueva
+        $data['auth_token']=$token;//añado la variable nueva
+        //necesito definir una variable que sea un array donde guarde los parámetros a pasar 
+        $params=[];
+        $params['auth_token']=$token;//le agrego el token
+        $params['ajaxsubmit']='pedido_estado'; 
+        $params['estado']=$estado_nuevo;
+        $params['envia_mail']='no';
 
 
-        $dataFinal = json_encode($data);
+        error_log(json_encode($params));
 
-        error_log($dataFinal);
-       
+        
+
+
         
         //$dataFinal son los parámetros que se envian a la API
 
@@ -127,14 +138,6 @@ class EditPedido extends EditRecord
          * la otra donde realmente llame al api como en el DOC
          */
        
-
-
-        //a la peticion le paso ya un JSON con los datos del formulario que no son disabled 
-        //le añado a mano también el id del formulario
-        /**posible solucion al token pasar datos del usuario aunque aun estoy iniciando session 
-         * con los usuarios de Filament
-         * no hubo manera de cambiar
-         */
 
 
 
