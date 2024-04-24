@@ -140,7 +140,8 @@ public function callApiHttp(string $url, array $params, int $timeout = 5): array
     ];
   
     try {
-        $response = Http::timeout($timeout)->post($url, $params);
+        // $response = Http::timeout($timeout)->post($url, $params);
+        $response = Http::withoutVerifying()->timeout($timeout)->post($url, $params);
       
         $statusCode = $response->status();
         $json = '';
@@ -178,6 +179,8 @@ public function callApiHttp(string $url, array $params, int $timeout = 5): array
 
     return empty($ret) ? [] : $ret;
 }
+
+
 
         //$dataFinal son los parámetros que se envian a la API
 
