@@ -29,6 +29,8 @@ class GeneralPanelProvider extends PanelProvider
             ->default()
             ->id('general')
             ->path('general')
+            ->brandLogo(asset('images/logoLargo.png'))
+            ->favicon(asset('images/logoCorto.jpg'))
             ->login()
             ->colors([
                 'primary' => Color::Stone,  
