@@ -33,33 +33,7 @@ class Token extends Model
         return $this->belongsTo(User::class);
     }
 
-    // /**Primera funcion para crear un token nuevo */
-    // public static function newToken():bool
-    // {   
-
-    //     //creo el token como tal
-    //     $token= md5(uniqid('dinacms_token',true));
-
-    //     error_log($token." <--token ");
-    //     //creo la fecha de caducidad
-    //     $caducity=date('Y-m-d H:i:s',strtotime('+24 hours'));
-    //     error_log($caducity." <--token ");
-    //      try{
-
-    //         $insert=DB::table('auth_tokens')->insert([
-    //             'userid'=>4,
-    //             'token'=>$token,
-    //             'caducity'=>$caducity
-    //         ]);
-    //         if (!$insert) {
-    //             throw new Exception('Error inserting token into database.');
-    //         }
-    //         return (bool) $insert;
-    //      }
-    //      catch(Exception $e){
-    //         error_log('Error creating the new Token '.$e->getMessage());
-    //      }
-    // }
+ 
 
     /**Primera funcion para crear un token nuevo y devuelve el token */
     public static function newToken(): String
@@ -73,7 +47,8 @@ class Token extends Model
         error_log($token . " <--token ");
         //creo la fecha de caducidad
         $caducity = date('Y-m-d H:i:s', strtotime('+24 hours'));
-        error_log($caducity . " <--token ");
+        error_log($caducity . " <--token caducidad");
+        error_log('creamos nuevo token');
         try {
 
             $insert = DB::table('auth_tokens')->insert([
@@ -136,3 +111,32 @@ class Token extends Model
         
     }
 }
+
+
+   // /**Primera funcion para crear un token nuevo */
+    // public static function newToken():bool
+    // {   
+
+    //     //creo el token como tal
+    //     $token= md5(uniqid('dinacms_token',true));
+
+    //     error_log($token." <--token ");
+    //     //creo la fecha de caducidad
+    //     $caducity=date('Y-m-d H:i:s',strtotime('+24 hours'));
+    //     error_log($caducity." <--token ");
+    //      try{
+
+    //         $insert=DB::table('auth_tokens')->insert([
+    //             'userid'=>4,
+    //             'token'=>$token,
+    //             'caducity'=>$caducity
+    //         ]);
+    //         if (!$insert) {
+    //             throw new Exception('Error inserting token into database.');
+    //         }
+    //         return (bool) $insert;
+    //      }
+    //      catch(Exception $e){
+    //         error_log('Error creating the new Token '.$e->getMessage());
+    //      }
+    // }
