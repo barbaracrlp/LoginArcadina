@@ -86,7 +86,8 @@ return [
     |
     */
 
-    'table' => env('SESSION_TABLE', 'sessions'),
+    //cambio el nombre de la tabla para poder crearla en la  DB original de la app
+    'table' => env('SESSION_TABLE', 'sessiones'),
 
     /*
     |--------------------------------------------------------------------------
