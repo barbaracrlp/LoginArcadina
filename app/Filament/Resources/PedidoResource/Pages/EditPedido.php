@@ -44,7 +44,7 @@ class EditPedido extends EditRecord
         $id_nuevo = $this->record->id;
         $estado_nuevo=$data['estado'];
         //aqui tengo guardado el estado nuevo
-        error_log($id_nuevo);
+        error_log($id_nuevo."<--aqui esta el id en teoria");
         error_log("estado nuevo: ".$estado_nuevo);
 
         // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
@@ -69,6 +69,7 @@ class EditPedido extends EditRecord
         $params['ajaxsubmit']='pedido_estado'; 
         $params['estado']=$estado_nuevo;
         $params['envia_mail']='no';
+        $params['id_pedido']=$id_nuevo;
 
 
         //tengo que hacer la variable de parametros como form-urlundercoded 
@@ -81,7 +82,7 @@ class EditPedido extends EditRecord
         ];
 
 
-        error_log(json_encode($parametros)."<--aqui estan los parametros peronjsonencode");
+        error_log(json_encode($params)."<--aqui estan los parametros peronjsonencode");
         $url_del_API='https://barbaratest01.arcadina.web2/gestion/api/ajaxsubmit.php';
 
 
@@ -89,9 +90,9 @@ class EditPedido extends EditRecord
         error_log(json_encode($respuesta));
         //llamo al API que en teoria hace lo que tiene que hacer
         //ahora redirijo cogiendo el final de la funcion original del vendor
-        if ($shouldRedirect && ($redirectUrl = $this->getRedirectUrl())) {
-            $this->redirect($redirectUrl, navigate:true);
-        }
+        // if ($shouldRedirect && ($redirectUrl = $this->getRedirectUrl())) {
+        //     $this->redirect($redirectUrl, navigate:true);
+        // }
 
 
     }   
