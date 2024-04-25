@@ -154,7 +154,7 @@ public function callApiHttp(string $url, array $params, int $timeout = 5): array
         //withoutverifying para evitar el error de acceso de ssl
         // $response = Http::withoutVerifying()->timeout($timeout)->post($url, $params);
         //tengo que cambiar la forma en la que hace la peticion
-        $response=Http::asForm()->timeout($timeout)->post($url,$params);
+        $response=Http::asForm()->withoutVerifying()->timeout($timeout)->post($url,$params);
       
         $statusCode = $response->status();
         $json = '';
