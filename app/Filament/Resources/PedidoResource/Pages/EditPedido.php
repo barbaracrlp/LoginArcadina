@@ -137,7 +137,7 @@ class EditPedido extends EditRecord
         error_log(json_encode($parametros)."<--aqui estan los parametros peronjsonencode");
         $url_del_API='https://barbaratest01.arcadina.web2/gestion/api/ajaxsubmit.php';
 
-        $respuesta=EditPedido::callApiHttp($url_del_API,$parametros,$timeout=5);
+        $respuesta=EditPedido::callApiHttp($url_del_API,$params,$timeout=5);
         error_log(json_encode($respuesta));
     }    //en el record tengo lo que son todos los datos de ese momento 
     //record es la instancia de pedido que hay 
