@@ -100,6 +100,15 @@ class EditPedido extends EditRecord
         error_log($id_nuevo);
         error_log("estado nuevo: ".$estado_nuevo);
 
+
+        //aqui voy a pasar el estadonuevo a string 
+        $estado_final=strval($estado_nuevo);
+
+
+
+
+
+
         // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
         error_log(json_encode($data));
         error_log('arriba esta la variable que saca del formulario');
@@ -120,7 +129,7 @@ class EditPedido extends EditRecord
         $params=[];
         $params['auth_token']=$token;//le agrego el token
         $params['ajaxsubmit']='pedido_estado'; 
-        $params['estado']=$estado_nuevo;
+        $params['estado']=$estado_final;
         $params['envia_mail']='no';
 
 
@@ -129,13 +138,14 @@ class EditPedido extends EditRecord
         $parametros=[
             'auth_token'=>$token,
             'ajaxsubmit'=>'pedido_estado',
-            'estado'=>$estado_nuevo,
+            'estado'=>$estado_final,
             'envia_mail'=>'no',
         ];
 
 
         error_log(json_encode($parametros)."<--aqui estan los parametros peronjsonencode");
         $url_del_API='https://barbaratest01.arcadina.web2/gestion/api/ajaxsubmit.php';
+
 
         $respuesta=EditPedido::callApiHttp($url_del_API,$params,$timeout=5);
         error_log(json_encode($respuesta));
