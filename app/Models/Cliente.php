@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ClienteScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,14 @@ class Cliente extends Model
         'telefono',
         'direccion',
     ];
+
+    //ahora la funcion para utilizar el scope como tal
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new ClienteScope);
+    }
 
 
 }
