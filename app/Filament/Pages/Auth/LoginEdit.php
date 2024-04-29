@@ -87,11 +87,25 @@ class LoginEdit extends BaseAuth
 
     $data = $this->form->getState();
 
-    // Retrieve the user's email from the form input
-    $email = $data['email'];
+    // aqui esta la info que se introduce en el formulario 
+
+    $email = $data['mail'];
+    $password=$data['pass'];
+    error_log('email es '.$email);
+    error_log('password es '.$password);
+
+
 
     // Retrieve the user record from the database based on the email
-    $user = Usuario::where('email', $email)->first();
+    $user = Usuario::where('mail', $email)->first();
+
+    $contraseña=$user->pass;
+    error_log('contraseña del usuario '.$contraseña);
+
+    //llamada a la funcion de la contraseña
+
+    //aqui necesito tener en una variable la contraseña del usuario 
+
 
     // If the user doesn't exist or the password doesn't match, throw a validation exception
     if (!$user || !password_verify($data['password'], $user->password)) {
