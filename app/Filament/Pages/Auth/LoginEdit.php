@@ -138,7 +138,10 @@ class LoginEdit extends BaseAuth
         )
         {
             Notification::make()
-            ->title('Acceso denegado');
+            ->title('Acceso denegado')
+            ->danger()
+            ->icon('heroicon-o-document-heroicon-o-document-text') 
+            ->send();
             Filament::auth()->logout();
             error_log('no entra por el acceso');
         
