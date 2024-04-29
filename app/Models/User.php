@@ -16,10 +16,13 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     ///relleno las propiedades de acuerdo a las de mi tabla
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'usuario',//corresponde al nombre
+        'mail',
+        'pass',//es la contraseña
+        'nivel',
     ];
 
     /**
@@ -28,8 +31,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'pass',
+        // 'remember_token',
     ];
 
     /**
@@ -37,10 +40,13 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+     //aqui en casts tengo que cambiar el hash
+     //de momento quieto el email verificado 
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            // 'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
