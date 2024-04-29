@@ -2,11 +2,16 @@
 
 namespace App\Filament\Pages\Auth;
 
+use App\Models\Usuario;
 use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Component;
 use Filament\Pages\Auth\Login as BaseAuth;
 use Illuminate\Validation\ValidationException;
+
+//importaciones para sobreescribir la autentificacion del login
+use Filament\Http\Responses\Auth\Contracts\LoginResponse;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 
 //la clase nueva extiende la original
 class LoginEdit extends BaseAuth
@@ -68,6 +73,38 @@ class LoginEdit extends BaseAuth
         ]);
     }
 
+    //vamos a intentar reescribir todo el metodo de autentificacion de Filament para ver si nos deja entrar con la contraseña que le damos
+    //hace falta implementar el metodo check y validate de la contraseña origina de arcadina
+
+    public function authenticate(): ?LoginResponse
+{
+    try {
+        $this->rateLimit(5);
+    } catch (TooManyRequestsException $exception) {
+        // Handle rate limiting exception
+        return null;
+    }
+
+    $data = $this->form->getState();
+
+    // Retrieve the user's email from the form input
+    $email = $data['email'];
+
+    // Retrieve the user record from the database based on the email
+    $user = Usuario::where('email', $email)->first();
+
+    // If the user doesn't exist or the password doesn't match, throw a validation exception
+    if (!$user || !password_verify($data['password'], $user->password)) {
+        $this->throwFailureValidationException();
+    }
+
+    // Optionally, you can perform additional checks or actions here if needed
+
+    // If authentication is successful, regenerate the session
+    session()->regenerate();
+
+    return app(LoginResponse::class);
+}
 
 
 }
