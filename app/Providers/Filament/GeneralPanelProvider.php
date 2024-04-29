@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\LoginEdit;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -31,7 +32,7 @@ class GeneralPanelProvider extends PanelProvider
             ->path('gestion')
             ->brandLogo(asset('images/logoLargo.png'))
             ->favicon(asset('images/logoCorto.jpg'))
-            ->login()
+            ->login(LoginEdit::class)
             ->colors([
                 'primary' => Color::Stone,  
                 'danger' => Color::Red,
