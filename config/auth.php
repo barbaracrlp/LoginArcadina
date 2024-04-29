@@ -65,7 +65,7 @@ return [
             'model' => env('AUTH_MODEL', App\Models\Usuario::class),
             'table'=>'usuarios',//cambio el nombre de la tabla
             'email'=>'mail',
-            'username'=>'usuario',
+            // 'name'=>'usuario',
             'password'=>'pass',
         ],
 

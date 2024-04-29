@@ -27,8 +27,8 @@ class GeneralPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('general')
-            ->path('general')
+            ->id('gestion')
+            ->path('gestion')
             ->brandLogo(asset('images/logoLargo.png'))
             ->favicon(asset('images/logoCorto.jpg'))
             ->login()

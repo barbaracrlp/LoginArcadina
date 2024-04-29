@@ -8,7 +8,11 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Authenticatable implements FilamentUser
+//importo el modelo de HAsName
+// use Filament\Filament\Panelists\Concerns\HasName;
+use Filament\Models\Contracts\HasName as ContractsHasName;
+
+class Usuario extends Authenticatable implements FilamentUser,ContractsHasName
 {
     use HasFactory;
 
@@ -40,5 +44,13 @@ class Usuario extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->nivel == 9 || $this->nivel == 10;
+    }
+
+
+    /**ahora la funcion para sacar el nombre de la tabla */
+
+    public function getFilamentName(): string
+    {
+        return $this->getAttribute('usuario');
     }
 }
