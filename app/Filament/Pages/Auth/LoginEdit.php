@@ -9,6 +9,10 @@ use Filament\Forms\Components\Component;
 use Filament\Pages\Auth\Login as BaseAuth;
 use Illuminate\Validation\ValidationException;
 
+use Filament\Facades\Filament;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Notifications\Notification;
+
 //importaciones para sobreescribir la autentificacion del login
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
@@ -76,89 +80,109 @@ class LoginEdit extends BaseAuth
     //vamos a intentar reescribir todo el metodo de autentificacion de Filament para ver si nos deja entrar con la contraseña que le damos
     //hace falta implementar el metodo check y validate de la contraseña origina de arcadina
 
-    public function authenticate(): ?LoginResponse
-    {
-        try {
-            $this->rateLimit(5);
-        } catch (TooManyRequestsException $exception) {
-            // Handle rate limiting exception
-            return null;
-        }
+    // public function authenticate(): ?LoginResponse
+    // {
+    //     try {
+    //         $this->rateLimit(5);
+    //     } catch (TooManyRequestsException $exception) {
+    //         // Handle rate limiting exception
+    //         Notification::make()
+    //         ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
+    //             'seconds' => $exception->secondsUntilAvailable,
+    //             'minutes' => ceil($exception->secondsUntilAvailable / 60),
+    //         ]))
+    //         ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
+    //             'seconds' => $exception->secondsUntilAvailable,
+    //             'minutes' => ceil($exception->secondsUntilAvailable / 60),
+    //         ]) : null)
+    //         ->danger()
+    //         ->send();
 
-        $data = $this->form->getState();
+    //         return null;
+    //     }
 
-        // aqui esta la info que se introduce en el formulario 
+    //     $data = $this->form->getState();
 
-        $email = $data['mail'];
-        $password = $data['pass'];
-        error_log('email es ' . $email);
-        error_log('password es ' . $password);
+    //     // aqui esta la info que se introduce en el formulario 
 
-
-
-        // Retrieve the user record from the database based on the email
-        $user = Usuario::where('mail', $email)->first();
-
-        $contraseña = $user->pass;
-        error_log('contraseña del usuario ' . $contraseña);
-
-        //llamada a la funcion de la contraseña
-
-        //aqui necesito tener en una variable la contraseña del usuario 
+    //     $email = $data['mail'];
+    //     $password = $data['pass'];
+    //     error_log('email es ' . $email);
+    //     error_log('password es ' . $password);
 
 
-        // If the user doesn't exist or the password doesn't match, throw a validation exception
 
-        //creo primero la funcion y luego lo que hago es cambiar el nombre en esta condicion de aqui luego
-        if (!$user || !self::verificaContraseña($contraseña, $password)) {
-            $this->throwFailureValidationException();
-        }
+    //     // Retrieve the user record from the database based on the email
+    //     $user = Usuario::where('mail', $email)->first();
 
-        // Optionally, you can perform additional checks or actions here if needed
+    //     $contraseña = $user->pass;
+    //     error_log('contraseña del usuario ' . $contraseña);
 
-        // If authentication is successful, regenerate the session
-        session()->regenerate();
+    //     //llamada a la funcion de la contraseña
 
-        return app(LoginResponse::class);
-    }
+    //     //aqui necesito tener en una variable la contraseña del usuario 
 
-    /**a partir de aqui la verificacion de las contraseñas
-     * tengo en una variable $data[pass]
-     * en la otra tengo $user->pass 
-     */
-    const METHOD = PASSWORD_BCRYPT;
-    public function verificaContraseña($pass_db, $pass_login): bool
-    {
 
-        //asi es el original pero lo convierto en constante
-        //const METHOD = PASSWORD_BCRYPT;
-        error_log('verifico quese creo como toca ');
-        if (!self::check($pass_db)) {
-            return FALSE;
-        }
+    //     // If the user doesn't exist or the password doesn't match, throw a validation exception
 
-        // Quitamos la marca
-        $pass_db = substr($pass_db, 5);
+    //     //creo primero la funcion y luego lo que hago es cambiar el nombre en esta condicion de aqui luego
+    //     if (!$user || !self::verificaContraseña($contraseña, $password)) {
+    //         $this->throwFailureValidationException();
+    //     }
 
-        // Descodificamos de base64
-        $pass_db = base64_decode($pass_db);
+    //     $user = Filament::auth()->user();
+    //     // Optionally, you can perform additional checks or actions here if needed
+    //     if (
+    //         ($user instanceof FilamentUser) &&
+    //         (! $user->canAccessPanel(Filament::getCurrentPanel()))
+    //     ) {
+    //         Filament::auth()->logout();
 
-        //aqui en teoria se verifica si es o no a contraseña que toca
-        error_log('la verificacion devolveria: ' . password_verify($pass_login, $pass_db));
-        return password_verify($pass_login, $pass_db);
-    }
+    //         $this->throwFailureValidationException();
+    //     }
+    //     // If authentication is successful, regenerate the session
+    //     session()->regenerate();
 
-    /**otra funcion la llamada check en el original */
-    public static function check($hash)
-    {
+    //     return app(LoginResponse::class);
+    // }
 
-        error_log('llama al check con el hash');
-        $ret = mb_substr($hash, 0, 5) === 'hash:';
-        if ($ret) {
-            // Verificamos que la cadena ha sido cifrada con el METHOD
-            $hashInfo = password_get_info(base64_decode(mb_substr($hash, 5)));
-            $ret = $hashInfo['algo'] == self::METHOD;
-        }
-        return $ret;
-    }
+    // /**a partir de aqui la verificacion de las contraseñas
+    //  * tengo en una variable $data[pass]
+    //  * en la otra tengo $user->pass 
+    //  */
+    // const METHOD = PASSWORD_BCRYPT;
+    // public function verificaContraseña($pass_db, $pass_login): bool
+    // {
+
+    //     //asi es el original pero lo convierto en constante
+    //     //const METHOD = PASSWORD_BCRYPT;
+    //     error_log('verifico quese creo como toca ');
+    //     if (!self::check($pass_db)) {
+    //         return FALSE;
+    //     }
+
+    //     // Quitamos la marca
+    //     $pass_db = substr($pass_db, 5);
+
+    //     // Descodificamos de base64
+    //     $pass_db = base64_decode($pass_db);
+
+    //     //aqui en teoria se verifica si es o no a contraseña que toca
+    //     error_log('la verificacion devolveria: ' . password_verify($pass_login, $pass_db));
+    //     return password_verify($pass_login, $pass_db);
+    // }
+
+    // /**otra funcion la llamada check en el original */
+    // public static function check($hash)
+    // {
+
+    //     error_log('llama al check con el hash');
+    //     $ret = mb_substr($hash, 0, 5) === 'hash:';
+    //     if ($ret) {
+    //         // Verificamos que la cadena ha sido cifrada con el METHOD
+    //         $hashInfo = password_get_info(base64_decode(mb_substr($hash, 5)));
+    //         $ret = $hashInfo['algo'] == self::METHOD;
+    //     }
+    //     return $ret;
+    // }
 }
