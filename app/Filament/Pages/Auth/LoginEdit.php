@@ -2,19 +2,14 @@
 
 namespace App\Filament\Pages\Auth;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Component;
-
-
-//el login nou ha de extendre el original
-use Filament\Pages\Auth\Login as BaseLogin;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
+use Filament\Pages\Auth\Login as BaseAuth;
+use Illuminate\Validation\ValidationException;
 
 //la clase nueva extiende la original
-class LoginEdit extends BaseLogin
+class LoginEdit extends BaseAuth
 {
 
 //el nuevo formulario
@@ -45,7 +40,6 @@ class LoginEdit extends BaseLogin
     {
         return TextInput::make('pass')
             ->label(__('filament-panels::pages/auth/login.form.password.label'))
-            ->hint(filament()->hasPasswordReset() ? new HtmlString(Blade::render('<x-filament::link :href="filament()->getRequestPasswordResetUrl()"> {{ __(\'filament-panels::pages/auth/login.actions.request_password_reset.label\') }}</x-filament::link>')) : null)
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->autocomplete('current-password')
@@ -55,12 +49,24 @@ class LoginEdit extends BaseLogin
 
     protected function getCredentialsFromFormData(array $data): array
     {
+        error_log('saca las credenciales del formulario');
         return [
             'mail' => $data['mail'],
             'pass' => $data['pass'],
         ];
     }
 
+
+    //añado el manejo de errores a ver si es por eso
+    protected function throwFailureValidationException(): never
+    {
+        error_log('envia error algo falla pero si hace algo');
+        throw ValidationException::withMessages([
+            'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
+            'data.mail' => __('filament-panels::pages/auth/login.messages.failed'),
+            'data.pass' => __('filament-panels::pages/auth/login.messages.failed'),
+        ]);
+    }
 
 
 
