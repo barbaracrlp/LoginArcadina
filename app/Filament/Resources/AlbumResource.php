@@ -14,6 +14,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
+
 class AlbumResource extends Resource
 {
     protected static ?string $model = Album::class;
@@ -84,7 +86,6 @@ class AlbumResource extends Resource
 
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

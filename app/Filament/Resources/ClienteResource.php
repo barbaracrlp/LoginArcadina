@@ -15,13 +15,17 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use Filament\Tables\Enums\ActionsPosition;
+
+use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+
 class ClienteResource extends Resource
 {
     protected static ?string $model = Cliente::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
-    protected static ?string $navigationLabel= 'Clientes';
+    protected static ?string $navigationLabel = 'Clientes';
 
     protected static ?string $navigationGroup = "Ventas";
 
@@ -31,12 +35,12 @@ class ClienteResource extends Resource
             ->schema([
                 //agregamos el formulario 
                 Forms\Components\TextInput::make('usuario')
-                ->label('Nombre')
-                ->autofocus(),
+                    ->label('Nombre')
+                    ->autofocus(),
                 Forms\Components\TextInput::make('mail')
-                ->label('Email'),
+                    ->label('Email'),
                 Forms\Components\TextInput::make('telefono')
-                ->tel(),
+                    ->tel(),
             ]);
     }
 
@@ -46,38 +50,50 @@ class ClienteResource extends Resource
             ->columns([
                 //agregamos las columnas de la tabla
                 Tables\Columns\TextColumn::make('usuario')
-                ->label('Nombre')
-                ->sortable()
-                ->searchable(),
+                    ->label('Usuario')
+                    ->sortable()
+                    ->searchable(),
+                    Tables\Columns\TextColumn::make('nombre')
+                    ->label('Nombre')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('mail')
-                ->label('Email')
-                ->sortable()
-                ->searchable(),
+                    ->label('Email')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('telefono')
-                ->label('Teléfono')
-                ->sortable()
-                ->searchable(),
+                    ->label('Teléfono')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
-                //
+                //aqui tengo que crear un filtro de multiple si es si o no 
+                                //un filtro como booleano de si es multiple o no 
+               BooleanConstraint::make('multiple')
+               //No se is lo cogera como boolean,sino cambio por el ternario
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->label('Editar'),
+                Tables\Actions\EditAction::make()
+                    ->label('Editar')
+                    ->icon('heroicon-m-pencil-square')
+                    ->iconButton(),
                 //primer intento de crear accion de eliminar con texto custom
-            Action::make('Eliminar')
-            ->action(fn (Cliente $record) => $record->delete())
-            ->requiresConfirmation()
-            ->modalHeading('Eliminar Cliente')
-            ->modalDescription('Seguro que quiere eliminar este cliente?')
-            ->modalSubmitActionLabel('Sí, Eliminar Cliente')
-            ->modalCancelActionLabel('Cancelar')
-            ->color('danger')
-            ->modalIcon('heroicon-o-trash'),
-            ])
+                Action::make('Eliminar')
+                    ->action(fn (Cliente $record) => $record->delete())
+                    ->requiresConfirmation()
+                    ->icon('heroicon-o-trash')
+                    ->iconButton()
+                    ->modalHeading('Eliminar Cliente')
+                    ->modalDescription('Seguro que quiere eliminar este cliente?')
+                    ->modalSubmitActionLabel('Sí, Eliminar Cliente')
+                    ->modalCancelActionLabel('Cancelar')
+                    ->color('danger')
+                    ->modalIcon('heroicon-o-trash'),
+            ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
                 Tables\Actions\DeleteBulkAction::make()->label('Eliminar')
-                ->requiresConfirmation(),
+                    ->requiresConfirmation(),
                 // ]),
             ]);
     }

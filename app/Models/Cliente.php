@@ -22,8 +22,10 @@ class Cliente extends Model
     protected $fillable=[
         'usuario',
         'mail',
+        'nombre',
         'telefono',
         'direccion',
+        'multiple',//en multiple es si(sin acento) o no
     ];
 
     //ahora la funcion para utilizar el scope como tal
