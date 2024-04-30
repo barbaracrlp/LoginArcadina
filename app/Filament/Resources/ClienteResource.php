@@ -5,10 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ClienteResource\Pages;
 use App\Filament\Resources\ClienteResource\RelationManagers;
 use App\Models\Cliente;
+
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -61,11 +63,21 @@ class ClienteResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label('Editar'),
-                Tables\Actions\DeleteAction::make()->label('Eliminar')
+                //primer intento de crear accion de eliminar con texto custom
+            Action::make('Eliminar')
+            ->action(fn (Cliente $record) => $record->delete())
+            ->requiresConfirmation()
+            ->modalHeading('Eliminar Cliente')
+            ->modalDescription('Seguro que quiere eliminar este cliente?')
+            ->modalSubmitActionLabel('Sí, Eliminar Cliente')
+            ->modalCancelActionLabel('Cancelar')
+            ->color('danger')
+            ->modalIcon('heroicon-o-trash'),
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make()->label('Eliminar'),
+                Tables\Actions\DeleteBulkAction::make()->label('Eliminar')
+                ->requiresConfirmation(),
                 // ]),
             ]);
     }
