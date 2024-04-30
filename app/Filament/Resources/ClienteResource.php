@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Filament\Tables\Enums\ActionsPosition;
 
-use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\Tables\Filters\Filter;
 
 class ClienteResource extends Resource
 {
@@ -51,28 +51,34 @@ class ClienteResource extends Resource
                 //agregamos las columnas de la tabla
                 Tables\Columns\TextColumn::make('usuario')
                     ->label('Usuario')
+                    ->grow(false)
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nombre')
+                    ->grow(false)
                     ->label('Nombre')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('mail')
                     ->label('Email')
                     ->sortable()
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->grow(false),
                 Tables\Columns\CheckboxColumn::make('multiple')
-                ->disabled()
-               //funciona haciendo una funcion en el modelo de cliente
-               //donde hago un "cast" que lo transforma en un booleano
-               //no queda bonito pero es lo que hay
+                    ->disabled()
+                    ->visibleFrom('md')
+                    ->grow(false)
+                //funciona haciendo una funcion en el modelo de cliente
+                //donde hago un "cast" que lo transforma en un booleano
+                //no queda bonito pero es lo que hay
                 ,
                 Tables\Columns\TextColumn::make('telefono')
                     ->label('Teléfono')
                     ->sortable()
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->visibleFrom('md')
+                    ->grow(false),
             ])
             ->filters([
 
@@ -81,6 +87,13 @@ class ClienteResource extends Resource
                 //                     //un filtro como booleano de si es multiple o no 
                 //    BooleanConstraint::make('multiple')
                 //    //No se is lo cogera como boolean,sino cambio por el ternario
+
+                //hacer filtros
+                //primer filtro de multiple
+                Filter::make('multiple')
+                    ->query(fn (Builder $query): Builder => $query->where('multiple','si')),
+                /**hará falta un filtro de ultimo acceso un selectfilter */
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
