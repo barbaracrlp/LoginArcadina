@@ -8,6 +8,7 @@ use App\Models\Cliente;
 
 use Filament\Forms;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section as ComponentsSection;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -40,14 +41,38 @@ class ClienteResource extends Resource
         return $form
             ->schema([
                 //agregamos el formulario 
+
+                Forms\Components\Checkbox::make('multiple')
+                    ->label('Usuario Múltiple')
+                
+                    ->autofocus(),
                 Forms\Components\TextInput::make('usuario')
                     ->label('Nombre')
+                    ->required()
                     ->autofocus(),
                 Forms\Components\TextInput::make('mail')
-                    ->label('Email'),
+                    ->email()
+                    ->label('Email')
+                    ->required()
+                    ->postfix('Máximo 10 direcciones separadas por comas'),
                 Forms\Components\TextInput::make('telefono')
                     ->tel(),
-            ]);
+                    ComponentsSection::make('Dirección cliente')
+                    ->schema([
+                        Forms\Components\TextInput::make('direccion')
+                        ->label('Direccion'),
+                        Forms\Components\TextInput::make('codpos')
+                        ->numeric()
+                        ->label('Código Postal'),
+                        Forms\Components\TextInput::make('localidad')
+                        ->label('Localidad'),
+                        Forms\Components\TextInput::make('provincia')
+                        ->label('Provincia'),
+                        //aqui necesito tener el select con todos los paises de la relacion
+                        //mira el de veterinarios con los dueños es tal cual
+
+                    ]),
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -128,6 +153,7 @@ class ClienteResource extends Resource
     //aqui creo la infolist
     public static function infolist(Infolist $infolist): Infolist
     {
+
         return $infolist
             ->schema([
                 Section::make('Información general')
@@ -135,6 +161,8 @@ class ClienteResource extends Resource
                     ->schema([
                         TextEntry::make('nombre')->label('Nombre'),
                         TextEntry::make('usuario')->label('Usuario'),
+                        TextEntry::make('telefono')->label('Telefono'),
+                        TextEntry::make('mail')->label('Email'),
                     ])->columns(2),
                 Section::make('Dirección')
                     ->schema([
@@ -147,22 +175,23 @@ class ClienteResource extends Resource
                         //necesito el modelo del pais que coj
                         TextEntry::make('usuario')->label('Usuario'),
                     ])->columns(3),
-                Section::make('Envío')
-                    ->schema([
-                        Section::make('direccion Envío')
-                            ->schema([
-                                TextEntry::make('envio_direccion')->label('Dirección'),
-                                TextEntry::make('envio_codpos')->label('Código Postal'),
-                                TextEntry::make('envio_localidad')->label('Localidad'),
-                                TextEntry::make('envio_Provincia')->label('provincia'),
-                                TextEntry::make('paisEnvio.nombre_es')->label('País'),
-                            ]),
-                        Section::make('Envío a : ')
-                            ->schema([
-                                TextEntry::make('envio_nombre')->label('Nombre'),
-                                TextEntry::make('envio_telefono')->label('Teléfono'),
-                            ]),
-                    ])->columns(3)
+                /**Los apartados de envío no aparecen en el original */
+                // Section::make('Envío')
+                //     ->schema([
+                //         Section::make('direccion Envío')
+                //             ->schema([
+                //                 TextEntry::make('envio_direccion')->label('Dirección'),
+                //                 TextEntry::make('envio_codpos')->label('Código Postal'),
+                //                 TextEntry::make('envio_localidad')->label('Localidad'),
+                //                 TextEntry::make('envio_Provincia')->label('provincia'),
+                //                 TextEntry::make('paisEnvio.nombre_es')->label('País'),
+                //             ]),
+                //         Section::make('Envío a : ')
+                //             ->schema([
+                //                 TextEntry::make('envio_nombre')->label('Nombre'),
+                //                 TextEntry::make('envio_telefono')->label('Teléfono'),
+                //             ]),
+                //     ])->columns(3)
             ]);
     }
 
@@ -170,7 +199,10 @@ class ClienteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            //necesito crear un relationmanager para los pedidos
+            /**necesitas definiar las funciones de ralcion en los modelos
+         * despues crear el relation manager
+         */
         ];
     }
 

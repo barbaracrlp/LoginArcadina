@@ -58,4 +58,11 @@ class Cliente extends Model
     {
         return $this->belongsTo(Pais::class, 'envio_id_pais');
     }
+
+    /**posible necesidad de recuperar contraseña y cambiar,reescribir todo lo del login pero con el metodo save tambien del pedido
+     * creao aqui una funcion de contraseña para que la recupere como es puede que una funcion de set contraseña sirva para implementar el hashing también
+     * 
+     * public function getPassAttribute($value){
+     * aqui va el dehahing para que la saque y se pueda cambiar}
+     */
 }
