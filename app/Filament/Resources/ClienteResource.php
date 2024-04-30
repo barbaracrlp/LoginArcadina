@@ -7,6 +7,7 @@ use App\Filament\Resources\ClienteResource\RelationManagers;
 use App\Models\Cliente;
 
 use Filament\Forms;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -65,7 +66,7 @@ class ClienteResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->visibleFrom('md'),
-                Tables\Columns\TextColumn::make('mail')
+                Tables\Columns\TextColumn::make('mail') //al email se le debe añadir una accion de enviar email
                     ->label('Email')
                     ->sortable()
                     ->searchable()
@@ -84,19 +85,12 @@ class ClienteResource extends Resource
                     ->searchable()
                     ->visibleFrom('md')
                     ->grow(false),
+
             ])
             ->filters([
-
-                //el filtro booleano de abajo no funcion
-                //     //aqui tengo que crear un filtro de multiple si es si o no 
-                //                     //un filtro como booleano de si es multiple o no 
-                //    BooleanConstraint::make('multiple')
-                //    //No se is lo cogera como boolean,sino cambio por el ternario
-
-                //hacer filtros
                 //primer filtro de multiple
                 Filter::make('multiple')
-                    ->query(fn (Builder $query): Builder => $query->where('multiple','si')),
+                    ->query(fn (Builder $query): Builder => $query->where('multiple', 'si')),
                 /**hará falta un filtro de ultimo acceso un selectfilter */
 
             ])
@@ -104,6 +98,10 @@ class ClienteResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->label('Editar')
                     ->icon('heroicon-m-pencil-square')
+                    ->iconButton(),
+                Tables\Actions\ViewAction::make()
+                    ->icon('heroicon-m-eye')
+                    ->color('info')
                     ->iconButton(),
                 //primer intento de crear accion de eliminar con texto custom
                 Action::make('Eliminar')
@@ -133,22 +131,38 @@ class ClienteResource extends Resource
         return $infolist
             ->schema([
                 Section::make('Información general')
-             
+
                     ->schema([
                         TextEntry::make('nombre')->label('Nombre'),
                         TextEntry::make('usuario')->label('Usuario'),
                     ])->columns(2),
-                    Section::make('Dirección')
-                    
-                        ->schema([
-                            TextEntry::make('direccion')->label('Dirección'),
-                            TextEntry::make('codpos')->label('Código Postal'),
-                            TextEntry::make('localidad')->label('Localidad'),
-                            TextEntry::make('Provincia')->label('provincia'),
-                            //aquí va a tener que ir el país 
-                            //necesito el modelo del pais que coja
-                            TextEntry::make('usuario')->label('Usuario'),
-                        ])->columns(2)
+                Section::make('Dirección')
+                    ->schema([
+                        TextEntry::make('direccion')->label('Dirección'),
+                        TextEntry::make('codpos')->label('Código Postal'),
+                        TextEntry::make('localidad')->label('Localidad'),
+                        TextEntry::make('Provincia')->label('provincia'),
+                        TextEntry::make('pais.nombre_es')->label('País'),
+                        //aquí va a tener que ir el país 
+                        //necesito el modelo del pais que coj
+                        TextEntry::make('usuario')->label('Usuario'),
+                    ])->columns(3),
+                Section::make('Envío')
+                    ->schema([
+                        Section::make('direccion Envío')
+                            ->schema([
+                                TextEntry::make('envio_direccion')->label('Dirección'),
+                                TextEntry::make('envio_codpos')->label('Código Postal'),
+                                TextEntry::make('envio_localidad')->label('Localidad'),
+                                TextEntry::make('envio_Provincia')->label('provincia'),
+                                TextEntry::make('paisEnvio.nombre_es')->label('País'),
+                            ]),
+                        Section::make('Envío a : ')
+                            ->schema([
+                                TextEntry::make('envio_nombre')->label('Nombre'),
+                                TextEntry::make('envio_telefono')->label('Teléfono'),
+                            ]),
+                    ])->columns(3)
             ]);
     }
 

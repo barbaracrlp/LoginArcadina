@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Scopes\ClienteScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cliente extends Model
 {
     use HasFactory;
 
-    protected $table='usuarios';
+    protected $table = 'usuarios';
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
@@ -19,13 +20,13 @@ class Cliente extends Model
     //aqui a lo mejor para la implementacion posterior 
     //hace falta añadir más datos de la tabla
     //de momento con estos me sobra
-    protected $fillable=[
+    protected $fillable = [
         'usuario',
         'mail',
         'nombre',
         'telefono',
         'direccion',
-        'multiple',//en multiple es si(sin acento) o no
+        'multiple', //en multiple es si(sin acento) o no
     ];
 
     //ahora la funcion para utilizar el scope como tal
@@ -37,14 +38,24 @@ class Cliente extends Model
     }
 
     //defino la relacion a pedidos 
-    public function pedido():HasMany{
+    public function pedido(): HasMany
+    {
         return $this->hasMany(Pedido::class);
     }
 
     //intento de transformar el multiple en un booleano
     public function getMultipleAttribute($value)
-{
-    return $value === 'si' ? true : false;
-}
+    {
+        return $value === 'si' ? true : false;
+    }
 
+    public function pais(): BelongsTo
+    {
+        return $this->belongsTo(Pais::class, 'id_pais');
+    }
+
+    public function paisEnvio(): BelongsTo
+    {
+        return $this->belongsTo(Pais::class, 'envio_id_pais');
+    }
 }
