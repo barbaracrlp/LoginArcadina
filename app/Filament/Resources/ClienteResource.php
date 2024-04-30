@@ -71,6 +71,17 @@ class ClienteResource extends Resource
                         //aqui necesito tener el select con todos los paises de la relacion
                         //mira el de veterinarios con los dueños es tal cual
 
+                        //el pais no funciona 
+                        Forms\Components\Select::make('pais_id')
+                        ->relationship('pais', 'nombre_es')
+                        ->searchable()
+                        ->native(false)
+                        ->preload()
+                        ->createOptionForm([
+                            Forms\Components\TextInput::make('nombre_es')
+                                ->required()
+                                ->maxLength(255)
+                        ]),
                     ]),
             ])->columns(1);
     }
