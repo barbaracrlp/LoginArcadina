@@ -21,7 +21,7 @@ class ClienteResource extends Resource
 
     protected static ?string $navigationLabel= 'Clientes';
 
-    protected static ?string $navigationGroup = "Tienda y área clientes";
+    protected static ?string $navigationGroup = "Ventas";
 
     public static function form(Form $form): Form
     {
@@ -60,11 +60,12 @@ class ClienteResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
+                Tables\Actions\DeleteAction::make()->label('Eliminar')
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
-                //     Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()->label('Eliminar'),
                 // ]),
             ]);
     }
@@ -80,7 +81,7 @@ class ClienteResource extends Resource
     {
         return [
             'index' => Pages\ListClientes::route('/'),
-            // 'create' => Pages\CreateCliente::route('/create'),
+            'create' => Pages\CreateCliente::route('/create'),
             'edit' => Pages\EditCliente::route('/{record}/edit'),
         ];
     }
