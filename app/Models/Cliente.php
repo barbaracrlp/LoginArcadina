@@ -41,4 +41,10 @@ class Cliente extends Model
         return $this->hasMany(Pedido::class);
     }
 
+    //intento de transformar el multiple en un booleano
+    public function getMultipleAttribute($value)
+{
+    return $value === 'si' ? true : false;
+}
+
 }

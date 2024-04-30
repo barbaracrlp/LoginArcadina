@@ -53,24 +53,34 @@ class ClienteResource extends Resource
                     ->label('Usuario')
                     ->sortable()
                     ->searchable(),
-                    Tables\Columns\TextColumn::make('nombre')
+                Tables\Columns\TextColumn::make('nombre')
                     ->label('Nombre')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('mail')
                     ->label('Email')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\CheckboxColumn::make('multiple')
+                ->disabled()
+               //funciona haciendo una funcion en el modelo de cliente
+               //donde hago un "cast" que lo transforma en un booleano
+               //no queda bonito pero es lo que hay
+                ,
                 Tables\Columns\TextColumn::make('telefono')
                     ->label('Teléfono')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //aqui tengo que crear un filtro de multiple si es si o no 
-                                //un filtro como booleano de si es multiple o no 
-               BooleanConstraint::make('multiple')
-               //No se is lo cogera como boolean,sino cambio por el ternario
+
+                //el filtro booleano de abajo no funcion
+                //     //aqui tengo que crear un filtro de multiple si es si o no 
+                //                     //un filtro como booleano de si es multiple o no 
+                //    BooleanConstraint::make('multiple')
+                //    //No se is lo cogera como boolean,sino cambio por el ternario
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
@@ -89,7 +99,7 @@ class ClienteResource extends Resource
                     ->modalCancelActionLabel('Cancelar')
                     ->color('danger')
                     ->modalIcon('heroicon-o-trash'),
-            ],position: ActionsPosition::BeforeColumns)
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
                 Tables\Actions\DeleteBulkAction::make()->label('Eliminar')
