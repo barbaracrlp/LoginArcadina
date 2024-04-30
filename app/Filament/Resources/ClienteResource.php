@@ -15,6 +15,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\Section;
+
 use Filament\Tables\Enums\ActionsPosition;
 
 use Filament\Tables\Filters\Filter;
@@ -120,6 +125,33 @@ class ClienteResource extends Resource
                 // ]),
             ]);
     }
+
+
+    //aqui creo la infolist
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Información general')
+             
+                    ->schema([
+                        TextEntry::make('nombre')->label('Nombre'),
+                        TextEntry::make('usuario')->label('Usuario'),
+                    ])->columns(2),
+                    Section::make('Dirección')
+                    
+                        ->schema([
+                            TextEntry::make('direccion')->label('Dirección'),
+                            TextEntry::make('codpos')->label('Código Postal'),
+                            TextEntry::make('localidad')->label('Localidad'),
+                            TextEntry::make('Provincia')->label('provincia'),
+                            //aquí va a tener que ir el país 
+                            //necesito el modelo del pais que coja
+                            TextEntry::make('usuario')->label('Usuario'),
+                        ])->columns(2)
+            ]);
+    }
+
 
     public static function getRelations(): array
     {
