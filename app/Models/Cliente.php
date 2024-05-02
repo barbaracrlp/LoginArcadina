@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+//importo el nuevo archivo de encriptacion
+use App\Filament\Pages\Auth\encriptaCliente;
+
+
 class Cliente extends Model
 {
     use HasFactory;
@@ -60,16 +64,23 @@ class Cliente extends Model
         return $this->belongsTo(Pais::class, 'envio_id_pais');
     }
 
- 
+
     /**voy a probar primero la de getpassatt a ver si así lo hace automatico y en la app misma
      * la coje asi, tengo que mirar si existe un metodo de set para hashear y cambiar
      */
 
-    //  public function getPassAttribute($value)
-    //  {
-    //     //en value está lo que saca de la contraseña de la BD voy a ver que me saca exactamente
+    public function getPassAttribute($value)
+    {
+        //en value está lo que saca de la contraseña de la BD voy a ver que me saca exactamente
+        //tengo que importar el nuevo archivo
+        $contraseña= encriptaCliente::decrypt($value);
+        error_log('la contraseña que saca es : '.$contraseña);
+        error_log('la contraseña antigua es : '.$value);
 
-    //  }
+        return $contraseña;
+    }
+
+
     /**posible necesidad de recuperar contraseña y cambiar,reescribir todo lo del login pero con el metodo save tambien del pedido
      * creao aqui una funcion de contraseña para que la recupere como es puede que una funcion de set contraseña sirva para implementar el hashing también
      * 
@@ -79,9 +90,8 @@ class Cliente extends Model
 
 
 
-     public function hasheaPass($pass):string
-     {
-         return $pass;
-     }
- 
+    public function hasheaPass($pass): string
+    {
+        return $pass;
+    }
 }

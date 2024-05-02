@@ -53,8 +53,7 @@ class ClienteResource extends Resource
                     Forms\Components\TextInput::make('pass')
                     ->label('Contraseña')
                     ->required()
-                    ->password()
-                    ->revealable()
+                    
                     /**aqui tengo que hacer las funciones para hashear y deshashear las contraseñas
                      * las hago en el modelo de cliente de momento sino lo cambio
                      */
