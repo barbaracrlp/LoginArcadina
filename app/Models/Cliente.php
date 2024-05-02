@@ -74,12 +74,21 @@ class Cliente extends Model
         //en value está lo que saca de la contraseña de la BD voy a ver que me saca exactamente
         //tengo que importar el nuevo archivo
         $contraseña= encriptaCliente::decrypt($value);
-        error_log('la contraseña que saca es : '.$contraseña);
-        error_log('la contraseña antigua es : '.$value);
+
+        // error_log('la contraseña que saca es : '.$contraseña);
+        // error_log('la contraseña antigua es : '.$value);
 
         return $contraseña;
     }
 
+    public function setPassAttribute($value)
+    {
+        $nuevaContraseña=encriptaCliente::encripta($value);
+        error_log("lo que coje".$value);
+        error_log('lo que devuelve '.$nuevaContraseña);
+
+        return $nuevaContraseña;
+    }
 
     /**posible necesidad de recuperar contraseña y cambiar,reescribir todo lo del login pero con el metodo save tambien del pedido
      * creao aqui una funcion de contraseña para que la recupere como es puede que una funcion de set contraseña sirva para implementar el hashing también

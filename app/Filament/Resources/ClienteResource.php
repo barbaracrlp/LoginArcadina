@@ -53,7 +53,7 @@ class ClienteResource extends Resource
                     Forms\Components\TextInput::make('pass')
                     ->label('Contraseña')
                     ->required()
-                    
+
                     /**aqui tengo que hacer las funciones para hashear y deshashear las contraseñas
                      * las hago en el modelo de cliente de momento sino lo cambio
                      */
@@ -184,6 +184,7 @@ class ClienteResource extends Resource
                         TextEntry::make('usuario')->label('Usuario'),
                         TextEntry::make('telefono')->label('Telefono'),
                         TextEntry::make('mail')->label('Email'),
+                        TextEntry::make('pass')->label('Contraseña'),
                     ])->columns(2),
                 Section::make('Dirección')
                     ->schema([
