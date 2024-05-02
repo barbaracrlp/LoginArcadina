@@ -86,14 +86,14 @@ class Cliente extends Model
         return $contraseña;
     }
 
-    public function setPassAttribute($value)
-    {
-        $nuevaContraseña=encriptaCliente::encripta($value);
-        error_log("lo que coje".$value);
-        error_log('lo que devuelve '.$nuevaContraseña);
+    // public function setPassAttribute($value)
+    // {
+    //     $nuevaContraseña=encriptaCliente::encripta($value);
+    //     error_log("lo que coje".$value);
+    //     error_log('lo que devuelve '.$nuevaContraseña);
 
-        return $nuevaContraseña;
-    }
+    //     return $nuevaContraseña;
+    // }
 
     /**posible necesidad de recuperar contraseña y cambiar,reescribir todo lo del login pero con el metodo save tambien del pedido
      * creao aqui una funcion de contraseña para que la recupere como es puede que una funcion de set contraseña sirva para implementar el hashing también

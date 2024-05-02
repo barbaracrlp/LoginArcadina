@@ -26,6 +26,9 @@ use Filament\Tables\Enums\ActionsPosition;
 
 use Filament\Tables\Filters\Filter;
 
+//importo la clase de encriptacion
+use App\Filament\Pages\Auth\encriptaCliente;
+
 class ClienteResource extends Resource
 {
     protected static ?string $model = Cliente::class;
@@ -59,7 +62,8 @@ class ClienteResource extends Resource
                      */
                     // ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     /**la linea de abajo no deja guardar o 'deshidratar' si esta vacío */
-                    ->dehydrated(fn (?string $state): bool => filled($state)),
+                    ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->dehydrateStateUsing(fn(string $state):string=>encriptaCliente::encripta($state)),
                 Forms\Components\TextInput::make('mail')
                     ->email()
                     ->label('Email')
