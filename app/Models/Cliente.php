@@ -65,6 +65,11 @@ class Cliente extends Model
     }
 
 
+    public function setTelefonoAttribute($value)
+    {
+        $this->attributes['telefono'] = ($value !== null) ? $value : '';
+    }
+
     /**voy a probar primero la de getpassatt a ver si así lo hace automatico y en la app misma
      * la coje asi, tengo que mirar si existe un metodo de set para hashear y cambiar
      */

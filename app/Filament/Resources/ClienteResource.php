@@ -127,7 +127,6 @@ class ClienteResource extends Resource
                 ,
                 Tables\Columns\TextColumn::make('telefono')
                     ->label('Teléfono')
-                    ->sortable()
                     ->searchable()
                     ->visibleFrom('md')
                     ->grow(false),
@@ -148,7 +147,8 @@ class ClienteResource extends Resource
                 Tables\Actions\ViewAction::make()
                     ->icon('heroicon-m-eye')
                     ->color('info')
-                    ->iconButton(),
+                    ->iconButton()
+                    ->modalHeading('Información Cliente'),
                 //primer intento de crear accion de eliminar con texto custom
                 Action::make('Eliminar')
                     ->action(fn (Cliente $record) => $record->delete())
