@@ -54,7 +54,10 @@ class ClienteResource extends Resource
                     ->label('Contraseña')
                     ->required()
                     ->password()
-                    /**aqui tengo que hacer las funciones para hashear y deshashear las contraseñas */
+                    ->revealable()
+                    /**aqui tengo que hacer las funciones para hashear y deshashear las contraseñas
+                     * las hago en el modelo de cliente de momento sino lo cambio
+                     */
                     // ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     /**la linea de abajo no deja guardar o 'deshidratar' si esta vacío */
                     ->dehydrated(fn (?string $state): bool => filled($state)),

@@ -24,6 +24,7 @@ class Cliente extends Model
         'usuario',
         'mail',
         'nombre',
+        'pass',
         'telefono',
         'direccion',
         'multiple', //en multiple es si(sin acento) o no
@@ -59,10 +60,28 @@ class Cliente extends Model
         return $this->belongsTo(Pais::class, 'envio_id_pais');
     }
 
+ 
+    /**voy a probar primero la de getpassatt a ver si así lo hace automatico y en la app misma
+     * la coje asi, tengo que mirar si existe un metodo de set para hashear y cambiar
+     */
+
+    //  public function getPassAttribute($value)
+    //  {
+    //     //en value está lo que saca de la contraseña de la BD voy a ver que me saca exactamente
+
+    //  }
     /**posible necesidad de recuperar contraseña y cambiar,reescribir todo lo del login pero con el metodo save tambien del pedido
      * creao aqui una funcion de contraseña para que la recupere como es puede que una funcion de set contraseña sirva para implementar el hashing también
      * 
      * public function getPassAttribute($value){
      * aqui va el dehahing para que la saque y se pueda cambiar}
      */
+
+
+
+     public function hasheaPass($pass):string
+     {
+         return $pass;
+     }
+ 
 }
