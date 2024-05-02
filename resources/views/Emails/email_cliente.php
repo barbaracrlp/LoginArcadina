@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Email Subject</title>
+    <title>{{$asunto}}</title>
     <style>
         /* Reset styles */
         body, html {
@@ -61,12 +61,12 @@
             <h1>{{$asunto}}</h1>
         </div>
         <div class="email-content">
-            <p>Hello {{ $clientName }},</p>
-            <p>This is a sample email template. You can customize it as needed.</p>
+            <p>Hello {{ $nombre }},</p>
+            <p>{{$contenido}}</p>
         
-            <div class="email-button">
+            <!-- <div class="email-button">
                 <a href="{{ $ctaUrl }}">Call to Action</a>
-            </div>
+            </div> -->
         </div>
     </div>
 </body>
