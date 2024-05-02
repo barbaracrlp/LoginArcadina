@@ -50,6 +50,14 @@ class ClienteResource extends Resource
                     ->label('Nombre')
                     ->required()
                     ->autofocus(),
+                    Forms\Components\TextInput::make('pass')
+                    ->label('Contraseña')
+                    ->required()
+                    ->password()
+                    /**aqui tengo que hacer las funciones para hashear y deshashear las contraseñas */
+                    // ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                    /**la linea de abajo no deja guardar o 'deshidratar' si esta vacío */
+                    ->dehydrated(fn (?string $state): bool => filled($state)),
                 Forms\Components\TextInput::make('mail')
                     ->email()
                     ->label('Email')
