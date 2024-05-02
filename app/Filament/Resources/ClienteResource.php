@@ -47,23 +47,19 @@ class ClienteResource extends Resource
 
                 Forms\Components\Checkbox::make('multiple')
                     ->label('Usuario Múltiple')
-                
+
                     ->autofocus(),
                 Forms\Components\TextInput::make('usuario')
                     ->label('Nombre')
                     ->required()
                     ->autofocus(),
-                    Forms\Components\TextInput::make('pass')
+                Forms\Components\TextInput::make('pass')
                     ->label('Contraseña')
                     ->required()
 
-                    /**aqui tengo que hacer las funciones para hashear y deshashear las contraseñas
-                     * las hago en el modelo de cliente de momento sino lo cambio
-                     */
-                    // ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-                    /**la linea de abajo no deja guardar o 'deshidratar' si esta vacío */
                     ->dehydrated(fn (?string $state): bool => filled($state))
-                    ->dehydrateStateUsing(fn(string $state):string=>encriptaCliente::encripta($state)),
+                    /**la linea de abajo no deja guardar o 'deshidratar' si esta vacío */
+                    ->dehydrateStateUsing(fn (string $state): string => encriptaCliente::encripta($state)),
                 Forms\Components\TextInput::make('mail')
                     ->email()
                     ->label('Email')
@@ -71,31 +67,31 @@ class ClienteResource extends Resource
                     ->postfix('Máximo 10 direcciones separadas por comas'),
                 Forms\Components\TextInput::make('telefono')
                     ->tel(),
-                    ComponentsSection::make('Dirección cliente')
+                ComponentsSection::make('Dirección cliente')
                     ->schema([
                         Forms\Components\TextInput::make('direccion')
-                        ->label('Direccion'),
+                            ->label('Direccion'),
                         Forms\Components\TextInput::make('codpos')
-                        ->numeric()
-                        ->label('Código Postal'),
+                            ->numeric()
+                            ->label('Código Postal'),
                         Forms\Components\TextInput::make('localidad')
-                        ->label('Localidad'),
+                            ->label('Localidad'),
                         Forms\Components\TextInput::make('provincia')
-                        ->label('Provincia'),
+                            ->label('Provincia'),
                         //aqui necesito tener el select con todos los paises de la relacion
                         //mira el de veterinarios con los dueños es tal cual
 
                         //el pais no funciona 
                         Forms\Components\Select::make('pais_id')
-                        ->relationship('pais', 'nombre_es')
-                        ->searchable()
-                        ->native(false)
-                        ->preload()
-                        ->createOptionForm([
-                            Forms\Components\TextInput::make('nombre_es')
-                                ->required()
-                                ->maxLength(255)
-                        ]),
+                            ->relationship('pais', 'nombre_es')
+                            ->searchable()
+                            ->native(false)
+                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('nombre_es')
+                                    ->required()
+                                    ->maxLength(255)
+                            ]),
                     ]),
             ])->columns(1);
     }
@@ -173,7 +169,6 @@ class ClienteResource extends Resource
                 // ]),
             ]);
     }
-
 
     //aqui creo la infolist
     public static function infolist(Infolist $infolist): Infolist
