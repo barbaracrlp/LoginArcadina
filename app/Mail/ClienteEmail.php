@@ -26,21 +26,21 @@ class ClienteEmail extends Mailable
      */
 
     //defino las variables
-    public $asunto;
-    public $contenido;
-    public $usuario;
-    public $cliente;
+     public $asunto;
+     public $contenido;
+    // public $usuario;
+     public $cliente;
 
 
 
-    public function __construct($asunto,$contenido,Usuario $usuario,Cliente $cliente)
+    public function __construct($asunto,$contenido,Cliente $cliente)
     {
         //aqui deberia sacar las variables que le paso
 
-        $this->asunto=$asunto;
-        $this->contenido=$contenido;
-        $this->usuario=$usuario;
-        $this->cliente=$cliente;
+         $this->asunto=$asunto;
+         $this->contenido=$contenido;
+        // $this->usuario=$usuario;
+         $this->cliente=$cliente;
 
 
     }
@@ -51,13 +51,7 @@ class ClienteEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->usuario->mail,$this->usuario->nombre),
-            //para quien es 
-            replyTo:[
-                new Address($this->cliente->mail,$this->cliente->nombre),
-            ],
-
-            subject: $this->asunto, //en teoria aqui le paso el asunto del email
+            subject:$this->asunto, //en teoria aqui le paso el asunto del email
         );
     }
 
@@ -69,11 +63,11 @@ class ClienteEmail extends Mailable
         return new Content(
             view: 'Emails.email_cliente',
            
-           //aqui le tengo que pasar los parametros que voy a usar en la vista del email como tal
-            with:[
-                'nombre'=>$this->cliente->nombre,
-                'contenido'=>$this->contenido,
-            ]
+        //    //aqui le tengo que pasar los parametros que voy a usar en la vista del email como tal
+             with:[
+                 'nombre'=>$this->cliente->nombre,
+                 'contenido'=>$this->contenido,
+             ]
         );
     }
 
