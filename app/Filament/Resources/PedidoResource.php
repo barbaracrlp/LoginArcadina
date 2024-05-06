@@ -23,7 +23,7 @@ class PedidoResource extends Resource
 {
     protected static ?string $model = Pedido::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+    protected static ?string $navigationIcon = 'fas-cart-shopping';
 
     protected static ?string $navigationLabel= 'Pedidos';
 

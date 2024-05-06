@@ -42,7 +42,7 @@ class ClienteResource extends Resource
 
     protected static ?string $model = Cliente::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationIcon = 'fas-user-group';
 
     protected static ?string $navigationLabel = 'Clientes';
 
@@ -172,43 +172,25 @@ class ClienteResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('Editar')
-                    ->icon('heroicon-m-pencil-square')
+                    ->icon('fas-pen-to-square')
                     ->iconButton(),
                 Tables\Actions\ViewAction::make()
-                    ->icon('heroicon-s-eye')
+                    ->icon('fas-eye')
+                    ->color('info')
                     ->iconButton()
                     ->modalHeading('Información Cliente'),
                 //primer intento de crear accion de eliminar con texto custom
                 Action::make('Eliminar')
                     ->action(fn (Cliente $record) => $record->delete())
                     ->requiresConfirmation()
-                    ->icon('heroicon-s-trash')
+                    ->icon('fas-trash')
                     ->iconButton()
                     ->modalHeading('Eliminar Cliente')
                     ->modalDescription('Seguro que quiere eliminar este cliente?')
                     ->modalSubmitActionLabel('Sí, Eliminar Cliente')
                     ->modalCancelActionLabel('Cancelar')
                     ->color('danger')
-                    ->modalIcon('heroicon-o-trash'),
-                    // Action::make('sendEmail')
-                    //         ->form([
-                    //             TextInput::make('mail')->disabled(),
-                    //             TextInput::make('subject')->required()->label('Asunto'),
-                    //             RichEditor::make('body')->required()->label('Mensaje:'),
-                    //         ])
-                    //         ->action(function (array $data, $record) {
-                    //             Mail::to($record->mail)
-                    //                 ->send(new ClienteEmail(
-                    //                     $data['subject'],
-                    //                     $data['body'],
-                    //                     $record
-                    //                 ));
-                    //         })
-                    //         ->icon('heroicon-s-envelope')
-                    //         ->iconButton()
-                    //         ->modalHeading('Enviar Email:')
-                            // ->color('danger')
-                //
+                    ->modalIcon('fas-trash'),
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([

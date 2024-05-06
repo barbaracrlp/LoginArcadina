@@ -34,15 +34,17 @@ class GeneralPanelProvider extends PanelProvider
             ->favicon(asset('images/logoCorto.jpg'))
             ->login(LoginEdit::class)
             ->colors([
-                'primary' => Color::Stone,  
-                'danger' => Color::Red,
-                'info' => Color::Blue,
-                'success' => Color::Emerald,
-                'warning' => Color::Orange,
+                //cambio los colores,por defecto la fuente es la que me dice
+                //fuente Inter
+                'primary' => "#21ABE3",  
+                'danger' => "#EF4444",
+                'info' => "#21ABE3",
+                'success' => "#10B981",
+                'warning' => "#f97316",
                 'sin'=>Color::Zinc,
                 'pendiente'=>Color::Purple,
                 'enviado'=>Color::Green,
-                'neutral'=>Color::Neutral,
+                'neutral'=>"#6B7280",
 
 
             ])
