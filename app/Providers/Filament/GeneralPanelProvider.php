@@ -70,6 +70,8 @@ class GeneralPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            //instalo el css en teoria
+            ->viteTheme('resources/css/filament/gestion/theme.css');
     }
 }
