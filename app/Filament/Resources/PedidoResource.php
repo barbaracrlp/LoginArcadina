@@ -151,5 +151,12 @@ class PedidoResource extends Resource
         ];
     }
 
+    //importo el widget al recurso principal
+    public static function getWidgets(): array
+{
+    return [
+        PedidoResource\Widgets\UltimosPedidos::class,
+    ];
+}
     
 }
