@@ -20,7 +20,7 @@ class AlbumResource extends Resource
 {
     protected static ?string $model = Album::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-film';
+    protected static ?string $navigationIcon = 'fas-film';
 
     protected static ?string $navigationLabel= 'Galerías';
 

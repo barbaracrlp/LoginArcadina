@@ -33,7 +33,7 @@ class ClienteResource extends Resource
 {
     protected static ?string $model = Cliente::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationIcon = 'fas-user-group';
 
     protected static ?string $navigationLabel = 'Clientes';
 
@@ -142,10 +142,10 @@ class ClienteResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('Editar')
-                    ->icon('heroicon-m-pencil-square')
+                    ->icon('fas-pen-to-square')
                     ->iconButton(),
                 Tables\Actions\ViewAction::make()
-                    ->icon('heroicon-m-eye')
+                    ->icon('fas-eye')
                     ->color('info')
                     ->iconButton()
                     ->modalHeading('Información Cliente'),
@@ -153,14 +153,14 @@ class ClienteResource extends Resource
                 Action::make('Eliminar')
                     ->action(fn (Cliente $record) => $record->delete())
                     ->requiresConfirmation()
-                    ->icon('heroicon-o-trash')
+                    ->icon('fas-trash')
                     ->iconButton()
                     ->modalHeading('Eliminar Cliente')
                     ->modalDescription('Seguro que quiere eliminar este cliente?')
                     ->modalSubmitActionLabel('Sí, Eliminar Cliente')
                     ->modalCancelActionLabel('Cancelar')
                     ->color('danger')
-                    ->modalIcon('heroicon-o-trash'),
+                    ->modalIcon('fas-trash'),
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
