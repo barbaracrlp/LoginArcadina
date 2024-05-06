@@ -19,10 +19,19 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
+use App\Filament\Resources\PedidoResource\Widgets\UltimosPedidos;
+
 class GeneralPanelProvider extends PanelProvider
 {
 
-    protected static ?string $title='General';
+    // protected static ?string $title='General';
+    // protected static ?string $navigationLabel= 'General';
+
+    protected function getHeading(): string
+    {
+        
+        return "Inicio";
+    }
 
     public function panel(Panel $panel): Panel
     {
@@ -35,6 +44,8 @@ class GeneralPanelProvider extends PanelProvider
             ->login(LoginEdit::class)
             //le quito el modo oscuro
             ->darkMode(false)
+            //aqui se cambia la fuente todas las de google-fonts sirven
+            ->font('Inter')
             ->colors([
                 'primary' => Color::Stone,  
                 'danger' => Color::Red,
@@ -52,12 +63,13 @@ class GeneralPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                // Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
+               
             ])
             ->middleware([
                 EncryptCookies::class,
