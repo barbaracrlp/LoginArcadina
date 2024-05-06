@@ -24,13 +24,22 @@ use Filament\Infolists\Components\Section;
 
 use Filament\Tables\Enums\ActionsPosition;
 
+//los import necesarios para la accion de la columna del email
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
+use Illuminate\Support\Facades\Mail;
+
 use Filament\Tables\Filters\Filter;
 
 //importo la clase de encriptacion
 use App\Filament\Pages\Auth\encriptaCliente;
+use App\Mail\ClienteEmail;
 
 class ClienteResource extends Resource
 {
+
+
+
     protected static ?string $model = Cliente::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
@@ -116,7 +125,28 @@ class ClienteResource extends Resource
                     ->label('Email')
                     ->sortable()
                     ->searchable()
-                    ->grow(false),
+                    ->grow(false)
+                    ->icon('heroicon-s-envelope')
+                    //aqui le añado la accion de enviar el email,
+                    ->action(
+                        Action::make('sendEmail')
+                        
+                            ->form([
+                                
+                                TextInput::make('subject')->required()->label('Asunto'),
+                                RichEditor::make('body')->required()->label('Mensaje:'),
+                            ])
+                            ->action(function (array $data, $record) {
+                                Mail::to($record->mail)
+                                    ->send(new ClienteEmail(
+                                        $data['subject'],
+                                        $data['body'],
+                                        $record
+                                    ));
+                            })
+                            ->modalHeading('Enviar Email:')
+                            
+                    ),
                 Tables\Columns\CheckboxColumn::make('multiple')
                     ->disabled()
                     ->visibleFrom('md')
@@ -145,15 +175,14 @@ class ClienteResource extends Resource
                     ->icon('heroicon-m-pencil-square')
                     ->iconButton(),
                 Tables\Actions\ViewAction::make()
-                    ->icon('heroicon-m-eye')
-                    ->color('info')
+                    ->icon('heroicon-s-eye')
                     ->iconButton()
                     ->modalHeading('Información Cliente'),
                 //primer intento de crear accion de eliminar con texto custom
                 Action::make('Eliminar')
                     ->action(fn (Cliente $record) => $record->delete())
                     ->requiresConfirmation()
-                    ->icon('heroicon-o-trash')
+                    ->icon('heroicon-s-trash')
                     ->iconButton()
                     ->modalHeading('Eliminar Cliente')
                     ->modalDescription('Seguro que quiere eliminar este cliente?')
@@ -161,6 +190,25 @@ class ClienteResource extends Resource
                     ->modalCancelActionLabel('Cancelar')
                     ->color('danger')
                     ->modalIcon('heroicon-o-trash'),
+                    // Action::make('sendEmail')
+                    //         ->form([
+                    //             TextInput::make('mail')->disabled(),
+                    //             TextInput::make('subject')->required()->label('Asunto'),
+                    //             RichEditor::make('body')->required()->label('Mensaje:'),
+                    //         ])
+                    //         ->action(function (array $data, $record) {
+                    //             Mail::to($record->mail)
+                    //                 ->send(new ClienteEmail(
+                    //                     $data['subject'],
+                    //                     $data['body'],
+                    //                     $record
+                    //                 ));
+                    //         })
+                    //         ->icon('heroicon-s-envelope')
+                    //         ->iconButton()
+                    //         ->modalHeading('Enviar Email:')
+                            // ->color('danger')
+                //
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
