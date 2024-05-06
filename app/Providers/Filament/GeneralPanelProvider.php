@@ -33,6 +33,8 @@ class GeneralPanelProvider extends PanelProvider
             ->brandLogo(asset('images/logoLargo.png'))
             ->favicon(asset('images/logoCorto.jpg'))
             ->login(LoginEdit::class)
+            //le quito el modo oscuro
+            ->darkMode(false)
             ->colors([
                 'primary' => Color::Stone,  
                 'danger' => Color::Red,
