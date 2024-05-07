@@ -79,7 +79,7 @@ class PedidoResource extends Resource
                 ->label('Nombre'),
                 DatePicker::make('fecha')
                 ->label('Fecha')
-                ->disabled()
+                //->disabled()
                 ->displayFormat('Y-m-d'),
                 Forms\Components\TextInput::make('tipo')
                 ->label('Tipo'),

@@ -28,6 +28,7 @@ class GeneralPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->darkMode(false)
             ->id('gestion')
             ->path('gestion')
             ->brandLogo(asset('images/vectorialLargo.png'))

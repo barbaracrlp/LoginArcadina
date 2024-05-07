@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
             'panels::sidebar.collapse-button.rtl' => 'fas-chevron-right',
             'panels::sidebar.expand-button' => 'fas-chevron-right',
             'panels::sidebar.expand-button.rtl' => 'fas-chevron-left',
-            'panels::sidebar.group.collapse-button' => 'fas-minus-circle',
+            'panels::sidebar.group.collapse-button' => null,
             'panels::tenant-menu.billing-button' => 'fas-file-invoice-dollar',
             'panels::tenant-menu.profile-button' => 'fas-user',
             'panels::tenant-menu.registration-button' => 'fas-user-plus',
