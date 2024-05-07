@@ -21,6 +21,9 @@ use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 class LoginEdit extends BaseAuth
 {
 
+    //añado la nueva vista 
+    protected static string $view = 'loginCustom';
+
     //el nuevo formulario
     public function form(Form $form): Form
     {
