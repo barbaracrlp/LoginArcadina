@@ -30,8 +30,8 @@ class GeneralPanelProvider extends PanelProvider
             ->default()
             ->id('gestion')
             ->path('gestion')
-            ->brandLogo(asset('images/logoLargo.png'))
-            ->favicon(asset('images/logoCorto.jpg'))
+            ->brandLogo(asset('images/vectorialLargo.png'))
+            ->favicon(asset('images/vectorialCirculo.jpg'))
             ->login(LoginEdit::class)
             ->colors([
                 //cambio los colores,por defecto la fuente es la que me dice

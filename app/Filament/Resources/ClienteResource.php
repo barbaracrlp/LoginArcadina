@@ -126,7 +126,7 @@ class ClienteResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->grow(false)
-                    ->icon('heroicon-s-envelope')
+                    ->icon('fas-envelope')
                     //aqui le añado la accion de enviar el email,
                     ->action(
                         Action::make('sendEmail')

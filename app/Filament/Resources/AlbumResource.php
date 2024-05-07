@@ -48,11 +48,11 @@ class AlbumResource extends Resource
                 ->disabled()
                 ->format('Y-m-d H:i:s'),
                 Forms\Components\Toggle::make('publicado')
-                ->label('Publicado')
-                ->onIcon('heroicon-s-eye')
-                ->offIcon('heroicon-m-eye-slash')
-                ->onColor('success')
-                ->offColor('danger'),
+                ->label('Publicado'),
+                // ->onIcon('heroicon-s-eye')
+                // ->offIcon('heroicon-m-eye-slash')
+                // ->onColor('primary')
+                // ->offColor('neutral'),
                 //la fecha com a tal es crea al fer el commit a la DB no al crear una galeria
                 //es la fecha de creacion
 
@@ -73,9 +73,10 @@ class AlbumResource extends Resource
              Tables\Columns\ToggleColumn::make('publicado')
              ->label('Publicado')
                 // ->onIcon('heroicon-s-eye')
-                ->offIcon('heroicon-m-eye-slash')
-                ->onColor('success')
-                ->offColor('danger'),
+                // ->offIcon('heroicon-m-eye-slash')
+                // ->onColor('success')
+                // ->offColor('danger'),
+                ,
           
              Tables\Columns\TextColumn::make('tipo')
                  ->sortable()
