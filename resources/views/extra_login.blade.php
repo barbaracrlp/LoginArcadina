@@ -1,5 +1,25 @@
 {{-- en esta vista que añadire a la original con el renderhook tengo que añadir y cambiar los estilos --}}
-
+<style>
+    .fi-simple-main{
+   
+        margin: 0%;
+        
+        max-width: 80%;
+    }
+    section{
+        display: flex;
+    }
+   /*tengo que encontrar el div principal y poner los dos
+    /* .sm\:max-w-lg {
+        max-width: 80%;
+    } */
+    /* .bg-white{
+        background-color: blueviolet !important;
+    }
+    main{
+        background-color: blueviolet;
+    } */
+</style>
 
 
 <h1>Añado el extra al login</h1>

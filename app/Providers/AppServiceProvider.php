@@ -184,6 +184,10 @@ class AppServiceProvider extends ServiceProvider
             PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
             fn():View=>view('extra_login')
         );
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            fn():View=>view('extra_login_foot')
+        );
 
     }
 }
