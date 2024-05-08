@@ -78,9 +78,9 @@
         scopes: $this->getRenderHookScopes()) }}
     </div>
    
-    {{-- <div class='flex-1'>
+    <div class='flex-1'>
         <img src="/images/fotoLogin.jpg" alt="Image" class="w-full h-auto">
-    </div> --}}
+    </div>
 </div>
 
 
