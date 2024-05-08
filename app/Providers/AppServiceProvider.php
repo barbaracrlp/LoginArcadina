@@ -5,6 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentView;
+
+use Illuminate\Contracts\View\View;
+use Filament\View\PanelsRenderHook;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -54,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
             'panels::widgets.account.logout-button' => 'fas-sign-out-alt',
             'panels::widgets.filament-info.open-documentation-button' => 'fas-book-open',
             'panels::widgets.filament-info.open-github-button' => 'fab-github',
-            
+
             //ahora los de los formularios 
             'forms::components.builder.actions.clone' => 'fas-clone',
             'forms::components.builder.actions.collapse' => 'fas-minus-square',
@@ -93,7 +97,7 @@ class AppServiceProvider extends ServiceProvider
             'forms::components.toggle-buttons.boolean.false' => 'fas-times',
             'forms::components.toggle-buttons.boolean.true' => 'fas-check',
             'forms::components.wizard.completed-step' => 'fas-check-circle',
-            
+
             //a partir de ahora los de la tabla
             'tables::actions.disable-reordering' => 'fas-lock',
             'tables::actions.enable-reordering' => 'fas-unlock',
@@ -117,62 +121,69 @@ class AppServiceProvider extends ServiceProvider
             'tables::header-cell.sort-desc-button' => 'fas-sort-down',
             'tables::reorder.handle' => 'fas-grip-vertical',
             'tables::search-field' => 'fas-search',
-            
-//ahora de notificaciones 
-'notifications::database.modal.empty-state' => 'fas-inbox',
-'notifications::notification.close-button' => 'fas-times',
-'notifications::notification.danger' => 'fas-exclamation-circle',
-'notifications::notification.info' => 'fas-info-circle',
-'notifications::notification.success' => 'fas-check-circle',
-'notifications::notification.warning' => 'fas-exclamation-triangle',
 
-//acciones
-'actions::action-group' => 'fas-folder',
-'actions::create-action.grouped' => 'fas-plus-square',
-'actions::delete-action' => 'fas-trash-alt',
-'actions::delete-action.grouped' => 'fas-trash-alt',
-'actions::delete-action.modal' => 'fas-trash-alt',
-'actions::detach-action' => 'fas-unlink',
-'actions::detach-action.modal' => 'fas-unlink',
-'actions::dissociate-action' => 'fas-chain-broken',
-'actions::dissociate-action.modal' => 'fas-chain-broken',
-'actions::edit-action' => 'fas-edit',
-'actions::edit-action.grouped' => 'fas-edit',
-'actions::export-action.grouped' => 'fas-file-export',
-'actions::force-delete-action' => 'fas-trash-alt',
-'actions::force-delete-action.grouped' => 'fas-trash-alt',
-'actions::force-delete-action.modal' => 'fas-trash-alt',
-'actions::import-action.grouped' => 'fas-file-import',
-'actions::modal.confirmation' => 'fas-exclamation-triangle',
-'actions::replicate-action' => 'fas-copy',
-'actions::replicate-action.grouped' => 'fas-copy',
-'actions::restore-action' => 'fas-undo-alt',
-'actions::restore-action.grouped' => 'fas-undo-alt',
-'actions::restore-action.modal' => 'fas-undo-alt',
-'actions::view-action' => 'fas-eye',
-'actions::view-action.grouped' => 'fas-eye',
+            //ahora de notificaciones 
+            'notifications::database.modal.empty-state' => 'fas-inbox',
+            'notifications::notification.close-button' => 'fas-times',
+            'notifications::notification.danger' => 'fas-exclamation-circle',
+            'notifications::notification.info' => 'fas-info-circle',
+            'notifications::notification.success' => 'fas-check-circle',
+            'notifications::notification.warning' => 'fas-exclamation-triangle',
 
-//infolist
-'infolists::components.icon-entry.false' => 'fas-times-circle',
-'infolists::components.icon-entry.true' => 'fas-check-circle',
+            //acciones
+            'actions::action-group' => 'fas-folder',
+            'actions::create-action.grouped' => 'fas-plus-square',
+            'actions::delete-action' => 'fas-trash-alt',
+            'actions::delete-action.grouped' => 'fas-trash-alt',
+            'actions::delete-action.modal' => 'fas-trash-alt',
+            'actions::detach-action' => 'fas-unlink',
+            'actions::detach-action.modal' => 'fas-unlink',
+            'actions::dissociate-action' => 'fas-chain-broken',
+            'actions::dissociate-action.modal' => 'fas-chain-broken',
+            'actions::edit-action' => 'fas-edit',
+            'actions::edit-action.grouped' => 'fas-edit',
+            'actions::export-action.grouped' => 'fas-file-export',
+            'actions::force-delete-action' => 'fas-trash-alt',
+            'actions::force-delete-action.grouped' => 'fas-trash-alt',
+            'actions::force-delete-action.modal' => 'fas-trash-alt',
+            'actions::import-action.grouped' => 'fas-file-import',
+            'actions::modal.confirmation' => 'fas-exclamation-triangle',
+            'actions::replicate-action' => 'fas-copy',
+            'actions::replicate-action.grouped' => 'fas-copy',
+            'actions::restore-action' => 'fas-undo-alt',
+            'actions::restore-action.grouped' => 'fas-undo-alt',
+            'actions::restore-action.modal' => 'fas-undo-alt',
+            'actions::view-action' => 'fas-eye',
+            'actions::view-action.grouped' => 'fas-eye',
 
-//UUI
-'badge.delete-button' => 'fas-times-circle',
-'breadcrumbs.separator' => 'fas-angle-right',
-'breadcrumbs.separator.rtl' => 'fas-angle-left', // Mirrored for right-to-left direction
-'modal.close-button' => 'fas-times',
-'pagination.first-button' => 'fas-angle-double-left',
-'pagination.first-button.rtl' => 'fas-angle-double-right', // Mirrored for right-to-left direction
-'pagination.last-button' => 'fas-angle-double-right',
-'pagination.last-button.rtl' => 'fas-angle-double-left', // Mirrored for right-to-left direction
-'pagination.next-button' => 'fas-chevron-right',
-'pagination.next-button.rtl' => 'fas-chevron-left', // Mirrored for right-to-left direction
-'pagination.previous-button' => 'fas-chevron-left',
-'pagination.previous-button.rtl' => 'fas-chevron-right', // Mirrored for right-to-left direction
-'section.collapse-button' => 'fas-minus-square',
+            //infolist
+            'infolists::components.icon-entry.false' => 'fas-times-circle',
+            'infolists::components.icon-entry.true' => 'fas-check-circle',
+
+            //UUI
+            'badge.delete-button' => 'fas-times-circle',
+            'breadcrumbs.separator' => 'fas-angle-right',
+            'breadcrumbs.separator.rtl' => 'fas-angle-left', // Mirrored for right-to-left direction
+            'modal.close-button' => 'fas-times',
+            'pagination.first-button' => 'fas-angle-double-left',
+            'pagination.first-button.rtl' => 'fas-angle-double-right', // Mirrored for right-to-left direction
+            'pagination.last-button' => 'fas-angle-double-right',
+            'pagination.last-button.rtl' => 'fas-angle-double-left', // Mirrored for right-to-left direction
+            'pagination.next-button' => 'fas-chevron-right',
+            'pagination.next-button.rtl' => 'fas-chevron-left', // Mirrored for right-to-left direction
+            'pagination.previous-button' => 'fas-chevron-left',
+            'pagination.previous-button.rtl' => 'fas-chevron-right', // Mirrored for right-to-left direction
+            'section.collapse-button' => 'fas-minus-square',
 
 
 
         ]);
+
+        //aqui le añado la view al login 
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+            fn():View=>view('extra_login')
+        );
+
     }
 }
