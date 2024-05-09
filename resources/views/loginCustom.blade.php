@@ -47,8 +47,13 @@
         background-image: url('/images/fotoLogin.jpg');
         background-repeat: no-repeat;
         background-size: cover;
+        bottom: 0px;
     }
-    @media screen and (max-width:600px) {
+    main div{
+        box-sizing: border-box;
+        height: 100%;
+    }
+    @media screen and (max-width:800px) {
         .imagen-fondo{
             display: none;
         }
@@ -68,9 +73,9 @@
     } */
 </style>
 
-<div class="flex">
+<div class="flex" style="object-fit: cover">
 
-    <div class="flex-1 flex flex-col items-center" style="margin-top: 100px">
+    <div class="flex-1 flex flex-col items-center" style="margin-top: 100px;bject-fit: cover">
         <header class="fi-simple-header flex flex-col items-center" style="margin-bottom: 10px">
             @if ($logo)
             <x-filament-panels::logo class="mb-4" />
@@ -114,7 +119,7 @@
         scopes: $this->getRenderHookScopes()) }}
     </div>
 
-    <div class='flex-1 flex flex-col items-center imagen-fondo'>
+    <div class='flex-1 flex flex-col items-center imagen-fondo' style="object-fit: cover">
         {{-- <img src="/images/fotoLogin.jpg" alt="Image" > --}}
     </div>
 </div>
