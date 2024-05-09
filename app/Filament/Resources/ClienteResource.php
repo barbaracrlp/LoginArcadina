@@ -111,7 +111,7 @@ class ClienteResource extends Resource
             ->columns([
                 //agregamos las columnas de la tabla
                 Tables\Columns\TextColumn::make('usuario')
-                    ->label('Usuario')
+                    ->label('Cliente')
                     ->grow(false)
                     ->sortable()
                     ->searchable(),
