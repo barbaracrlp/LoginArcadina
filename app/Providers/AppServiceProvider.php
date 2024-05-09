@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //aqui voy a poner el registro de los iconos 
+        //aqui voy a poner el registro de los iconos nuevos  
         FilamentIcon::register([
             // 'panels::topbar.global-search.field' => 'fas-magnifying-glass',
             // 'panels::topbar.global-search.field' => 'fas-magnifying-glass',
