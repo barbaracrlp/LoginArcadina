@@ -31,6 +31,10 @@
 ])
 
 <style>
+    html,body{
+        height: 100%;
+        overflow: hidden;
+    }
     .fi-simple-main {
 
         margin: 0%;
