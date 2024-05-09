@@ -63,6 +63,8 @@
         align-items: center;
         justify-content: center;
         height: 100%;
+        /*ahora para hacer más grandes los elementos */
+        transform: scale(1.2);
     }
 
     @media screen and (max-width:800px) {
