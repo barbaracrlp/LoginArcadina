@@ -35,7 +35,8 @@
    
         margin: 0%;
         
-        max-width: 80%;
+        max-width: 84%;
+        height:100vh;
     }
     /* section{
         display: flex;
@@ -52,9 +53,9 @@
     } */
 </style>
 
-<div class="flex">
-    <div class="flex-1 flex flex-col items-center">
-        <header class="fi-simple-header flex flex-col items-center">
+<div class="flex" >
+    <div class="flex-1 flex flex-col items-center" style="margin-top: 100px">
+        <header class="fi-simple-header flex flex-col items-center" style="margin-bottom: 10px">
             @if ($logo)
                 <x-filament-panels::logo class="mb-4" />
             @endif
@@ -101,7 +102,7 @@
     </div>
    
     <div class='flex-1 flex flex-col'>
-        <img src="/images/fotoLogin.jpg" alt="Image" class="w-full h-auto">
+        <img src="/images/fotoLogin.jpg" alt="Image" style="height: 100%; object-fit: cover;">
     </div>
 </div>
 
