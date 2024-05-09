@@ -25,23 +25,29 @@
 
 
 @props([
-    'heading' => null,
-    'logo' => true,
-    'subheading' => null,
+'heading' => null,
+'logo' => true,
+'subheading' => null,
 ])
 
 <style>
-    .fi-simple-main{
-   
+    .fi-simple-main {
+
         margin: 0%;
-        
+
         max-width: 84%;
-        height:100vh;
+        height: 100vh;
     }
+
+    img {
+        max-width: 100%;
+        height: 100%;
+    }
+
     /* section{
         display: flex;
     } */
-   /*tengo que encontrar el div principal y poner los dos
+    /*tengo que encontrar el div principal y poner los dos
     /* .sm\:max-w-lg {
         max-width: 80%;
     } */
@@ -53,28 +59,26 @@
     } */
 </style>
 
-<div class="flex" >
+<div class="flex">
+
     <div class="flex-1 flex flex-col items-center" style="margin-top: 100px">
         <header class="fi-simple-header flex flex-col items-center" style="margin-bottom: 10px">
             @if ($logo)
-                <x-filament-panels::logo class="mb-4" />
+            <x-filament-panels::logo class="mb-4" />
             @endif
-        
-           
-                <h1
-                    class="fi-simple-header-heading text-center text-2xl font-bold tracking-tight text-gray-950 dark:text-white"
-                >
-                    Inicia Sesión
-                </h1>
-        
-        
-          
-                <p
-                    class="fi-simple-header-subheading mt-2 text-center text-sm text-gray-500 dark:text-gray-400"
-                >
-                   Bienvenido de nuevo!
-                </p>
-           
+
+
+            <h1
+                class="fi-simple-header-heading text-center text-2xl font-bold tracking-tight text-gray-950 dark:text-white">
+                Inicia Sesión
+            </h1>
+
+
+
+            <p class="fi-simple-header-subheading mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+                Bienvenido de nuevo!
+            </p>
+
         </header>
         @if (filament()->hasRegistration())
         <x-slot name="subheading">
@@ -87,8 +91,8 @@
         {{
         \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
         scopes: $this->getRenderHookScopes()) }}
-  
-  
+
+
         <x-filament-panels::form wire:submit="authenticate">
             {{ $this->form }}
 
@@ -100,10 +104,8 @@
         \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
         scopes: $this->getRenderHookScopes()) }}
     </div>
-   
-    <div class='flex-1 flex flex-col'>
-        <img src="/images/fotoLogin.jpg" alt="Image" style="height: 100%; object-fit: cover;">
+
+    <div class='flex-1 flex flex-col items-center'>
+        <img src="/images/fotoLogin.jpg" alt="Image" style="object-fit:cover;">
     </div>
 </div>
-
-
