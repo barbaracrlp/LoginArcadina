@@ -43,7 +43,11 @@
         max-width: 100%;
         height: 100%;
     }
-
+    .imagen-fondo{
+        background-image: url('/images/fotoLogin.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
     /* section{
         display: flex;
     } */
@@ -105,7 +109,7 @@
         scopes: $this->getRenderHookScopes()) }}
     </div>
 
-    <div class='flex-1 flex flex-col items-center'>
-        <img src="/images/fotoLogin.jpg" alt="Image" style="object-fit:cover;">
+    <div class='flex-1 flex flex-col items-center imagen-fondo'>
+        {{-- <img src="/images/fotoLogin.jpg" alt="Image" > --}}
     </div>
 </div>
