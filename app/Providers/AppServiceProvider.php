@@ -183,14 +183,14 @@ class AppServiceProvider extends ServiceProvider
         /**para conseguir lo que quiero añado dos,y creare contenedores que abran en uno y cierren 
          * en el otro
          */
-        FilamentView::registerRenderHook(
-            PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
-            fn():View=>view('extra_login_head')
-        );
-        FilamentView::registerRenderHook(
-            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
-            fn():View=>view('extra_login_foot')
-        );
+        // FilamentView::registerRenderHook(
+        //     PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+        //     fn():View=>view('extra_login_head')
+        // );
+        // FilamentView::registerRenderHook(
+        //     PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+        //     fn():View=>view('extra_login_foot')
+        // );
 
     }
 }

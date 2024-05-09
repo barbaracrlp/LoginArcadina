@@ -30,8 +30,30 @@
     'subheading' => null,
 ])
 
+<style>
+    .fi-simple-main{
+   
+        margin: 0%;
+        
+        max-width: 80%;
+    }
+    /* section{
+        display: flex;
+    } */
+   /*tengo que encontrar el div principal y poner los dos
+    /* .sm\:max-w-lg {
+        max-width: 80%;
+    } */
+    /* .bg-white{
+        background-color: blueviolet !important;
+    }
+    main{
+        background-color: blueviolet;
+    } */
+</style>
+
 <div class="flex">
-    <div class="flex-1">
+    <div class="flex-1 flex flex-col items-center">
         <header class="fi-simple-header flex flex-col items-center">
             @if ($logo)
                 <x-filament-panels::logo class="mb-4" />
@@ -78,7 +100,7 @@
         scopes: $this->getRenderHookScopes()) }}
     </div>
    
-    <div class='flex-1'>
+    <div class='flex-1 flex flex-col'>
         <img src="/images/fotoLogin.jpg" alt="Image" class="w-full h-auto">
     </div>
 </div>
