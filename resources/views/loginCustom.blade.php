@@ -48,6 +48,11 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+    @media screen and (max-width:600px) {
+        .imagen-fondo{
+            display: none;
+        }
+    }
     /* section{
         display: flex;
     } */
