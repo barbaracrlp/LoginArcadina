@@ -20,7 +20,7 @@
         background-color: blueviolet;
     } */
 </style>
-
+<div style="display: flex">
 
 <h1>Añado el extra al login</h1>
 <div class='flex-1'>
