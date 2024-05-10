@@ -1,7 +1,7 @@
+{{-- cerrar el div que empiez en el otro hook --}}
 
-
-
-
-
-{{-- a este le tengo que hacer un hook al final,después del formulario --}}
+<h1>este despues del body </h1>
+</div>
+<div class="right-side">
+    <h4>aqui estara el otro div en teoria parte derecha</h4>
 </div>

@@ -184,11 +184,13 @@ class AppServiceProvider extends ServiceProvider
          * en el otro
          */
         FilamentView::registerRenderHook(
-            PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+            // PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+            PanelsRenderHook::BODY_START,
             fn():View=>view('extra_login_head')
         );
         FilamentView::registerRenderHook(
-            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            // PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            PanelsRenderHook::BODY_END,
             fn():View=>view('extra_login_foot')
         );
 

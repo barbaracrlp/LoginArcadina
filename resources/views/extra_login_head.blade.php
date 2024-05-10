@@ -1,31 +1,42 @@
-{{-- en esta vista que añadire a la original con el renderhook tengo que añadir y cambiar los estilos --}}
+{{-- antes del body, crear una division que divida el body en dos --}}
 <style>
-    .fi-simple-main{
-   
-        margin: 0%;
-        
-        max-width: 80%;
-    }
-    section{
+    body
+    {
         display: flex;
+        background-color:white !important;
     }
-    form{
-        order: 4;
-    }
-   /*tengo que encontrar el div principal y poner los dos
-    /* .sm\:max-w-lg {
-        max-width: 80%;
-    } */
-    /* .bg-white{
-        background-color: blueviolet !important;
-    }
-    main{
-        background-color: blueviolet;
-    } */
-</style>
-<div style="display: flex">
 
+    .imagen-fondo
+    {
+        background-image: url('/images/fotoLogin.jpg');
+        background-repeat: no-repeat;
+        height: 100%;
+    
+    }
 
-<div class='flex-1' style="order: 6">
-    <img src="/images/fotoLogin.jpg" alt="Image" class="w-full h-auto">
-</div>
+    /*dividir el divgeneral en dos mitades iguales flex:1 que ocupen el mismo espacio*/
+    .left-side,.right-side
+    {
+        flex:1;
+        box-sizing: border-box;
+    }
+
+    .right-side
+    {
+        background-image: url('/images/fotoLogin.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+    @media screen and (max-width:800px){
+        .right-side{
+            display:none;
+        }
+    }
+
+    .fi-simple-main{
+        border: 0ch;
+    }
+    </style>
+
+<div class="left-side">
