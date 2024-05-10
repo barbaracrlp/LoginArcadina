@@ -9,6 +9,9 @@
     section{
         display: flex;
     }
+    form{
+        order: 4;
+    }
    /*tengo que encontrar el div principal y poner los dos
     /* .sm\:max-w-lg {
         max-width: 80%;
@@ -22,7 +25,7 @@
 </style>
 <div style="display: flex">
 
-<h1>Añado el extra al login</h1>
-<div class='flex-1'>
+
+<div class='flex-1' style="order: 6">
     <img src="/images/fotoLogin.jpg" alt="Image" class="w-full h-auto">
 </div>
