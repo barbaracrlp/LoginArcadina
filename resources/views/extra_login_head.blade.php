@@ -1,18 +1,10 @@
 {{-- antes del body, crear una division que divida el body en dos --}}
-
+@if(request()->routeIs('filament.gestion.auth.login'))
 <style>
     body
     {
         display: flex;
         background-color:white !important;
-    }
-
-    .imagen-fondo
-    {
-        background-image: url('/images/fotoLogin.jpg');
-        background-repeat: no-repeat;
-        height: 100%;
-    
     }
 
     /*dividir el divgeneral en dos mitades iguales flex:1 que ocupen el mismo espacio*/
@@ -24,9 +16,10 @@
 
     .right-side
     {
-        background-image: url('/images/fotoLogin.jpg');
+        background-image: url('/images/fotoLogin.jpg'),linear-gradient(#3AB7E6,#0F79AE);
         background-size: cover;
         background-position: center;
+       
     }
 
     @media screen and (max-width:800px){
@@ -41,3 +34,4 @@
     </style>
 
 <div class="left-side">
+@endif
