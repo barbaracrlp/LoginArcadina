@@ -1,25 +1,52 @@
 {{-- antes del body, crear una division que divida el body en dos --}}
 <style>
-    body
+    /* body
     {
         display: flex;
         background-color:white !important;
-    }
-
-    .imagen-fondo
-    {
-        background-image: url('/images/fotoLogin.jpg');
-        background-repeat: no-repeat;
-        height: 100%;
-    
-    }
-
+    } */
     /*dividir el divgeneral en dos mitades iguales flex:1 que ocupen el mismo espacio*/
-    .left-side,.right-side
+    /* body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        } */
+    /* body{
+        display: flex;
+    } */
+ 
+     
+    /* .fi-simple-layout{
+        width: 100%;
+       height: 100%;
+     
+    } */
+
+    .fi-simple-page{
+        width: 100% !important;
+       height: 100% !important;
+       max-width: 100%;
+       max-height: 100% !important;
+       display: flex;
+    }
+
+
+    .fi-simple-main{
+    width: 100% !important;
+       height: 100% !important; 
+       background-color: red !important;
+       margin: 0%;
+       min-width: 100%;
+       min-height: 100% !important ;
+      
+    } 
+    
+     section
     {
         flex:1;
-        box-sizing: border-box;
-    }
+        flex-direction: column-reverse;
+    } 
+    
 
     .right-side
     {
@@ -34,9 +61,14 @@
         }
     }
 
-    .fi-simple-main{
-        border: 0ch;
-    }
+    /* main{
+       width: 100% !important;
+       height: 100%;
+       max-width: 100%;
+       max-height: 100% !important ;
+    }  */
+  
     </style>
+{{-- <section class="left-side"> --}}
 
-<div class="left-side">
+    
