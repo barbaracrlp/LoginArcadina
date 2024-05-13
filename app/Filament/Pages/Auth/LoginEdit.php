@@ -23,7 +23,7 @@ class LoginEdit extends BaseAuth
 
     //añado la nueva vista 
     /**de momento quito la vista para ver si sirve el renderHook */
-     protected static string $view = 'loginCustom';
+    // protected static string $view = 'viewLogin2';
 
     //el nuevo formulario
     public function form(Form $form): Form
