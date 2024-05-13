@@ -1,4 +1,5 @@
 {{-- antes del body, crear una division que divida el body en dos --}}
+
 <style>
     body
     {
