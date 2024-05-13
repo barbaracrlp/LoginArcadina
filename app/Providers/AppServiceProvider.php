@@ -182,13 +182,14 @@ class AppServiceProvider extends ServiceProvider
         //aqui le añado la view al login 
         /**para conseguir lo que quiero añado dos,y creare contenedores que abran en uno y cierren 
          * en el otro
+         * en cada vista extra se añade un if para que solo se añada si es la ruta del login
+         * el scope no funciona en filament con auth pages 
          */
+
         FilamentView::registerRenderHook(
             // PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
             PanelsRenderHook::BODY_START,
             fn():View=>view('extra_login_head'),
-            
-           
         );
         FilamentView::registerRenderHook(
             // PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,

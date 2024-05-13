@@ -1,4 +1,4 @@
-
+Esta no se utiliza para nada pero la dejo de momento no me molesta
 
 {{-- <x-filament-panels::page.simple>
     @if (filament()->hasRegistration())

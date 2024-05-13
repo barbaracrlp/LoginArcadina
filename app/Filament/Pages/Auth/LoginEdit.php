@@ -147,7 +147,7 @@ class LoginEdit extends BaseAuth
             ->icon('heroicon-o-document-heroicon-o-document-text') 
             ->send();
             Filament::auth()->logout();
-            error_log('no entra por el acceso');
+            // error_log('no entra por el acceso');
         
             $this->throwFailureValidationException();
         }
@@ -169,7 +169,7 @@ class LoginEdit extends BaseAuth
 
         //asi es el original pero lo convierto en constante
         //const METHOD = PASSWORD_BCRYPT;
-        error_log('verifico quese creo como toca ');
+        // error_log('verifico quese creo como toca ');
         if (!self::check($pass_db)) {
             return FALSE;
         }
@@ -181,7 +181,7 @@ class LoginEdit extends BaseAuth
         $pass_db = base64_decode($pass_db);
 
         //aqui en teoria se verifica si es o no a contraseña que toca
-        error_log('la verificacion devolveria: ' . password_verify($pass_login, $pass_db));
+        // error_log('la verificacion devolveria: ' . password_verify($pass_login, $pass_db));
         return password_verify($pass_login, $pass_db);
     }
 
@@ -189,7 +189,7 @@ class LoginEdit extends BaseAuth
     public static function check($hash)
     {
 
-        error_log('llama al check con el hash');
+        // error_log('llama al check con el hash');
         $ret = mb_substr($hash, 0, 5) === 'hash:';
         if ($ret) {
             // Verificamos que la cadena ha sido cifrada con el METHOD
