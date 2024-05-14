@@ -18,10 +18,15 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Carbon\Carbon;
 
+//para el filtro de las fechas
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+
 
 
 //importo los colores 
 use Filament\Support\Colors\Color;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint\Operators\IsAfterOperator;
 use Laravel\SerializableClosure\Serializers\Native;
 
 class PedidoResource extends Resource
@@ -144,7 +149,23 @@ class PedidoResource extends Resource
 
             ])
             ->filters([
-                //
+                //ahora creo el primer filtro,por fecha
+                Filter::make('fecha')
+                ->form([
+                    DatePicker::make('created_from')->native(false),
+                    DatePicker::make('created_until')->native(false),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['created_from'],
+                            fn(Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
+                        )
+                        ->when(
+                            $data['created_until'],
+                            fn(Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
+                        );
+                })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
