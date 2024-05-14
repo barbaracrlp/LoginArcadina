@@ -132,14 +132,15 @@ class PedidoResource extends Resource
             ->columns([
                 //Ahora las columnas iguales que lo otro
                 Tables\Columns\TextColumn::make('numero')
-                ->label('Numero'),
+                ->label('Numero')->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('nombre')
                 ->label('Nombre')
                 //pongo un searchable por nombre para que sea más fácil que un filtro vamos
                 ->searchable(),
                 Tables\Columns\TextColumn::make('fecha')
                 ->label('Fecha')
-                ->dateTime('Y-m-d'),
+                ->dateTime('Y-m-d')
+                ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('tipo')
                 ->label('Tipo'),
                 Tables\Columns\TextColumn::make('estado')
@@ -147,7 +148,7 @@ class PedidoResource extends Resource
                 //no se si funcionara
                 ->badge(),
                 Tables\Columns\TextInputColumn::make('comentario')
-                ->label('Comentarios'),
+                ->label('Comentarios')->visibleFrom('md'),
 
 
             ])
