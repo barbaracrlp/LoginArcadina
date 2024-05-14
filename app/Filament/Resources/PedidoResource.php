@@ -16,6 +16,10 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use Carbon\Carbon;
+
+
+
 //importo los colores 
 use Filament\Support\Colors\Color;
 
@@ -81,6 +85,18 @@ class PedidoResource extends Resource
                 ->label('Fecha')
                 //a ver si asi se cambia el datePicker
                 ->native(false)
+                ->disabledDates(
+                    function () {
+                        $pastDates = [];
+                        $currentDate = Carbon::now();
+                        
+                        // Generate past dates
+                        for ($i = 1; $i <= 60; $i++) { // You can adjust the number of past days as needed
+                            $pastDates[] = $currentDate->subDay()->format('Y-m-d');
+                        }
+                        
+                        return $pastDates;
+                })
                 //->disabled()
                 ->displayFormat('Y-m-d'),
                 Forms\Components\TextInput::make('tipo')
