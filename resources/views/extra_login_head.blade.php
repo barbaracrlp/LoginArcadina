@@ -86,6 +86,14 @@ en la otra pagina cierror este div y añado el lado derecho --}}
     border-radius:20%;
    }
 
+    /*cambiar el dia actual */
+    .fi-fo-date-time-picker-panel .text-primary-600.cursor-pointer {
+    border: 1px solid #1A9DD5;
+    color: white;
+    background-color:  #1A9DD5;
+    border-radius:20%;
+   }
+
     /*cambiar el hover de todos los dias */
     .fi-fo-date-time-picker-panel .bg-gray-50:hover {
     background-color:#E1F5FB;
