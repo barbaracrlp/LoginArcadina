@@ -84,6 +84,7 @@ class PedidoResource extends Resource
                 ->label('Nombre'),
                 DatePicker::make('fecha')
                 ->label('Fecha')
+                ->disabled()
                 //a ver si asi se cambia el datePicker
                 ->native(false)
                 ->disabledDates(
