@@ -45,11 +45,27 @@ en la otra pagina cierror este div y añado el lado derecho --}}
 @endif
 
 <style>
-   /*a partir de aqui voy a intentar cambiar los colores del calendario*/
-   .fi-fo-date-time-picker-panel[aria-selected="true"]{
+   /*a partir de aqui voy a intentar cambiar los colores del calendario
+   este cambia el color de fondo y de delante del numero seleccionado*/
+   /* .fi-fo-date-time-picker-panel .bg-gray-50{
     background-color: #1A9DD5;
     color: white;
+   } */
+
+
+   /*intento de cambiar ahora el hover*/
+  
+   /* .fi-fo-date-time-picker-panel .bg-gray-50:hover{
+    background-color: yellow;
+    color: white;
+   } */
+
+   /*cambiar el hover solo a partir de la claase de los normales
+   no seleccionados ni el dia de hoy*/
+   .fi-fo-date-time-picker-panel .text-gray-950 :hover{
+    background-color: aqua;
    }
+
 
 
 
