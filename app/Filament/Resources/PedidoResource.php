@@ -22,6 +22,7 @@ use Carbon\Carbon;
 
 //importo los colores 
 use Filament\Support\Colors\Color;
+use Laravel\SerializableClosure\Serializers\Native;
 
 class PedidoResource extends Resource
 {
@@ -112,6 +113,7 @@ class PedidoResource extends Resource
                 ->label('Última modificacion')
                 ->disabled()
                 ->displayFormat('Y-m-d')
+                ->native(false)
                 ,
                
             ]);
