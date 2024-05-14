@@ -86,7 +86,8 @@ class PedidoResource extends Resource
                 ->label('Numero'),
                 Forms\Components\TextInput::make('nombre')
                 ->disabled()
-                ->label('Nombre'),
+                ->label('Nombre')
+                ,
                 DatePicker::make('fecha')
                 ->label('Fecha')
                 ->disabled()
@@ -133,7 +134,9 @@ class PedidoResource extends Resource
                 Tables\Columns\TextColumn::make('numero')
                 ->label('Numero'),
                 Tables\Columns\TextColumn::make('nombre')
-                ->label('Nombre'),
+                ->label('Nombre')
+                //pongo un searchable por nombre para que sea más fácil que un filtro vamos
+                ->searchable(),
                 Tables\Columns\TextColumn::make('fecha')
                 ->label('Fecha')
                 ->dateTime('Y-m-d'),
