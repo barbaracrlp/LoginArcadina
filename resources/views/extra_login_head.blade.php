@@ -45,11 +45,17 @@ en la otra pagina cierror este div y añado el lado derecho --}}
 @endif
 
 <style>
-    /*esta es teoria la clase que controla el calendario*/
-    .fi-fo-date-time-picker-panel:hover{
-    background-color: red/* Your desired color for selected elements */;
-    border-radius:1px /* Your desired border-radius */;
-}
+   /*a partir de aqui voy a intentar cambiar los colores del calendario*/
+   .fi-fo-date-time-picker-panel[aria-selected="true"]{
+    background-color: #1A9DD5;
+    color: white;
+   }
+
+
+
+
+
+
 </style>
 
 
