@@ -44,7 +44,7 @@ en la otra pagina cierror este div y añado el lado derecho --}}
 <div class="left-side">
 @endif
 
-<style>
+{{-- <style>
    /*a partir de aqui voy a intentar cambiar los colores del calendario
    este cambia el color de fondo y de delante del numero seleccionado*/
    /* .fi-fo-date-time-picker-panel .bg-gray-50{
@@ -97,36 +97,80 @@ en la otra pagina cierror este div y añado el lado derecho --}}
    } */
 
 
+/*este cambia el del dia de*/
    .fi-fo-date-time-picker-panel .text-primary-600 {
     border: 1px solid #1A9DD5;
     border-radius: 20%;
 }
 
-.fi-fo-date-time-picker-panel .cursor-pointer.text-primary-600 {
+/* .fi-fo-date-time-picker-panel .cursor-pointer.text-primary-600 {
     color: white;
     background-color: #d54f1a;
-}
+} */
 
-    /*cambiar el hover de todos los dias */
-    .fi-fo-date-time-picker-panel .bg-gray-50:hover {
-    background-color:#E1F5FB;
-    color: black;
-    border-radius:20%;
-   }
-
+  
 
 
    /*ahora a ver si se puede hacer el cambio de los periodos*/
 
 
 
+   
+   .fi-fo-date-time-picker-panel .text-primary-600.bg-gray-50 {
+    border: 1px solid #1A9DD5;
+    border-radius: 20%;
+    background-color: #1A9DD5;
+    color: white;
+}
+
+  /*cambiar el hover de todos los dias */
+  .fi-fo-date-time-picker-panel .bg-gray-50:hover {
+    background-color:#E1F5FB;
+    color: black;
+    border-radius:20%;
+   }
 
 
+</style> --}}
 
-
-
-
-
-</style>
-
-
+<style>
+    /* Cambiar el texto de los días de la semana */
+    .fi-fo-date-time-picker-panel .text-gray-500 {
+       color: black;
+       font-weight: bold;
+    }
+ 
+    /* Cambiar el día seleccionado */
+    .fi-fo-date-time-picker-panel .text-primary-600.pointer-events-none {
+       color: white;
+       background-color: #1A9DD5;
+       border-radius: 20%;
+    }
+ 
+    /* Cambiar el color de fondo del día actual */
+    .fi-fo-date-time-picker-panel .text-primary-600 {
+       border: 1px solid #1A9DD5;
+       border-radius: 20%;
+    }
+ 
+    /* Cambiar el estilo del día actual */
+    .fi-fo-date-time-picker-panel .text-primary-600 {
+       border: 1px solid #1A9DD5;
+       border-radius: 20%;
+    }
+ 
+    /* Cambiar el color de fondo del día seleccionado */
+    .fi-fo-date-time-picker-panel .text-primary-600.bg-gray-50 {
+       /* border: 1px solid #1A9DD5; */
+       border-radius: 20%;
+       background-color: #1A9DD5;
+       color: white;
+    }
+ 
+    /* Cambiar el hover de los días no seleccionados ni el día actual */
+    .fi-fo-date-time-picker-panel .bg-gray-50:hover:not(.text-primary-600) {
+       background-color: #E1F5FB;
+       color: black;
+       border-radius: 20%;
+    }
+ </style>
