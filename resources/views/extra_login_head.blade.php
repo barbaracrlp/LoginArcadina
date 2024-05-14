@@ -86,6 +86,20 @@ en la otra pagina cierror este div y añado el lado derecho --}}
     border-radius:20%;
    }
 
+    /*cambiar el hover de todos los dias */
+    .fi-fo-date-time-picker-panel .bg-gray-50:hover {
+    background-color:#E1F5FB;
+    color: black;
+    border-radius:20%;
+   }
+
+
+
+   /*ahora a ver si se puede hacer el cambio de los periodos*/
+
+
+
+
 
 
 
