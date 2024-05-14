@@ -62,13 +62,29 @@ en la otra pagina cierror este div y añado el lado derecho --}}
 
    /*cambiar el hover solo a partir de la claase de los normales
    no seleccionados ni el dia de hoy*/
-   .fi-fo-date-time-picker-panel .text-gray-950 :hover{
-    background-color: aqua;
-   }
+   /* .fi-fo-date-time-picker-panel .pointer-events-none .bg-gray-50{
+    background-color: #1A9DD5;
+    color:white;
+   } */
    /*cambiar el texto de los días de la semana */
    .fi-fo-date-time-picker-panel .text-gray-500{
     color: black;
     font-weight: bold;
+   }
+
+     /*cambiar el dia seleccionado */
+    .fi-fo-date-time-picker-panel .text-primary-600.pointer-events-none {
+    color: white;
+    background-color:  #1A9DD5;
+    border-radius:20%;
+   }
+ 
+ 
+   /*cambiar el dia actual */
+   .fi-fo-date-time-picker-panel .text-primary-600 {
+    color: white;
+    background-color:  #1A9DD5;
+    border-radius:20%;
    }
 
 
