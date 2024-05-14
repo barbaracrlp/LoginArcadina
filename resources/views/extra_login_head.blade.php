@@ -82,8 +82,7 @@ en la otra pagina cierror este div y añado el lado derecho --}}
  
    /*cambiar el dia actual */
    .fi-fo-date-time-picker-panel .text-primary-600 {
-    color: white;
-    background-color:  #1A9DD5;
+    border: 1px solid #1A9DD5;
     border-radius:20%;
    }
 
