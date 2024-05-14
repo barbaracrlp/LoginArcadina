@@ -65,6 +65,11 @@ en la otra pagina cierror este div y añado el lado derecho --}}
    .fi-fo-date-time-picker-panel .text-gray-950 :hover{
     background-color: aqua;
    }
+   /*cambiar el texto de los días de la semana */
+   .fi-fo-date-time-picker-panel .text-gray-500{
+    color: black;
+    font-weight: bold;
+   }
 
 
 
