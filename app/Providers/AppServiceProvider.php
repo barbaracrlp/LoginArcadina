@@ -162,7 +162,7 @@ class AppServiceProvider extends ServiceProvider
 
             //UUI
             'badge.delete-button' => 'fas-times-circle',
-            'breadcrumbs.separator' => 'fas-angle-right',
+            'breadcrumbs.separator' => 'fas-slash',
             'breadcrumbs.separator.rtl' => 'fas-angle-left', // Mirrored for right-to-left direction
             'modal.close-button' => 'fas-times',
             'pagination.first-button' => 'fas-angle-double-left',

@@ -87,4 +87,19 @@ se podria probar con un tema,pero de momento funciona bien  --}}
        color: black;
        border-radius: 20%;
     }
+
+    /*Ahora el estilo de las breadcrumps*/
+    .fi-breadcrumbs-item-label{
+        font-size: 16px;
+
+    }
+/*si que funciona el hover de les breadcrumbs */
+    .fi-breadcrumbs-item-label:hover{
+        font-size: 16px;
+        color:#59C4E9;
+
+    }
+    .fi-breadcrumbs-item-label .text-gray-700{
+        color:#0F79AE;
+    }
  </style>
