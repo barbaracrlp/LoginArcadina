@@ -50,4 +50,9 @@ class Pedido extends Model
     {
         return $this->belongsTo(Cliente::class);
     }
+
+    //defino relacion con el pedido
+    public function mediopago():HasOne{
+        return $this->hasOne(MedioPago::class);
+    }
 }

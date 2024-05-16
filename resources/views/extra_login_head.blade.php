@@ -113,6 +113,7 @@ en la otra pagina cierror este div y añado el lado derecho --}}
             transform: rotate(75deg);
             align-self: center;
         }
+
         .fi-breadcrumbs-item{
             column-gap:0px;
             

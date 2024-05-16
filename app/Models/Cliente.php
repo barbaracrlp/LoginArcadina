@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 //importo el nuevo archivo de encriptacion
 use App\Filament\Pages\Auth\encriptaCliente;
-
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Cliente extends Model
 {
@@ -63,6 +63,12 @@ class Cliente extends Model
     {
         return $this->belongsTo(Pais::class, 'envio_id_pais');
     }
+
+ 
+
+
+
+
 
 
     public function setTelefonoAttribute($value)

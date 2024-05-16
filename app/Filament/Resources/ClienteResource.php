@@ -65,7 +65,6 @@ class ClienteResource extends Resource
                 Forms\Components\TextInput::make('pass')
                     ->label('Contraseña')
                     ->required()
-
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     /**la linea de abajo no deja guardar o 'deshidratar' si esta vacío */
                     ->dehydrateStateUsing(fn (string $state): string => encriptaCliente::encripta($state)),
