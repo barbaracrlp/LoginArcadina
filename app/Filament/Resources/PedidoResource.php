@@ -25,6 +25,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 
 //importo los colores 
 use Filament\Support\Colors\Color;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint\Operators\IsAfterOperator;
 use Laravel\SerializableClosure\Serializers\Native;
@@ -157,7 +158,7 @@ class PedidoResource extends Resource
                 ->form([
                     DatePicker::make('created_from')->native(false),
                     DatePicker::make('created_until')->native(false),
-                ])
+                ])->columns(2)
                 ->query(function (Builder $query, array $data): Builder {
                     return $query
                         ->when(
@@ -169,7 +170,7 @@ class PedidoResource extends Resource
                             fn(Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
                         );
                 })
-            ])
+            ],layout:FiltersLayout::AboveContentCollapsible)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

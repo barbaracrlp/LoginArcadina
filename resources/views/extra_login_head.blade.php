@@ -42,49 +42,84 @@
 en la otra pagina cierror este div y añado el lado derecho --}}
 
 <div class="left-side">
-@endif
+    @endif
 
-{{-- override de estilos más facil que con un tema que hay que cambiar más cosas
-asi puedo aplicar las clases que yo quiero solo
-se podria probar con un tema,pero de momento funciona bien  --}}
-<style>
-    /* Cambiar el texto de los días de la semana */
-    .fi-fo-date-time-picker-panel .text-gray-500 {
-       color: black;
-       font-weight: bold;
-    }
- 
-    /* Cambiar el día seleccionado */
-    .fi-fo-date-time-picker-panel .text-primary-600.pointer-events-none {
-       color: white;
-       background-color: #1A9DD5;
-       border-radius: 20%;
-    }
- 
-    /* Cambiar el color de fondo del día actual */
-    .fi-fo-date-time-picker-panel .text-primary-600 {
-       border: 1px solid #1A9DD5;
-       border-radius: 20%;
-    }
- 
-    /* Cambiar el estilo del día actual */
-    .fi-fo-date-time-picker-panel .text-primary-600 {
-       border: 1px solid #1A9DD5;
-       border-radius: 20%;
-    }
- 
-    /* Cambiar el color de fondo del día seleccionado */
-    .fi-fo-date-time-picker-panel .text-primary-600.bg-gray-50 {
-       /* border: 1px solid #1A9DD5; */
-       border-radius: 20%;
-       background-color: #1A9DD5;
-       color: white;
-    }
- 
-    /* Cambiar el hover de los días no seleccionados ni el día actual */
-    .fi-fo-date-time-picker-panel .bg-gray-50:hover:not(.text-primary-600) {
-       background-color: #E1F5FB;
-       color: black;
-       border-radius: 20%;
-    }
- </style>
+    {{-- override de estilos más facil que con un tema que hay que cambiar más cosas
+    asi puedo aplicar las clases que yo quiero solo
+    se podria probar con un tema,pero de momento funciona bien --}}
+    <style>
+        /* Cambiar el texto de los días de la semana */
+        .fi-fo-date-time-picker-panel .text-gray-500 {
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Cambiar el día seleccionado */
+        .fi-fo-date-time-picker-panel .text-primary-600.pointer-events-none {
+            color: white;
+            background-color: #1A9DD5;
+            border-radius: 20%;
+        }
+
+        /* Cambiar el color de fondo del día actual */
+        .fi-fo-date-time-picker-panel .text-primary-600 {
+            border: 1px solid #1A9DD5;
+            border-radius: 20%;
+        }
+
+        /* Cambiar el estilo del día actual */
+        .fi-fo-date-time-picker-panel .text-primary-600 {
+            border: 1px solid #1A9DD5;
+            border-radius: 20%;
+        }
+
+        /* Cambiar el color de fondo del día seleccionado */
+        .fi-fo-date-time-picker-panel .text-primary-600.bg-gray-50 {
+            /* border: 1px solid #1A9DD5; */
+            border-radius: 20%;
+            background-color: #1A9DD5;
+            color: white;
+        }
+
+        /* Cambiar el hover de los días no seleccionados ni el día actual */
+        .fi-fo-date-time-picker-panel .bg-gray-50:hover:not(.text-primary-600) {
+            background-color: #E1F5FB;
+            color: black;
+            border-radius: 20%;
+        }
+
+
+        /*Los estilos cambiados de las breadcrumbs */
+        /*Ahora el estilo de las breadcrumps*/
+        .fi-breadcrumbs-item-label {
+            font-size: 16px;
+
+        }
+
+        /*si que funciona el hover de les breadcrumbs */
+        .fi-breadcrumbs-item-label:hover {
+            font-size: 16px;
+            color: #59C4E9;
+
+        }
+
+        .fi-breadcrumbs-item-label .text-gray-700 {
+            color: #0F79AE;
+        }
+
+        /*uso el gratuito pero lo giro y le quito los márgenes para que se quede como en el diseño original*/
+        .fi-breadcrumbs-item-separator{
+            height: 10px;
+            transform: rotate(75deg);
+            align-self: center;
+        }
+        .fi-breadcrumbs-item{
+            column-gap:0px;
+            
+        }
+
+        .fi-breadcrumbs-list{
+        column-gap: 0px;
+        }
+        
+    </style>
