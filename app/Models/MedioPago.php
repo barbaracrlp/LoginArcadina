@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-use GuzzleHttp\Client;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+//el import para el scope
+use App\Scopes\MetodoPagoScope;
 
 class MedioPago extends Model
 {
@@ -21,9 +24,18 @@ class MedioPago extends Model
         'publicado',
     ];
 
+
+    //ahora el metodo boot para usar el scope
+    protected static function boot(){
+        parent::boot();
+        static::addGlobalScope(new MetodoPagoScope);
+    }
+
     //relacion de que pertenece a un cliente
     public function pedido():BelongsTo
     {
         return $this->belongsTo(Pedido::class);
     }
+
+    
 }
