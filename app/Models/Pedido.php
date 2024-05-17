@@ -53,8 +53,7 @@ class Pedido extends Model
 
     //defino relacion con el pedido
     public function medioPago(){
-        $mediopago=MedioPago::where('id', $this->id_mediopago);
-        error_log($mediopago);
+    
         return MedioPago::where('id', $this->id_mediopago);
     }
 }

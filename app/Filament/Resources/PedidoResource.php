@@ -150,7 +150,7 @@ class PedidoResource extends Resource
                 ->badge(),
                 Tables\Columns\TextInputColumn::make('comentario')
                 ->label('Comentarios'),
-                Tables\Columns\TextColumn::make('medioPago()->titulo')
+                Tables\Columns\TextColumn::make('medioPago()->id')
                 ->label('MetodoPago'),
 
 
