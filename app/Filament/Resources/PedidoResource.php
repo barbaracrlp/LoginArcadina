@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PedidoResource\Pages;
 use App\Filament\Resources\PedidoResource\RelationManagers;
+use App\Models\MedioPago;
 use App\Models\Pedido;
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -149,6 +150,9 @@ class PedidoResource extends Resource
                 ->badge(),
                 Tables\Columns\TextInputColumn::make('comentario')
                 ->label('Comentarios'),
+                Tables\Columns\TextColumn::make('id_mediopago')
+                ->relationship('mediopago','titulo')
+                ->label('MetodoPago'),
 
 
             ])
