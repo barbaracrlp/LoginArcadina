@@ -27,14 +27,11 @@ use App\Tables\Columns\EstadoPedido;
 //añado el filtro de select
 use Filament\Tables\Filters\SelectFilter;
 
-
-
 //importo los colores 
 use Filament\Support\Colors\Color;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint\Operators\IsAfterOperator;
-use Laravel\SerializableClosure\Serializers\Native;
+
 
 class PedidoResource extends Resource
 {
@@ -189,7 +186,14 @@ class PedidoResource extends Resource
                         'venta' => 'Venta',
                         'descarga' => 'Descarga',
                         'seleccion' => 'Seleccion',
+                    ]),
+                    Filter::make('comentario')
+                    ->form([
+                        TextInput::make('comentario'),
                     ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->where('comentario', 'like', '%' . $data['comentario'] . '%');
+                    })->label('Buscar comentario'),
 
 
             ], layout: FiltersLayout::AboveContentCollapsible)
