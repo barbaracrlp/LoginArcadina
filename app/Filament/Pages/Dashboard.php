@@ -9,5 +9,5 @@ class Dashboard extends \Filament\Pages\Dashboard
     protected static ?string $navigationLabel = 'Inicio';
     protected static ?string $title = 'Inicio';
 
-    protected static ?string $navigationIcon = 'fas-house';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
 }

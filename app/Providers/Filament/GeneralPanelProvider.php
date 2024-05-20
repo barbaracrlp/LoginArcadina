@@ -21,11 +21,6 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class GeneralPanelProvider extends PanelProvider
 {
-    protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
-    public static function getNavigationIcon(): ?string
-    {
-        return 'heroicon-o-presentation-chart-line';
-    }
    
 
     public function panel(Panel $panel): Panel

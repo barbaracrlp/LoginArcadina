@@ -24,6 +24,8 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 //añado la columna personalizada
 use App\Tables\Columns\EstadoPedido;
 
+//añado el filtro de select
+use Filament\Tables\Filters\SelectFilter;
 
 
 
@@ -40,11 +42,11 @@ class PedidoResource extends Resource
 
     protected static ?string $navigationIcon = 'fas-cart-shopping';
 
-    protected static ?string $navigationLabel= 'Pedidos';
+    protected static ?string $navigationLabel = 'Pedidos';
 
     protected static ?string $navigationGroup = "Tienda";
 
-   
+
 
     public static function form(Form $form): Form
     {
@@ -52,32 +54,32 @@ class PedidoResource extends Resource
             ->schema([
                 //agregamos los elementos del formulario
                 Forms\Components\ToggleButtons::make('estado')
-                ->options([
-                    0=>'Sin Confirmar',
-                    1=>'Pendiente de Cobro',
-                    2=>'Cobrado',
-                    3=>'Pendiente de Proceso',
-                    4=>'En Proceso',
-                    5=>'Enviado',
-                    7=>'Completado',
-                    6=>'Cancelado',  
-                ])
-                //se pueden agregar tambien iconos, uno para cada opcion, pero ya 
-                //sobrecargaria el front (creo yo vamos)
-                ->colors([
-                    0=>Color::Zinc,
-                    1=>Color::Red,
-                    2=>Color::Orange,
-                    3=>Color::Purple,
-                    4=>Color::Blue,
-                    5=>Color::Green,
-                    7=>color::Emerald,
-                    6=>Color::Neutral,  
-                ])
-                ->inline()
-                // ->grouped()
-                ->columnSpanFull()
-                ->confirmed()
+                    ->options([
+                        0 => 'Sin Confirmar',
+                        1 => 'Pendiente de Cobro',
+                        2 => 'Cobrado',
+                        3 => 'Pendiente de Proceso',
+                        4 => 'En Proceso',
+                        5 => 'Enviado',
+                        7 => 'Completado',
+                        6 => 'Cancelado',
+                    ])
+                    //se pueden agregar tambien iconos, uno para cada opcion, pero ya 
+                    //sobrecargaria el front (creo yo vamos)
+                    ->colors([
+                        0 => Color::Zinc,
+                        1 => Color::Red,
+                        2 => Color::Orange,
+                        3 => Color::Purple,
+                        4 => Color::Blue,
+                        5 => Color::Green,
+                        7 => color::Emerald,
+                        6 => Color::Neutral,
+                    ])
+                    ->inline()
+                    // ->grouped()
+                    ->columnSpanFull()
+                    ->confirmed()
                 // ->prefixAction(
                 //     Action::make('cambiaEstado')
                 //     ->action(
@@ -88,51 +90,50 @@ class PedidoResource extends Resource
                 // )
                 ,
                 Forms\components\TextInput::make('numero')
-                ->disabled()
-                ->label('Numero'),
+                    ->disabled()
+                    ->label('Numero'),
                 Forms\Components\TextInput::make('nombre')
-                ->disabled()
-                ->label('Nombre')
-                ,
+                    ->disabled()
+                    ->label('Nombre'),
                 DatePicker::make('fecha')
-                ->label('Fecha')
-                ->disabled()
-                //a ver si asi se cambia el datePicker
-                ->native(false)
-                ->disabledDates(
-                    function () {
-                        $pastDates = [];
-                        $currentDate = Carbon::now();
-                        
-                        // Generate past dates
-                        for ($i = 1; $i <= 60; $i++) { // You can adjust the number of past days as needed
-                            $pastDates[] = $currentDate->subDay()->format('Y-m-d');
+                    ->label('Fecha')
+                    ->disabled()
+                    //a ver si asi se cambia el datePicker
+                    ->native(false)
+                    ->disabledDates(
+                        function () {
+                            $pastDates = [];
+                            $currentDate = Carbon::now();
+
+                            // Generate past dates
+                            for ($i = 1; $i <= 60; $i++) { // You can adjust the number of past days as needed
+                                $pastDates[] = $currentDate->subDay()->format('Y-m-d');
+                            }
+
+                            return $pastDates;
                         }
-                        
-                        return $pastDates;
-                })
-                //->disabled()
-                ->displayFormat('Y-m-d'),
+                    )
+                    //->disabled()
+                    ->displayFormat('Y-m-d'),
                 Forms\Components\TextInput::make('tipo')
-                ->label('Tipo'),
+                    ->label('Tipo'),
                 TextInput::make('total')
-                ->label('Total')
-                ->numeric()
-                ->inputMode('decimal'),
+                    ->label('Total')
+                    ->numeric()
+                    ->inputMode('decimal'),
                 //para los estados voy a hacer un select
                 //al final cambio a togglebuttons pero no se si se podran definir las acciones
                 //si no se pueden será mejor dejarlo como select y ya 
                 DatePicker::make('f_modificacion')
-                ->label('Última modificacion')
-                ->disabled()
-                ->displayFormat('Y-m-d')
-                ->native(false)
-                ,
+                    ->label('Última modificacion')
+                    ->disabled()
+                    ->displayFormat('Y-m-d')
+                    ->native(false),
                 Select::make('id_mediopago')
-                ->relationship('medioPago', 'titulo')
-                ->searchable()
-                ->native(false)
-                ->preload(),
+                    ->relationship('medioPago', 'titulo')
+                    ->searchable()
+                    ->native(false)
+                    ->preload(),
             ]);
     }
 
@@ -142,47 +143,56 @@ class PedidoResource extends Resource
             ->columns([
                 //Ahora las columnas iguales que lo otro
                 Tables\Columns\TextColumn::make('numero')
-                ->label('Numero'),
+                    ->label('Numero'),
                 Tables\Columns\TextColumn::make('nombre')
-                ->label('Nombre')
-                //pongo un searchable por nombre para que sea más fácil que un filtro vamos
-                ->searchable(),
+                    ->label('Nombre')
+                    //pongo un searchable por nombre para que sea más fácil que un filtro vamos
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('fecha')
-                ->label('Fecha')
-                ->dateTime('Y-m-d'),
+                    ->label('Fecha')
+                    ->dateTime('Y-m-d'),
                 Tables\Columns\TextColumn::make('tipo')
-                ->label('Tipo'),
+                    ->label('Tipo'),
                 Tables\Columns\TextColumn::make('estado')
-                //voy a crear enums para asi conseguir los colores siempre
-                //no se si funcionara
-                ->badge(),
+                    //voy a crear enums para asi conseguir los colores siempre
+                    //no se si funcionara
+                    ->badge(),
                 // EstadoPedido::make('estado'),
                 Tables\Columns\TextInputColumn::make('comentario')
-                ->label('Comentarios'),
+                    ->label('Comentarios'),
                 Tables\Columns\TextColumn::make('medioPago.titulo')
-                ->label('Metodo de Pago'),
+                    ->label('Metodo de Pago'),
 
 
             ])
             ->filters([
                 //ahora creo el primer filtro,por fecha
                 Filter::make('fecha')
-                ->form([
-                    DatePicker::make('created_from')->native(false),
-                    DatePicker::make('created_until')->native(false),
-                ])->columns(2)
-                ->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when(
-                            $data['created_from'],
-                            fn(Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
-                        )
-                        ->when(
-                            $data['created_until'],
-                            fn(Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
-                        );
-                })
-            ],layout:FiltersLayout::AboveContentCollapsible)
+                    ->form([
+                        DatePicker::make('created_from')->native(false)->label('From:'),
+                        DatePicker::make('created_until')->native(false)->label('Until:'),
+                    ])->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
+                            );
+                    }),
+                SelectFilter::make('tipo')
+                    ->multiple()
+                    ->options([
+                        'venta' => 'Venta',
+                        'descarga' => 'Descarga',
+                        'seleccion' => 'Seleccion',
+                    ])
+
+
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -208,6 +218,4 @@ class PedidoResource extends Resource
             'edit' => Pages\EditPedido::route('/{record}/edit'),
         ];
     }
-
-    
 }
