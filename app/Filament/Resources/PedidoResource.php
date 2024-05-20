@@ -21,6 +21,9 @@ use Carbon\Carbon;
 use Filament\Forms\Components\Select;
 //para el filtro de las fechas
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+//añado la columna personalizada
+use App\Tables\Columns\EstadoPedido;
+
 
 
 
@@ -74,6 +77,7 @@ class PedidoResource extends Resource
                 ->inline()
                 // ->grouped()
                 ->columnSpanFull()
+                ->confirmed()
                 // ->prefixAction(
                 //     Action::make('cambiaEstado')
                 //     ->action(
@@ -152,6 +156,7 @@ class PedidoResource extends Resource
                 //voy a crear enums para asi conseguir los colores siempre
                 //no se si funcionara
                 ->badge(),
+                EstadoPedido::make('estado'),
                 Tables\Columns\TextInputColumn::make('comentario')
                 ->label('Comentarios'),
                 Tables\Columns\TextColumn::make('medioPago.titulo')
