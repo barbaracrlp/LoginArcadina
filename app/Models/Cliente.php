@@ -64,6 +64,17 @@ class Cliente extends Model
         return $this->belongsTo(Pais::class, 'envio_id_pais');
     }
 
+    //relaciones con las etiquetas
+    public function etiquetas()
+    {
+        return $this->hasManyThrough(Etiqueta::class, Tag_content::class, 'content_id', 'id', 'id', 'tag_id')
+            ->where('tabla', 'clientes');
+    }
+
+   public function labels(): HasMany
+   {
+       return $this->hasMany(Tag_content::class, 'content_id', 'id')->where('tabla', 'clientes');
+   }
  
 
 

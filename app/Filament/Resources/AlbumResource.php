@@ -10,6 +10,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -65,6 +66,8 @@ class AlbumResource extends Resource
             ->columns([
                 //las columnas 
                  //ahora la columna
+                 IconColumn::make('etiquetas.titulo')
+                 ->icon('fas-tag')->color('primary')->label(''),
                  Tables\Columns\TextColumn::make('titulo')
                  ->label('Título')
                  ->sortable()

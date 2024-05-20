@@ -39,4 +39,20 @@ class Etiqueta extends Model
           return $this->hasManyThrough(Pedido::class, Tag_content::class, 'tag_id', 'id', 'id', 'content_id')
               ->where('tabla', 'pedidos');
       }
+
+        // Definir la relación con los pedidos a través de Tag_content
+        public function clientes()
+        {
+            return $this->hasManyThrough(Cliente::class, Tag_content::class, 'tag_id', 'id', 'id', 'content_id')
+                ->where('tabla', 'clientes');
+        }
+
+        
+        // Definir la relación con los pedidos a través de Tag_content
+        public function albums()
+        {
+            return $this->hasManyThrough(Album::class, Tag_content::class, 'tag_id', 'id', 'id', 'content_id')
+                ->where('tabla', 'albums');
+        }
+
 }

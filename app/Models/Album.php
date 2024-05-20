@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Scopes\AlbumScope;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 //
 
 class Album extends Model
@@ -23,6 +25,20 @@ class Album extends Model
         'f_modi',
         'publicado',
     ];
+
+
+     //relaciones con las etiquetas
+     public function etiquetas()
+     {
+         return $this->hasManyThrough(Etiqueta::class, Tag_content::class, 'content_id', 'id', 'id', 'tag_id')
+             ->where('tabla', 'albums');
+     }
+ 
+    public function labels(): HasMany
+    {
+        return $this->hasMany(Tag_content::class, 'content_id', 'id')->where('tabla', 'albums');
+    }
+  
 
     //funcion para sacar los albumes a partir de contenido
 

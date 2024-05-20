@@ -34,6 +34,7 @@ use Filament\Tables\Filters\Filter;
 //importo la clase de encriptacion
 use App\Filament\Pages\Auth\encriptaCliente;
 use App\Mail\ClienteEmail;
+use Filament\Tables\Columns\IconColumn;
 
 class ClienteResource extends Resource
 {
@@ -109,6 +110,8 @@ class ClienteResource extends Resource
         return $table
             ->columns([
                 //agregamos las columnas de la tabla
+                IconColumn::make('etiquetas.titulo')
+                ->icon('fas-tag')->color('primary')->label(''),
                 Tables\Columns\TextColumn::make('usuario')
                     ->label('Usuario')
                     ->grow(false)
@@ -159,6 +162,7 @@ class ClienteResource extends Resource
                     ->searchable()
                     ->visibleFrom('md')
                     ->grow(false),
+                   
 
             ])
             ->filters([
@@ -172,7 +176,8 @@ class ClienteResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->label('Editar')
                     ->icon('fas-pen-to-square')
-                    ->iconButton(),
+                    ->iconButton()
+                    ->color('neutral'),
                 Tables\Actions\ViewAction::make()
                     ->icon('fas-eye')
                     ->color('info')
