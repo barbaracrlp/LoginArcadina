@@ -31,6 +31,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Textarea;
 //importo los colores 
 use Filament\Support\Colors\Color;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 
@@ -132,11 +133,15 @@ class PedidoResource extends Resource
                     ->searchable()
                     ->native(false)
                     ->preload(),
-                    Section::make('Notas')
+                Select::make('')
+                ->relationship('etiquetas', 'titulo')
+                ->disabled()
+                    ->prefixIcon('fas-tag'),
+                Section::make('Notas')
                     ->schema([
                         // ...
-                    Textarea::make('comentario')->label('Comentario del cliente'),
-                    Textarea::make('notas')->label('Notas'),
+                        Textarea::make('comentario')->label('Comentario del cliente'),
+                        Textarea::make('notas')->label('Notas'),
 
                     ])->collapsible()
             ]);
@@ -167,10 +172,10 @@ class PedidoResource extends Resource
                     ->label('Comentarios'),
                 Tables\Columns\TextColumn::make('medioPago.titulo')
                     ->label('Metodo de Pago'),
-                Tables\Columns\TextColumn::make('etiquetas.titulo')
-                ->label('Etiqueta'),
-
-
+                // Tables\Columns\TextColumn::make('etiquetas.titulo')
+                //     ->label('Etiqueta'),
+                IconColumn::make('etiquetas.titulo')
+                    ->icon('fas-tag')->label(''),
             ])
             ->filters([
                 //ahora creo el primer filtro,por fecha
