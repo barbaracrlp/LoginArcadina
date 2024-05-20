@@ -23,10 +23,12 @@ use Filament\Forms\Components\Select;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 //añado la columna personalizada
 use App\Tables\Columns\EstadoPedido;
-
+use Filament\Forms\Components\Section;
 //añado el filtro de select
 use Filament\Tables\Filters\SelectFilter;
-
+//el fieldset 
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Textarea;
 //importo los colores 
 use Filament\Support\Colors\Color;
 use Filament\Tables\Enums\FiltersLayout;
@@ -76,7 +78,6 @@ class PedidoResource extends Resource
                     ->inline()
                     // ->grouped()
                     ->columnSpanFull()
-                    ->confirmed()
                 // ->prefixAction(
                 //     Action::make('cambiaEstado')
                 //     ->action(
@@ -131,6 +132,13 @@ class PedidoResource extends Resource
                     ->searchable()
                     ->native(false)
                     ->preload(),
+                    Section::make('Notas')
+                    ->schema([
+                        // ...
+                    Textarea::make('comentario')->label('Comentario del cliente'),
+                    Textarea::make('notas')->label('Notas'),
+
+                    ])->collapsible()
             ]);
     }
 
@@ -180,6 +188,7 @@ class PedidoResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
                             );
                     }),
+
                 SelectFilter::make('tipo')
                     ->multiple()
                     ->options([
@@ -187,13 +196,27 @@ class PedidoResource extends Resource
                         'descarga' => 'Descarga',
                         'seleccion' => 'Seleccion',
                     ]),
-                    Filter::make('comentario')
+
+                Filter::make('comentario')
                     ->form([
-                        TextInput::make('comentario'),
+                        TextInput::make('comentario')->label('Busca Comentario'),
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query->where('comentario', 'like', '%' . $data['comentario'] . '%');
-                    })->label('Buscar comentario'),
+                    }),
+
+
+                Filter::make('notas')
+                    ->form([
+                        TextInput::make('notas')->label('Buscar notas'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->where('notas', 'like', '%' . $data['notas'] . '%');
+                    }),
+
+
+
+
 
 
             ], layout: FiltersLayout::AboveContentCollapsible)
