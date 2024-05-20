@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Carbon\Carbon;
-
+use Filament\Forms\Components\Select;
 //para el filtro de las fechas
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 
@@ -124,7 +124,11 @@ class PedidoResource extends Resource
                 ->displayFormat('Y-m-d')
                 ->native(false)
                 ,
-               
+                Select::make('id_mediopago')
+                ->relationship('medioPago', 'titulo')
+                ->searchable()
+                ->native(false)
+                ->preload(),
             ]);
     }
 
