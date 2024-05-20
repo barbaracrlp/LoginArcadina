@@ -156,7 +156,7 @@ class PedidoResource extends Resource
                 //voy a crear enums para asi conseguir los colores siempre
                 //no se si funcionara
                 ->badge(),
-                EstadoPedido::make('estado'),
+                // EstadoPedido::make('estado'),
                 Tables\Columns\TextInputColumn::make('comentario')
                 ->label('Comentarios'),
                 Tables\Columns\TextColumn::make('medioPago.titulo')

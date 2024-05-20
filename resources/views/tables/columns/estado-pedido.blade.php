@@ -67,9 +67,11 @@ $nuevoColor="#6B7280";
 }
 @endphp
 
-<div class="absolute flex items-center justify-center">
+<div class="flex items-center">
     <div class="h-5 w-5 rounded-full" style="background-color: {{ $nuevoColor }};"></div>
+    <p style="color:{{$nuevoColor}}"> {{$label}}</p>
 </div>
 {{-- <span>{{ $label }}</span>
 <span>{{ $customLabel ?? '' }}</span> --}}
 </div>
+
