@@ -28,6 +28,7 @@ class Pedido extends Model
         'tipo',
         'notas',
         'id_usuario',
+        'id_mediopago', //tiene que ser fillable para que lo pueda coger s
     ]
     ;
 
@@ -51,9 +52,9 @@ class Pedido extends Model
         return $this->belongsTo(Cliente::class);
     }
 
-    //defino relacion con el pedido
-    public function medioPago(){
-    
-        return MedioPago::where('id', $this->id_mediopago);
+    // Relacion de nuevo definiendo ahora belongsTo
+    public function medioPago(): BelongsTo
+    {
+        return $this->belongsTo(MedioPago::class, 'id_mediopago');
     }
 }
