@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Scopes\EtiquetaScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Etiqueta extends Model
 {
@@ -28,4 +29,14 @@ class Etiqueta extends Model
         static::addGlobalScope(new EtiquetaScope);
     }
 
+    public function tag_contents():HasMany{
+        return $this->hasMany(Tag_content::class);
+    }
+    
+      // Definir la relación con los pedidos a través de Tag_content
+      public function pedidos()
+      {
+          return $this->hasManyThrough(Pedido::class, Tag_content::class, 'tag_id', 'id', 'id', 'content_id')
+              ->where('tabla', 'pedidos');
+      }
 }

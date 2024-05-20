@@ -167,6 +167,8 @@ class PedidoResource extends Resource
                     ->label('Comentarios'),
                 Tables\Columns\TextColumn::make('medioPago.titulo')
                     ->label('Metodo de Pago'),
+                Tables\Columns\TextColumn::make('etiquetas.titulo')
+                ->label('Etiqueta'),
 
 
             ])
