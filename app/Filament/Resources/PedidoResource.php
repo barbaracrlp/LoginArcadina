@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PedidoResource\Pages;
 use App\Filament\Resources\PedidoResource\RelationManagers;
+use App\Filament\Resources\PedidoResource\RelationManagers\EtiquetasRelationManager;
 use App\Models\MedioPago;
 use App\Models\Pedido;
 use Filament\Actions\Action;
@@ -241,6 +242,7 @@ class PedidoResource extends Resource
     {
         return [
             //
+            EtiquetasRelationManager::class,
         ];
     }
 
