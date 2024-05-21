@@ -18,7 +18,7 @@ class EtiquetasRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
+                Forms\Components\TextInput::make('titulo')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -27,9 +27,9 @@ class EtiquetasRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('title')
+            ->recordTitleAttribute('titulo')
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('titulo'),
             ])
             ->filters([
                 //

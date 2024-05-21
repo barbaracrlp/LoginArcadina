@@ -35,9 +35,9 @@ class EtiquetaResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('pedidos_count')->counts('pedidos'),
-                TextColumn::make('clientes_count')->counts('clientes'),
-                TextColumn::make('albums_count')->counts('albums'),
+                TextColumn::make('pedidos_count')->counts('pedidos')->label('Pedidos'),
+                TextColumn::make('clientes_count')->counts('clientes')->label('Clientes'),
+                TextColumn::make('albums_count')->counts('albums')->label('Galerías'),
                 TextColumn::make('titulo'),
            
             ])
