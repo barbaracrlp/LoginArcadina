@@ -44,11 +44,11 @@ class Token extends Model
         //creo el token como tal
         $token = md5(uniqid('dinacms_token', true));
 
-        error_log($token . " <--token ");
+        // error_log($token . " <--token ");
         //creo la fecha de caducidad
         $caducity = date('Y-m-d H:i:s', strtotime('+24 hours'));
-        error_log($caducity . " <--token caducidad");
-        error_log('creamos nuevo token');
+        // error_log($caducity . " <--token caducidad");
+        // error_log('creamos nuevo token');
         try {
 
             $insert = DB::table('auth_tokens')->insert([
@@ -77,7 +77,7 @@ class Token extends Model
     {
 
         $date = date('Y-m-d H:i:s', strtotime('+12 hours'));
-        error_log($date);
+        // error_log($date);
         $token = DB::table('auth_tokens')
             ->select('token')
             ->where('userid', '=', 4)
@@ -87,7 +87,7 @@ class Token extends Model
             // ->get(['token']);//añado el get a ver si asi solo me coje la columna
             ->value('token');
 
-        error_log(" Valor del token -->" . $token);
+        // error_log(" Valor del token -->" . $token);
 
         //si no encuentra token quiero que me cree uno nuevo pero primero que devuelva un
         // if ($token === null)
@@ -103,8 +103,8 @@ class Token extends Model
         if ($token === null)
         {
             $token=Token::newToken();
-            error_log('Creo un nuevo token');
-            error_log('me devuelve el token que acabo de crear->'.$token);
+            // error_log('Creo un nuevo token');
+            // error_log('me devuelve el token que acabo de crear->'.$token);
         }
         
         return $token;

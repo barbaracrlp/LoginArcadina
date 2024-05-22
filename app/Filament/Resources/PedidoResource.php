@@ -134,10 +134,11 @@ class PedidoResource extends Resource
                     ->searchable()
                     ->native(false)
                     ->preload(),
-                Select::make('')
-                ->relationship('etiquetas', 'titulo')
-                ->disabled()
-                    ->prefixIcon('fas-tag'),
+                    Forms\components\TextInput::make('etiquetas.titulo'),
+                // Select::make('')
+                // ->relationship('etiquetas', 'titulo')
+                // ->disabled()
+                //     ->prefixIcon('fas-tag'),
                 Section::make('Notas')
                     ->schema([
                         // ...
@@ -175,8 +176,10 @@ class PedidoResource extends Resource
                     ->label('Metodo de Pago'),
                 // Tables\Columns\TextColumn::make('etiquetas.titulo')
                 //     ->label('Etiqueta'),
-                IconColumn::make('etiquetas.titulo')
-                    ->icon('fas-tag')->label(''),
+                /**Encontrar manera de que solo aparezca si se tiene etiquetas sino no */
+                Tables\Columns\TextColumn::make('etiquetas_count')->counts('etiquetas')->label('')->icon('fas-tag'),
+                // IconColumn::make('etiquetas.titulo')
+                //     ->icon('fas-tag')->label(''),
             ])
             ->filters([
                 //ahora creo el primer filtro,por fecha
@@ -241,7 +244,7 @@ class PedidoResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
             EtiquetasRelationManager::class,
         ];
     }

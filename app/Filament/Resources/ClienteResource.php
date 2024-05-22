@@ -226,6 +226,7 @@ class ClienteResource extends Resource
                         TextEntry::make('localidad')->label('Localidad'),
                         TextEntry::make('Provincia')->label('provincia'),
                         TextEntry::make('pais.nombre_es')->label('País'),
+                        // TextEntry::make('etiqueta.titulo')->label('Etiqueta'),
                         //aquí va a tener que ir el país 
                         //necesito el modelo del pais que coj
                         TextEntry::make('usuario')->label('Usuario'),

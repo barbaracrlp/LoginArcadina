@@ -45,12 +45,12 @@ class EtiquetaResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 
@@ -65,8 +65,8 @@ class EtiquetaResource extends Resource
     {
         return [
             'index' => Pages\ListEtiquetas::route('/'),
-            'create' => Pages\CreateEtiqueta::route('/create'),
-            'edit' => Pages\EditEtiqueta::route('/{record}/edit'),
+            // 'create' => Pages\CreateEtiqueta::route('/create'),
+            // 'edit' => Pages\EditEtiqueta::route('/{record}/edit'),
         ];
     }
 }

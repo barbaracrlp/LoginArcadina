@@ -62,7 +62,7 @@ class LoginEdit extends BaseAuth
 
     protected function getCredentialsFromFormData(array $data): array
     {
-        error_log('saca las credenciales del formulario');
+        // error_log('saca las credenciales del formulario');
         return [
             'mail' => $data['mail'],
             'pass' => $data['pass'],
@@ -73,7 +73,7 @@ class LoginEdit extends BaseAuth
     //añado el manejo de errores a ver si es por eso
     protected function throwFailureValidationException(): never
     {
-        error_log('envia error algo falla pero si hace algo');
+        // error_log('envia error algo falla pero si hace algo');
         throw ValidationException::withMessages([
             'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
             'data.mail' => __('filament-panels::pages/auth/login.messages.failed'),

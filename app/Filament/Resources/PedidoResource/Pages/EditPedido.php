@@ -38,7 +38,7 @@ class EditPedido extends EditRecord
 
 
 
-        error_log('Guardando registro...');
+        // error_log('Guardando registro...');
         //aqui no tengo que guardar el record sino el estado del formulario
         $data = $this->form->getState(afterValidate: function () {
             $this->callHook('afterValidate');
@@ -48,12 +48,12 @@ class EditPedido extends EditRecord
         $id_nuevo = $this->record->id;
         $estado_nuevo = $data['estado'];
         //aqui tengo guardado el estado nuevo
-        error_log($id_nuevo . "<--aqui esta el id en teoria");
-        error_log("estado nuevo: " . $estado_nuevo);
+        // error_log($id_nuevo . "<--aqui esta el id en teoria");
+        // error_log("estado nuevo: " . $estado_nuevo);
 
         // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
-        error_log(json_encode($data));
-        error_log('arriba esta la variable que saca del formulario');
+        // error_log(json_encode($data));
+        // error_log('arriba esta la variable que saca del formulario');
         /**aqui saco los datos del formulario y le añado las variables que sean necesario añadir para 
          * hacer la peticion 
          * 
@@ -86,12 +86,12 @@ class EditPedido extends EditRecord
         ];
 
 
-        error_log(json_encode($params) . "<--aqui estan los parametros peronjsonencode");
+        // error_log(json_encode($params) . "<--aqui estan los parametros peronjsonencode");
         $url_del_API = 'https://barbaratest01.arcadina.web2/gestion/api/ajaxsubmit.php';
 
 
         $respuesta = EditPedido::callApiHttpCambioEstado($url_del_API, $params, $timeout = 5);
-        error_log(json_encode($respuesta));
+        // error_log(json_encode($respuesta));
 
 
 
@@ -104,7 +104,7 @@ class EditPedido extends EditRecord
 
         if ($shouldRedirect && ($redirectUrl = $this->getRedirectUrl())) {
 
-            error_log('entra aqui para redirigir');
+            // error_log('entra aqui para redirigir');
             $this->redirect($redirectUrl, navigate: FilamentView::hasSpaMode() && $this->is_app_url($redirectUrl));
         }
     }
@@ -172,7 +172,6 @@ class EditPedido extends EditRecord
                 'mensaje' => $lastError,
             ];
         }
-
         return empty($ret) ? [] : $ret;
     }
 
