@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PedidoResource\Pages;
 use App\Filament\Resources\PedidoResource\RelationManagers;
 use App\Filament\Resources\PedidoResource\RelationManagers\EtiquetasRelationManager;
+use App\Models\Cliente;
 use App\Models\MedioPago;
 use App\Models\Pedido;
 use Filament\Actions\Action;
@@ -134,7 +135,7 @@ class PedidoResource extends Resource
                     ->searchable()
                     ->native(false)
                     ->preload(),
-                    Forms\components\TextInput::make('etiquetas.titulo'),
+                Forms\components\TextInput::make('etiquetas.titulo'),
                 // Select::make('')
                 // ->relationship('etiquetas', 'titulo')
                 // ->disabled()
@@ -207,7 +208,16 @@ class PedidoResource extends Resource
                         'descarga' => 'Descarga',
                         'seleccion' => 'Seleccion',
                     ]),
-
+                //me falta aqui la funcionalidad de que me de una lista con los clientes que haya
+                // SelectFilter::make('cliente')
+                // ->label('Cliente')
+                // ->relationship('cliente', 'usuario')
+                // ->searchable()
+                // ->multiple(),
+                SelectFilter::make('cliente')
+                    ->relationship('cliente', 'usuario')
+                    ->searchable()
+                    ->preload(),
                 Filter::make('comentario')
                     ->form([
                         TextInput::make('comentario')->label('Busca Comentario'),
