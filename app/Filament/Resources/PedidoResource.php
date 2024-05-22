@@ -214,10 +214,14 @@ class PedidoResource extends Resource
                 // ->relationship('cliente', 'usuario')
                 // ->searchable()
                 // ->multiple(),
+
+                //con el native False se consigue un hover, ahora lo miro con figma a ver
+                //porque se creará con clases para cambiar el css
                 SelectFilter::make('cliente')
                     ->relationship('cliente', 'usuario')
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->native(false),
                 Filter::make('comentario')
                     ->form([
                         TextInput::make('comentario')->label('Busca Comentario'),
