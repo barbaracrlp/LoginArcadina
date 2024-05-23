@@ -20,6 +20,7 @@ class EtiquetaResource extends Resource
     protected static ?string $model = Etiqueta::class;
 
     protected static ?string $navigationIcon = 'fas-tag';
+    protected static ?string $navigationGroup = "Tienda";
 
     public static function form(Form $form): Form
     {

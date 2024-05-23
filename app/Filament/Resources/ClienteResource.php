@@ -34,8 +34,10 @@ use Filament\Tables\Filters\Filter;
 //importo la clase de encriptacion
 use App\Filament\Pages\Auth\encriptaCliente;
 use App\Mail\ClienteEmail;
-use Filament\Tables\Columns\IconColumn;
+use App\Models\Etiqueta;
 use Filament\Tables\Enums\FiltersLayout;
+
+use Filament\Tables\Filters\SelectFilter;
 
 class ClienteResource extends Resource
 {
@@ -110,23 +112,11 @@ class ClienteResource extends Resource
     {
         return $table
             ->columns([
-
-
-
-
-
-
-
                 // IconColumn::make('etiquetas.titulo')
                 // ->icon('fas-tag')
                 // ->color('primary')
                 // ->label('')
                 // ->size('sm'),
-
-
-
-
-
                 Tables\Columns\TextColumn::make('usuario')
                     ->label('Usuario')
                     ->grow(false)
@@ -161,8 +151,6 @@ class ClienteResource extends Resource
                 //donde hago un "cast" que lo transforma en un booleano
                 //no queda bonito pero es lo que hay
                 ,
-
-
                 Tables\Columns\TextColumn::make('mail') //al email se le debe añadir una accion de enviar email
                     ->label('Email')
                     ->sortable()
@@ -222,10 +210,36 @@ class ClienteResource extends Resource
                 ->query(function (Builder $query, array $data) {
                     return $query->where('mail', 'like', '%' . $data['mail'] . '%');
                 }),
+
+                Filter::make('telefono')
+                ->form([
+                    TextInput::make('telefono')->label('Teléfono'),
+                ])
+                ->query(function (Builder $query, array $data) {
+                    return $query->where('telefono', 'like', '%' . $data['telefono'] . '%');
+                }),
+
+
+                /**No se pueden mostrar todas las etiquetas de la app ya que filamet necesita tener 
+                 * definida la relacion para no buscar directamente una columna en la BD
+                 * Como mucho se podríasn poner todas pero desactivar de alguna manera las opciones no presentes en la tabla actual
+                 * aunque no tendría demasiado sentido
+                 * O crear un filtro custom 
+                 */
+                SelectFilter::make('etiquetas')
+                ->relationship('etiquetas', 'titulo')
+                // ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
+                ->native(false)
+                ->preload(),
+
                 //primer filtro de multiple
                 Filter::make('multiple')
                     ->query(fn (Builder $query): Builder => $query->where('multiple', 'si')),
                 /**hará falta un filtro de ultimo acceso un selectfilter */
+
+
+                /**El filtro de select para las fechas */
+              
 
             ],layout:FiltersLayout::AboveContentCollapsible)
             ->actions([
