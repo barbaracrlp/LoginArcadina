@@ -6,6 +6,7 @@ use App\Filament\Resources\PedidoResource\Pages;
 use App\Filament\Resources\PedidoResource\RelationManagers;
 use App\Filament\Resources\PedidoResource\RelationManagers\EtiquetasRelationManager;
 use App\Models\Cliente;
+use App\Models\Etiqueta;
 use App\Models\MedioPago;
 use App\Models\Pedido;
 use Filament\Actions\Action;
@@ -250,8 +251,31 @@ class PedidoResource extends Resource
                 //                     $etiqueta = $data['etiqueta'] ?? '';
                 // return $query->where('etiquetas.titulo', 'like', '%' . $etiqueta . '%');
                 //                 }),
-                SelectFilter::make('etiquetas')->relationship('etiquetas', 'titulo')
+                // SelectFilter::make('etiquetas')->relationship('etiquetas', 'titulo')
+                //     ->native(false)
+                //     ->preload(),
+                /**El filtro anterior muestra solo las etiquetas presentes en la tabla
+                 * el de a continuación presenta todas las de la app
+                 */
+                Filter::make('etiqueta')
+                ->form([
+                    Select::make('etiqueta')
+                    ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
                     ->native(false),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    if (!empty($data['etiqueta'])) {
+                        $etiquetaId = $data['etiqueta'];
+                        return $query->whereHas('etiquetas', function (Builder $query) use ($etiquetaId) {
+                            $query->where('id', $etiquetaId);
+                        });
+                    }
+                    return $query;
+                }),
+
+
+
+
                 Filter::make('fecha')
                     ->form([
                         DatePicker::make('created_from')->native(false)->label('Desde:'),

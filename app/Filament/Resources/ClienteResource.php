@@ -35,6 +35,7 @@ use Filament\Tables\Filters\Filter;
 use App\Filament\Pages\Auth\encriptaCliente;
 use App\Mail\ClienteEmail;
 use App\Models\Etiqueta;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Enums\FiltersLayout;
 
 use Filament\Tables\Filters\SelectFilter;
@@ -140,8 +141,8 @@ class ClienteResource extends Resource
                     ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('last_login')
-                ->label('Último acceso')
-                ->dateTime('Y-m-d'),
+                    ->label('Último acceso')
+                    ->dateTime('Y-m-d'),
 
                 Tables\Columns\CheckboxColumn::make('multiple')
                     ->disabled()
@@ -188,36 +189,36 @@ class ClienteResource extends Resource
             ->filters([
 
                 Filter::make('usuario')
-                ->form([
-                    TextInput::make('usuario')->label('Usuario'),
-                ])
-                ->query(function (Builder $query, array $data) {
-                    return $query->where('usuario', 'like', '%' . $data['usuario'] . '%');
-                }),
+                    ->form([
+                        TextInput::make('usuario')->label('Usuario'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->where('usuario', 'like', '%' . $data['usuario'] . '%');
+                    }),
 
                 Filter::make('nombre')
-                ->form([
-                    TextInput::make('nombre')->label('Nombre'),
-                ])
-                ->query(function (Builder $query, array $data) {
-                    return $query->where('nombre', 'like', '%' . $data['nombre'] . '%');
-                }),
+                    ->form([
+                        TextInput::make('nombre')->label('Nombre'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->where('nombre', 'like', '%' . $data['nombre'] . '%');
+                    }),
 
                 Filter::make('mail')
-                ->form([
-                    TextInput::make('mail')->label('eMail'),
-                ])
-                ->query(function (Builder $query, array $data) {
-                    return $query->where('mail', 'like', '%' . $data['mail'] . '%');
-                }),
+                    ->form([
+                        TextInput::make('mail')->label('eMail'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->where('mail', 'like', '%' . $data['mail'] . '%');
+                    }),
 
                 Filter::make('telefono')
-                ->form([
-                    TextInput::make('telefono')->label('Teléfono'),
-                ])
-                ->query(function (Builder $query, array $data) {
-                    return $query->where('telefono', 'like', '%' . $data['telefono'] . '%');
-                }),
+                    ->form([
+                        TextInput::make('telefono')->label('Teléfono'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->where('telefono', 'like', '%' . $data['telefono'] . '%');
+                    }),
 
 
                 /**No se pueden mostrar todas las etiquetas de la app ya que filamet necesita tener 
@@ -226,12 +227,28 @@ class ClienteResource extends Resource
                  * aunque no tendría demasiado sentido
                  * O crear un filtro custom 
                  */
-                SelectFilter::make('etiquetas')
-                ->relationship('etiquetas', 'titulo')
-                // ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
-                ->native(false)
-                ->preload(),
+                // SelectFilter::make('etiquetas')
+                //     ->relationship('etiquetas', 'titulo')
+                //     // ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
+                //     ->native(false)
+                //     ->preload(),
 
+                /**Intento de crear el filtro pers */
+                Filter::make('etiqueta')
+                    ->form([
+                        Select::make('etiqueta')
+                        ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
+                        ->native(false),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (!empty($data['etiqueta'])) {
+                            $etiquetaId = $data['etiqueta'];
+                            return $query->whereHas('etiquetas', function (Builder $query) use ($etiquetaId) {
+                                $query->where('id', $etiquetaId);
+                            });
+                        }
+                        return $query;
+                    }),
                 //primer filtro de multiple
                 Filter::make('multiple')
                     ->query(fn (Builder $query): Builder => $query->where('multiple', 'si')),
@@ -239,9 +256,9 @@ class ClienteResource extends Resource
 
 
                 /**El filtro de select para las fechas */
-              
 
-            ],layout:FiltersLayout::AboveContentCollapsible)
+
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('Editar')
@@ -301,6 +318,7 @@ class ClienteResource extends Resource
                         //necesito el modelo del pais que coj
                         TextEntry::make('usuario')->label('Usuario'),
                     ])->columns(3),
+
                 /**Los apartados de envío no aparecen en el original */
                 // Section::make('Envío')
                 //     ->schema([
