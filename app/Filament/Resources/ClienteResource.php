@@ -35,6 +35,7 @@ use Filament\Tables\Filters\Filter;
 use App\Filament\Pages\Auth\encriptaCliente;
 use App\Mail\ClienteEmail;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Enums\FiltersLayout;
 
 class ClienteResource extends Resource
 {
@@ -109,30 +110,59 @@ class ClienteResource extends Resource
     {
         return $table
             ->columns([
-                //agregamos las columnas de la tabla
-                /**La primera opcion es mejor ya que enseña el numero de etiquetas
-                 * si usamos el iconColumn tenemos un icono por cada etiqueta que hay
-                 */
-                // Tables\Columns\TextColumn::make('etiquetas_count')
-                //     ->counts('etiquetas')
-                //     ->label('')
-                //     ->icon('fas-tag'),
-                IconColumn::make('etiquetas.titulo')
-                ->icon('fas-tag')
-                ->color('primary')
-                ->label('')
-                ->size('sm'),
+
+
+
+
+
+
+
+                // IconColumn::make('etiquetas.titulo')
+                // ->icon('fas-tag')
+                // ->color('primary')
+                // ->label('')
+                // ->size('sm'),
+
+
+
+
+
                 Tables\Columns\TextColumn::make('usuario')
                     ->label('Usuario')
                     ->grow(false)
                     ->sortable()
                     ->searchable(),
+                //agregamos las columnas de la tabla
+                /**La primera opcion es mejor ya que enseña el numero de etiquetas
+                 * si usamos el iconColumn tenemos un icono por cada etiqueta que hay
+                 */
+                Tables\Columns\TextColumn::make('etiquetas_count')
+                    ->counts('etiquetas')
+                    ->exists('etiquetas')
+                    ->label('')
+                    ->icon('fas-tag'),
+
                 Tables\Columns\TextColumn::make('nombre')
                     ->grow(false)
                     ->label('Nombre')
                     ->sortable()
                     ->searchable()
                     ->visibleFrom('md'),
+
+                Tables\Columns\TextColumn::make('last_login')
+                ->label('Último acceso')
+                ->dateTime('Y-m-d'),
+
+                Tables\Columns\CheckboxColumn::make('multiple')
+                    ->disabled()
+                    ->visibleFrom('md')
+                    ->grow(false)
+                //funciona haciendo una funcion en el modelo de cliente
+                //donde hago un "cast" que lo transforma en un booleano
+                //no queda bonito pero es lo que hay
+                ,
+
+
                 Tables\Columns\TextColumn::make('mail') //al email se le debe añadir una accion de enviar email
                     ->label('Email')
                     ->sortable()
@@ -142,9 +172,9 @@ class ClienteResource extends Resource
                     //aqui le añado la accion de enviar el email,
                     ->action(
                         Action::make('sendEmail')
-                        
+
                             ->form([
-                                
+
                                 TextInput::make('subject')->required()->label('Asunto'),
                                 RichEditor::make('body')->required()->label('Mensaje:'),
                             ])
@@ -157,31 +187,47 @@ class ClienteResource extends Resource
                                     ));
                             })
                             ->modalHeading('Enviar Email:')
-                            
+
                     ),
-                Tables\Columns\CheckboxColumn::make('multiple')
-                    ->disabled()
-                    ->visibleFrom('md')
-                    ->grow(false)
-                //funciona haciendo una funcion en el modelo de cliente
-                //donde hago un "cast" que lo transforma en un booleano
-                //no queda bonito pero es lo que hay
-                ,
                 Tables\Columns\TextColumn::make('telefono')
                     ->label('Teléfono')
                     ->searchable()
                     ->visibleFrom('md')
                     ->grow(false),
-                   
+
 
             ])
             ->filters([
+
+                Filter::make('usuario')
+                ->form([
+                    TextInput::make('usuario')->label('Usuario'),
+                ])
+                ->query(function (Builder $query, array $data) {
+                    return $query->where('usuario', 'like', '%' . $data['usuario'] . '%');
+                }),
+
+                Filter::make('nombre')
+                ->form([
+                    TextInput::make('nombre')->label('Nombre'),
+                ])
+                ->query(function (Builder $query, array $data) {
+                    return $query->where('nombre', 'like', '%' . $data['nombre'] . '%');
+                }),
+
+                Filter::make('mail')
+                ->form([
+                    TextInput::make('mail')->label('eMail'),
+                ])
+                ->query(function (Builder $query, array $data) {
+                    return $query->where('mail', 'like', '%' . $data['mail'] . '%');
+                }),
                 //primer filtro de multiple
                 Filter::make('multiple')
                     ->query(fn (Builder $query): Builder => $query->where('multiple', 'si')),
                 /**hará falta un filtro de ultimo acceso un selectfilter */
 
-            ])
+            ],layout:FiltersLayout::AboveContentCollapsible)
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('Editar')

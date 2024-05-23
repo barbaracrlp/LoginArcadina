@@ -31,7 +31,8 @@ class Cliente extends Model
         'pass',
         'telefono',
         'direccion',
-        'multiple', //en multiple es si(sin acento) o no
+        'multiple',
+        'last_login', //en multiple es si(sin acento) o no
     ];
 
     //ahora la funcion para utilizar el scope como tal
