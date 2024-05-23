@@ -156,7 +156,8 @@ class PedidoResource extends Resource
             ->columns([
                 //Ahora las columnas iguales que lo otro
                 Tables\Columns\TextColumn::make('numero')
-                    ->label('Numero'),
+                    ->label('Numero')
+                    ->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('nombre')
                     ->label('Nombre')
                     //pongo un searchable por nombre para que sea más fácil que un filtro vamos
@@ -172,34 +173,25 @@ class PedidoResource extends Resource
                     ->badge(),
                 // EstadoPedido::make('estado'),
                 Tables\Columns\TextInputColumn::make('comentario')
-                    ->label('Comentarios'),
+                    ->label('Comentarios')
+                    ->visibleFrom('xl'),
                 Tables\Columns\TextColumn::make('medioPago.titulo')
-                    ->label('Metodo de Pago'),
+                    ->label('Metodo de Pago')
+                    ->visibleFrom('md'),
                 // Tables\Columns\TextColumn::make('etiquetas.titulo')
                 //     ->label('Etiqueta'),
                 /**Encontrar manera de que solo aparezca si se tiene etiquetas sino no */
-                Tables\Columns\TextColumn::make('etiquetas_count')->counts('etiquetas')->label('')->icon('fas-tag'),
-                // IconColumn::make('etiquetas.titulo')
-                //     ->icon('fas-tag')->label(''),
+
+                /**Por respetar el layout Filament no deja ocultar una columna solo en algunos casos
+                 * como por ejemplo cuando no tenemos etiquetas
+                 */
+                Tables\Columns\TextColumn::make('etiquetas_count')
+                    ->counts('etiquetas')
+                    ->label('')
+                    ->icon('fas-tag'),
+
             ])
             ->filters([
-                //ahora creo el primer filtro,por fecha
-                Filter::make('fecha')
-                    ->form([
-                        DatePicker::make('created_from')->native(false)->label('From:'),
-                        DatePicker::make('created_until')->native(false)->label('Until:'),
-                    ])->columns(2)
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
-                            );
-                    }),
 
                 SelectFilter::make('tipo')
                     ->multiple()
@@ -207,21 +199,31 @@ class PedidoResource extends Resource
                         'venta' => 'Venta',
                         'descarga' => 'Descarga',
                         'seleccion' => 'Seleccion',
-                    ]),
-                //me falta aqui la funcionalidad de que me de una lista con los clientes que haya
-                // SelectFilter::make('cliente')
-                // ->label('Cliente')
-                // ->relationship('cliente', 'usuario')
-                // ->searchable()
-                // ->multiple(),
+                    ])->native(false),
 
-                //con el native False se consigue un hover, ahora lo miro con figma a ver
-                //porque se creará con clases para cambiar el css
                 SelectFilter::make('cliente')
                     ->relationship('cliente', 'usuario')
                     ->searchable()
                     ->preload()
                     ->native(false),
+                SelectFilter::make('medioPago')
+                    ->relationship('medioPago', 'titulo')
+                    ->searchable()
+                    ->preload()
+                    ->native(false),
+                SelectFilter::make('estado')
+                    ->options([
+                        0 => 'Sin Confirmar',
+                        1 => 'Pendiente de Cobro',
+                        2 => 'Cobrado',
+                        3 => 'Pendiente de Proceso',
+                        4 => 'En Proceso',
+                        5 => 'Enviado',
+                        7 => 'Completado',
+                        6 => 'Cancelado',
+                    ])
+                    ->native(false)
+                    ->multiple(),
                 Filter::make('comentario')
                     ->form([
                         TextInput::make('comentario')->label('Busca Comentario'),
@@ -238,6 +240,35 @@ class PedidoResource extends Resource
                     ->query(function (Builder $query, array $data) {
                         return $query->where('notas', 'like', '%' . $data['notas'] . '%');
                     }),
+                //                  //ahora creo el primer filtro,por fecha
+                //                  Filter::make('etiquetas.titulo')
+                //                 ->form([
+                //                     TextInput::make('etiqueta')->label('Etiquetas'),
+                //                 ])
+                //                 ->query(function (Builder $query, array $data) {
+
+                //                     $etiqueta = $data['etiqueta'] ?? '';
+                // return $query->where('etiquetas.titulo', 'like', '%' . $etiqueta . '%');
+                //                 }),
+                SelectFilter::make('etiquetas')->relationship('etiquetas', 'titulo')
+                    ->native(false),
+                Filter::make('fecha')
+                    ->form([
+                        DatePicker::make('created_from')->native(false)->label('Desde:'),
+                        DatePicker::make('created_until')->native(false)->label('Hasta:'),
+                    ])->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
+                            );
+                    }),
+
 
 
 
@@ -245,6 +276,8 @@ class PedidoResource extends Resource
 
 
             ], layout: FiltersLayout::AboveContentCollapsible)
+
+
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

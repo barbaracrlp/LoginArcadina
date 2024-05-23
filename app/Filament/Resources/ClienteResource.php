@@ -110,8 +110,18 @@ class ClienteResource extends Resource
         return $table
             ->columns([
                 //agregamos las columnas de la tabla
+                /**La primera opcion es mejor ya que enseña el numero de etiquetas
+                 * si usamos el iconColumn tenemos un icono por cada etiqueta que hay
+                 */
+                // Tables\Columns\TextColumn::make('etiquetas_count')
+                //     ->counts('etiquetas')
+                //     ->label('')
+                //     ->icon('fas-tag'),
                 IconColumn::make('etiquetas.titulo')
-                ->icon('fas-tag')->color('primary')->label(''),
+                ->icon('fas-tag')
+                ->color('primary')
+                ->label('')
+                ->size('sm'),
                 Tables\Columns\TextColumn::make('usuario')
                     ->label('Usuario')
                     ->grow(false)
