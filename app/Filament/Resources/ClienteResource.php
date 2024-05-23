@@ -39,6 +39,8 @@ use Filament\Forms\Components\Select;
 use Filament\Tables\Enums\FiltersLayout;
 
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 
 class ClienteResource extends Resource
 {
@@ -234,11 +236,12 @@ class ClienteResource extends Resource
                 //     ->preload(),
 
                 /**Intento de crear el filtro pers */
+
                 Filter::make('etiqueta')
                     ->form([
                         Select::make('etiqueta')
-                        ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
-                        ->native(false),
+                            ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         if (!empty($data['etiqueta'])) {
@@ -249,6 +252,35 @@ class ClienteResource extends Resource
                         }
                         return $query;
                     }),
+
+                /**Filtro de ultimo acceso */
+                    
+                // Filter::make('acceso')
+                //     ->form([
+                //         Select::make('acceso')
+                //             ->options(
+                //                 [
+                //                     //valor=>etiqueta
+                //                     $today=Carbon::now()->toDayDateTimeString() => 'Hoy',
+                // // Carbon::yesterday()->toDateString() => 'Ayer',
+                // // Carbon::today()->startOfWeek()->subDays(7)->toDateString() => 'Hace una semana',
+                                
+
+                //                 ]
+                //             )
+                //             ->native(false),
+                //                 ]),
+                    // ->query(function (Builder $query, array $data): Builder {
+                    //     if (!empty($data['acceso'])) {
+                    //         $etiquetaId = $data['acceso'];
+                    //         return $query->whereHas('etiquetas', function (Builder $query) use ($etiquetaId) {
+                    //             $query->where('id', $etiquetaId);
+                    //         });
+                    //     }
+                    //     return $query;
+                    // }),
+
+
                 //primer filtro de multiple
                 Filter::make('multiple')
                     ->query(fn (Builder $query): Builder => $query->where('multiple', 'si')),
