@@ -91,7 +91,7 @@ class PedidoResource extends Resource
                 //     )
                 // )
                 ,
-                Forms\components\TextInput::make('numero')
+                Forms\Components\TextInput::make('numero')
                     ->disabled()
                     ->label('Numero'),
                 Forms\Components\TextInput::make('nombre')
