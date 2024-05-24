@@ -310,6 +310,25 @@ class PedidoResource extends Resource
 
             ->actions([
                 Tables\Actions\EditAction::make(),
+                // Tables\Actions\Action::make('delete')
+                // ->action(fn(Pedido $record)=>$record->delete())
+                // ->requiresConfirmation()
+                // ->modalHeading('Vas a eliminar el pedido siguiente
+                // {{$record->numero}}')
+                // ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
+                // ->modalSubmitActionLabel('Eliminar'),
+                Tables\Actions\DeleteAction::make('delete')
+                ->requiresConfirmation()
+                ->modalHeading('Vas a eliminar el pedido siguiente: {{ $record->numero }}')
+                ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
+               
+                // ->requiresValidation(function ($record, $data) {
+                //     // Validar que el número introducido es igual al número aleatorio generado
+                //     return $data['confirmation_number'] == $data['randomNumber'];
+                // }),
+            ,
+           
+                
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
