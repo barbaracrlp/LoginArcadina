@@ -144,7 +144,8 @@ class ClienteResource extends Resource
 
                 Tables\Columns\TextColumn::make('last_login')
                     ->label('Último acceso')
-                    ->dateTime('Y-m-d'),
+                    ->dateTime('Y-m-d')
+                    ->sortable(),
 
                 Tables\Columns\CheckboxColumn::make('multiple')
                     ->disabled()

@@ -158,27 +158,33 @@ class PedidoResource extends Resource
                 //Ahora las columnas iguales que lo otro
                 Tables\Columns\TextColumn::make('numero')
                     ->label('Numero')
-                    ->visibleFrom('md'),
+                    ->visibleFrom('md')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('nombre')
                     ->label('Nombre')
                     //pongo un searchable por nombre para que sea más fácil que un filtro vamos
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                     ->label('Fecha')
-                    ->dateTime('Y-m-d'),
+                    ->dateTime('Y-m-d')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('tipo')
-                    ->label('Tipo'),
+                    ->label('Tipo')->sortable(),
                 Tables\Columns\TextColumn::make('estado')
                     //voy a crear enums para asi conseguir los colores siempre
                     //no se si funcionara
+                    ->sortable()
                     ->badge(),
                 // EstadoPedido::make('estado'),
                 Tables\Columns\TextInputColumn::make('comentario')
                     ->label('Comentarios')
-                    ->visibleFrom('xl'),
+                    ->visibleFrom('xl')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('medioPago.titulo')
                     ->label('Metodo de Pago')
-                    ->visibleFrom('md'),
+                    ->visibleFrom('md')
+                    ->sortable(),
                 // Tables\Columns\TextColumn::make('etiquetas.titulo')
                 //     ->label('Etiqueta'),
                 /**Encontrar manera de que solo aparezca si se tiene etiquetas sino no */
