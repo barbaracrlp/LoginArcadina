@@ -319,7 +319,7 @@ class PedidoResource extends Resource
                 // ->modalSubmitActionLabel('Eliminar'),
                 Tables\Actions\DeleteAction::make('delete')
                 ->requiresConfirmation()
-                ->modalHeading('Vas a eliminar el pedido siguiente: {{ $record->numero }}')
+                ->modalHeading('Eliminar Pedido')
                 ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
                
                 // ->requiresValidation(function ($record, $data) {
