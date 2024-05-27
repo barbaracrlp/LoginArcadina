@@ -50,20 +50,16 @@ Este es el copiado tal cual --}}
         <!--[if ENDBLOCK]><![endif]-->
 
         <div class="text-center">
-            <h2 class="fi-modal-heading text-base font-semibold leading-6 text-gray-950 dark:text-white">
+            <h2 class="fi-modal-heading text-base font-bold leading-6 text-gray-950 ">
                 Eliminar Pedido {{$record->numero}}
             </h2>
-            <?php $aleatorio=rand(1000,9999); ?> 
+         
+          
             <!--[if BLOCK]><![endif]-->
-            <p class="fi-modal-description text-sm text-gray-500">
-                Eliminar el pedido implica eliminar todos los datos relacionados.
+            <p class="fi-modal-description text-sm  font-semibold text-gray-500">
+                Eliminar el pedido {{$record->numero}} implica eliminar todos los datos relacionados.
             </p>
             <p class="fi-modal-description text-sm text-gray-500">
-                 Por Favor Escribe el siguiente número para confirgurar la eliminación:
-               {{$aleatorio}}
+                 Por Favor Escriba el siguiente número para confirmar la eliminación:
             </p>
-            <!--[if ENDBLOCK]><![endif]-->
-        </div>
-        <!--[if ENDBLOCK]><![endif]-->
-   
-
+ 

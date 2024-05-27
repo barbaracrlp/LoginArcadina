@@ -40,8 +40,10 @@ use Filament\Tables\Filters\Filter;
 
 //lo de la view Action Delete
 use Illuminate\Contracts\View\View;
-
-
+use Illuminate\Http\Request;
+use Filament\Notifications\Notification;
+use Filament\Tables\Enums\ActionsPosition;
+use Illuminate\Console\View\Components\Alert;
 
 class PedidoResource extends Resource
 {
@@ -313,7 +315,9 @@ class PedidoResource extends Resource
 
 
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                ->icon('fas-pen-to-square')
+                    ->iconButton(),
                 // Tables\Actions\Action::make('delete')
                 // ->action(fn(Pedido $record)=>$record->delete())
                 // ->requiresConfirmation()
@@ -330,22 +334,85 @@ class PedidoResource extends Resource
                 //     // Validar que el número introducido es igual al número aleatorio generado
                 //     return $data['confirmation_number'] == $data['randomNumber'];
                 // }),
-                
+
                 /**Otro intento de la Delete Action  */
-                Tables\Actions\Action::make('Delete')
-                ->label('Eliminar')
-                    ->action(fn (Pedido $record) => $record->delete())
-                    ->color('danger')
-                    ->modalContent(fn (Pedido $record,): View => view(
-                        'filament.actions.deletePedido',
-                        ['record' => $record],
-                    ))
+                // Tables\Actions\Action::make('Delete')
+                // ->label('Eliminar')
+
+                //     ->color('danger')
+                //     ->modalContent(fn (Pedido $record,): View => view(
+                //         'filament.actions.deletePedido',
+                //         ['record' => $record, 'aleatorio' => rand(1000, 9999)],
+                //     ))
+                //     ->modalSubmitActionLabel('Eliminar')
+                //     ->modalCancelActionLabel('Cancelar')
+                //     ->color('danger')
+                //     ->action(function (Pedido $record, Request $request) {
+                //         $userNum = $request->input('userNum');
+                //         error_log($userNum."el del susuario");
+
+                //         $aleatorio = $request->input('aleatorio');
+                //         error_log($aleatorio."el del susuario");
+
+                //         if ($userNum === $aleatorio) {
+                //             error_log("Se borra");
+                //         }
+                //         else{
+                //             error_log(" No Se borra");
+                //         }
+                //     })
+                //     ,
+                Tables\Actions\Action::make('Eliminar')
+                ->icon('fas-trash')
+                ->iconButton()
+                ->form([
+                    \Filament\Forms\Components\Group::make([
+                        TextInput::make('aleatorio')
+                        ->readOnly()->label(''),
+                        TextInput::make('numero')
+                            ->label(''),
+                    ])->columns(2),
+                ])
+                    ->fillForm(function (Pedido $record) {
+                        return [
+                            'aleatorio' => rand(1000, 9999),
+                        ];
+                    })
                     ->modalSubmitActionLabel('Eliminar')
                     ->modalCancelActionLabel('Cancelar')
                     ->color('danger')
-                    ,
+                    ->modalContent(fn (Pedido $record,): View => view(
+                        'filament.actions.deletePedido',
+                        ['record' => $record,],
+                    ))
+                    ->action(function (array $data, Pedido $record): void {
+                        // Debugging step to log the incoming data array
+                        error_log(print_r($data, true));
 
-            ])
+                        $numero = $data['numero'];
+                        $aleatorio = $data['aleatorio'];
+
+                        error_log($numero);
+                        error_log($aleatorio);
+
+                        if ($numero == $aleatorio) {
+                            // $record->delete();
+                            error_log('Se borra');
+                            Notification::make()
+                                ->title('Eliminado Correctamente')
+                                ->success()
+                                ->send();
+                        }
+                        else{
+                            Notification::make()
+                                ->title('Error al eliminar Pedido')
+                                ->danger()
+                                ->send();
+                        }
+                    })
+
+
+                ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
