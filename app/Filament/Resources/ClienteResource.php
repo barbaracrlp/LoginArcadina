@@ -254,32 +254,63 @@ class ClienteResource extends Resource
                         return $query;
                     }),
 
-                /**Filtro de ultimo acceso */
-                    
-                // Filter::make('acceso')
-                //     ->form([
-                //         Select::make('acceso')
-                //             ->options(
-                //                 [
-                //                     //valor=>etiqueta
-                //                     $today=Carbon::now()->toDayDateTimeString() => 'Hoy',
-                // // Carbon::yesterday()->toDateString() => 'Ayer',
-                // // Carbon::today()->startOfWeek()->subDays(7)->toDateString() => 'Hace una semana',
-                                
+                Filter::make('acceso')
+                    ->form([
+                        Select::make('acceso')
+                            ->options([
 
-                //                 ]
-                //             )
-                //             ->native(false),
-                //                 ]),
-                    // ->query(function (Builder $query, array $data): Builder {
-                    //     if (!empty($data['acceso'])) {
-                    //         $etiquetaId = $data['acceso'];
-                    //         return $query->whereHas('etiquetas', function (Builder $query) use ($etiquetaId) {
-                    //             $query->where('id', $etiquetaId);
-                    //         });
-                    //     }
-                    //     return $query;
-                    // }),
+                                '0' => 'Hoy',
+                                '1' => 'Ayer',
+                                '7' => 'Últimos 7 días',
+                                '15' => 'Últimos 15 días',
+                                '30' => 'Últimos 30 días',
+                                '30-90' => 'entre 30 y 90 días',
+                                '90' => 'más de 90 días',
+                                'N' => 'No ha accedido nunca',
+                            ])
+                            ->native(false)
+                            ->label('Último acceso')
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        $today = Carbon::today();
+                        $yesterday = Carbon::yesterday();
+
+                        switch ($data['acceso']) {
+                            case '0': // Hoy
+                                $query->whereDate('last_login', $today);
+                                break;
+
+                            case '1': // Ayer
+                                $query->whereDate('last_login', $yesterday);
+                                break;
+
+                            case '7': // Últimos 7 días
+                                $query->where('last_login', '>=', $today->subDays(7));
+                                break;
+
+                            case '15': // Últimos 15 días
+                                $query->where('last_login', '>=', $today->subDays(15));
+                                break;
+
+                            case '30': // Últimos 30 días
+                                $query->where('last_login', '>=', $today->subDays(30));
+                                break;
+
+                            case '30-90': // Entre 30 y 90 días
+                                $query->whereBetween('last_login', [$today->subDays(90), $today->subDays(30)]);
+                                break;
+
+                            case '90': // Más de 90 días
+                                $query->where('last_login', '<', $today->subDays(90));
+                                break;
+
+                            case 'N': // No ha accedido nunca
+                                $query->whereNull('last_login');
+                                break;
+                        }
+                        return $query;
+                    })
+                ,
 
 
                 //primer filtro de multiple
