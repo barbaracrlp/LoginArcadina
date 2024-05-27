@@ -42,6 +42,7 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Filament\Notifications\Notification;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Enums\ActionsPosition;
 use Illuminate\Console\View\Components\Alert;
 
@@ -365,6 +366,7 @@ class PedidoResource extends Resource
                 Tables\Actions\Action::make('Eliminar')
                 ->icon('fas-trash')
                 ->iconButton()
+                ->modalAlignment(Alignment::Center)
                 ->form([
                     \Filament\Forms\Components\Group::make([
                         TextInput::make('aleatorio')
@@ -386,27 +388,24 @@ class PedidoResource extends Resource
                         ['record' => $record,],
                     ))
                     ->action(function (array $data, Pedido $record): void {
-                        // Debugging step to log the incoming data array
-                        error_log(print_r($data, true));
-
+                        
                         $numero = $data['numero'];
                         $aleatorio = $data['aleatorio'];
 
-                        error_log($numero);
-                        error_log($aleatorio);
-
                         if ($numero == $aleatorio) {
-                            // $record->delete();
-                            error_log('Se borra');
+                            $record->delete();
+                            
                             Notification::make()
                                 ->title('Eliminado Correctamente')
                                 ->success()
+                                ->persistent()
                                 ->send();
                         }
                         else{
                             Notification::make()
                                 ->title('Error al eliminar Pedido')
                                 ->danger()
+                                ->persistent()
                                 ->send();
                         }
                     })

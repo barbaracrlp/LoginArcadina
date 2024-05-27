@@ -36,8 +36,8 @@ Este es el copiado tal cual --}}
     
 
         <div class="mb-5 flex items-center justify-center">
-            <div class="rounded-full fi-color-custom bg-custom-100 dark:bg-custom-500/20 fi-color-danger p-3"
-                style="--c-100:var(--danger-100);--c-400:var(--danger-400);--c-500:var(--danger-500);--c-600:var(--danger-600);">
+            <div class="rounded-full fi-color-custom bg-custom-100 dark:bg-custom-500/20 fi-color-danger p-2"
+                style="--c-100:var(--danger-100);--c-400:var(--danger-400);--c-500:var(--danger-500);--c-600:var(--danger-600);margin-bottom:0%">
                 <svg class="fi-modal-icon h-6 w-6 text-custom-600 dark:text-custom-400" fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
@@ -47,10 +47,10 @@ Este es el copiado tal cual --}}
                 </svg>
             </div>
         </div>
-        <!--[if ENDBLOCK]><![endif]-->
+     
 
         <div class="text-center">
-            <h2 class="fi-modal-heading text-base font-bold leading-6 text-gray-950 ">
+            <h2 class="fi-modal-heading text-base font-bold leading-6 text-gray-950 " style="margin-top: 0%;">
                 Eliminar Pedido {{$record->numero}}
             </h2>
          
@@ -60,6 +60,6 @@ Este es el copiado tal cual --}}
                 Eliminar el pedido {{$record->numero}} implica eliminar todos los datos relacionados.
             </p>
             <p class="fi-modal-description text-sm text-gray-500">
-                 Por Favor Escriba el siguiente número para confirmar la eliminación:
+                 Por Favor Escriba el siguiente número para confirmar:
             </p>
  
