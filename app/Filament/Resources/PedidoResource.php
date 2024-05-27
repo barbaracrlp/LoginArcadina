@@ -38,6 +38,10 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 
+//lo de la view Action Delete
+use Illuminate\Contracts\View\View;
+
+
 
 class PedidoResource extends Resource
 {
@@ -264,20 +268,20 @@ class PedidoResource extends Resource
                  * el de a continuación presenta todas las de la app
                  */
                 Filter::make('etiqueta')
-                ->form([
-                    Select::make('etiqueta')
-                    ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
-                    ->native(false),
-                ])
-                ->query(function (Builder $query, array $data): Builder {
-                    if (!empty($data['etiqueta'])) {
-                        $etiquetaId = $data['etiqueta'];
-                        return $query->whereHas('etiquetas', function (Builder $query) use ($etiquetaId) {
-                            $query->where('id', $etiquetaId);
-                        });
-                    }
-                    return $query;
-                }),
+                    ->form([
+                        Select::make('etiqueta')
+                            ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
+                            ->native(false),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (!empty($data['etiqueta'])) {
+                            $etiquetaId = $data['etiqueta'];
+                            return $query->whereHas('etiquetas', function (Builder $query) use ($etiquetaId) {
+                                $query->where('id', $etiquetaId);
+                            });
+                        }
+                        return $query;
+                    }),
 
 
 
@@ -317,18 +321,30 @@ class PedidoResource extends Resource
                 // {{$record->numero}}')
                 // ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
                 // ->modalSubmitActionLabel('Eliminar'),
-                Tables\Actions\DeleteAction::make('delete')
-                ->requiresConfirmation()
-                ->modalHeading('Eliminar Pedido')
-                ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
-               
+                // Tables\Actions\DeleteAction::make('delete')
+                //     ->requiresConfirmation()
+                //     ->modalHeading('Eliminar Pedido')
+                //     ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.'),
+
                 // ->requiresValidation(function ($record, $data) {
                 //     // Validar que el número introducido es igual al número aleatorio generado
                 //     return $data['confirmation_number'] == $data['randomNumber'];
                 // }),
-            ,
-           
                 
+                /**Otro intento de la Delete Action  */
+                Tables\Actions\Action::make('Delete')
+                ->label('Eliminar')
+                    ->action(fn (Pedido $record) => $record->delete())
+                    ->color('danger')
+                    ->modalContent(fn (Pedido $record,): View => view(
+                        'filament.actions.deletePedido',
+                        ['record' => $record],
+                    ))
+                    ->modalSubmitActionLabel('Eliminar')
+                    ->modalCancelActionLabel('Cancelar')
+                    ->color('danger')
+                    ,
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
