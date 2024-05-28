@@ -14,6 +14,7 @@ class Etiqueta extends Model
     protected $table='contenido';
 
     const UPDATED_AT ='f_modi';
+    const CREATED_AT ='f_crea';
 
     protected $fillable= [
         'titulo',
