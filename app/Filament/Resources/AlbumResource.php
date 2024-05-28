@@ -23,11 +23,11 @@ class AlbumResource extends Resource
 
     protected static ?string $navigationIcon = 'fas-film';
 
-    protected static ?string $navigationLabel= 'Galerías';
+    protected static ?string $navigationLabel = 'Galerías';
 
     protected static ?string $navigationGroup = "Tienda";
 
-    
+
 
     public static function form(Form $form): Form
     {
@@ -35,21 +35,21 @@ class AlbumResource extends Resource
             ->schema([
                 //agrego primero el formulario 
                 Forms\Components\TextInput::make('titulo')
-                ->required()
-                ->label('Título')
-                ->maxLength(255)
-                ->autofocus()
-                ->extraInputAttributes(['tabindex'=>1]),
+                    ->required()
+                    ->label('Título')
+                    ->maxLength(255)
+                    ->autofocus()
+                    ->extraInputAttributes(['tabindex' => 1]),
                 Forms\Components\TextInput::make('contenido'),
                 Forms\Components\TextInput::make('tipo')
-                ->label('Tipo')
-                ->disabled(),
+                    ->label('Tipo')
+                    ->disabled(),
                 DateTimePicker::make('f_modi')
-                ->label('Última modificacion')
-                ->disabled()
-                ->format('Y-m-d H:i:s'),
+                    ->label('Última modificacion')
+                    ->disabled()
+                    ->format('Y-m-d H:i:s'),
                 Forms\Components\Toggle::make('publicado')
-                ->label('Publicado'),
+                    ->label('Publicado'),
                 // ->onIcon('heroicon-s-eye')
                 // ->offIcon('heroicon-m-eye-slash')
                 // ->onColor('primary')
@@ -65,32 +65,31 @@ class AlbumResource extends Resource
         return $table
             ->columns([
                 //las columnas 
-                 //ahora la columna
-                 IconColumn::make('etiquetas.titulo')
-                 ->icon('fas-tag')->color('primary')->label(''),
-                 Tables\Columns\TextColumn::make('titulo')
-                 ->label('Título')
-                 ->sortable()
-                 ->searchable(),
-            //  Tables\Columns\CheckboxColumn::make('publicado'),
-             Tables\Columns\ToggleColumn::make('publicado')
-             ->label('Publicado')
-                // ->onIcon('heroicon-s-eye')
-                // ->offIcon('heroicon-m-eye-slash')
-                // ->onColor('success')
-                // ->offColor('danger'),
+                //ahora la columna
+                IconColumn::make('etiquetas.titulo')
+                    ->icon('fas-tag')->color('primary')->label(''),
+                Tables\Columns\TextColumn::make('titulo')
+                    ->label('Título')
+                    ->sortable()
+                    ->searchable(),
+                //  Tables\Columns\CheckboxColumn::make('publicado'),
+                Tables\Columns\ToggleColumn::make('publicado')
+                    ->label('Publicado')
                 ,
-          
-             Tables\Columns\TextColumn::make('tipo')
-                 ->sortable()
-                 ->searchable(),
-                 Tables\Columns\TextColumn::make('estado')
-                 ->sortable()
-                 ->searchable(),
+                IconColumn::make('contenido')
+                    ->options([
+                        'fas-image' => 'foto',
+                        'fas-circle-play' => 'video',
+                    ]),
+                // Tables\Columns\TextColumn::make('estado')
+                //     ->sortable()
+                //     ->searchable(),
+                Tables\Columns\TextColumn::make('fecha')
+                    ->sortable()
+                    ->dateTime('d-m-Y'),
 
             ])
-            ->filters([
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
