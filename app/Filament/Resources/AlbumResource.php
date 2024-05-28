@@ -5,12 +5,17 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AlbumResource\Pages;
 use App\Filament\Resources\AlbumResource\RelationManagers;
 use App\Models\Album;
+use App\Models\Etiqueta;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -74,8 +79,7 @@ class AlbumResource extends Resource
                     ->searchable(),
                 //  Tables\Columns\CheckboxColumn::make('publicado'),
                 Tables\Columns\ToggleColumn::make('publicado')
-                    ->label('Publicado')
-                ,
+                    ->label('Publicado'),
                 IconColumn::make('contenido')
                     ->options([
                         'fas-image' => 'foto',
@@ -89,7 +93,31 @@ class AlbumResource extends Resource
                     ->dateTime('d-m-Y'),
 
             ])
-            ->filters([])
+            ->filters([
+                Filter::make('titulo')
+                    ->form([
+                        TextInput::make('titulo')->label('Titulo'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->where('titulo', 'like', '%' . $data['titulo'] . '%');
+                    }),
+                Filter::make('etiqueta')
+                    ->form([
+                        Select::make('etiqueta')
+                            ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
+                            ->native(false),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (!empty($data['etiqueta'])) {
+                            $etiquetaId = $data['etiqueta'];
+                            return $query->whereHas('etiquetas', function (Builder $query) use ($etiquetaId) {
+                                $query->where('id', $etiquetaId);
+                            });
+                        }
+                        return $query;
+                    }),
+
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
                 // Tables\Actions\EditAction::make(),
             ])
