@@ -16,11 +16,11 @@ use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
-
+use Laravel\SerializableClosure\Serializers\Native;
 
 class AlbumResource extends Resource
 {
@@ -118,6 +118,13 @@ class AlbumResource extends Resource
                         }
                         return $query;
                     }),
+
+                    SelectFilter::make('publicado')
+                    ->options([
+                        true=> 'Publicado',
+                        false => 'No Publicado',
+                    ])
+                    ->native(false),
 
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
