@@ -13,8 +13,6 @@ class Pedido extends Model
 {
     use HasFactory;
 
-    //añadimos el primer modelo de pedidod generales
-
     protected $table='pedidos';
 
     const UPDATED_AT='f_modificacion';
@@ -29,7 +27,8 @@ class Pedido extends Model
         'tipo',
         'notas',
         'id_usuario',
-        'id_mediopago', //tiene que ser fillable para que lo pueda coger s
+        'id_mediopago',
+        'moneda', 
     ]
     ;
 
@@ -37,29 +36,25 @@ class Pedido extends Model
         'estado'=> EstadoPedido::class,
     ];
 
-    //boot como tal no me hace falta tenerlo
-
+    
 
     public function detallePedido():HasOne
     {
         return $this->hasOne(DetallePedido::class);
     }
 
-
-    //defino la relacion de que un pedido pertenece a un usuarios
-    //en los att fillable debo añadir usuario_id
     public function cliente():BelongsTo
     {
         return $this->belongsTo(Cliente::class);
     }
 
-    // Relacion de nuevo definiendo ahora belongsTo
+
     public function medioPago(): BelongsTo
     {
         return $this->belongsTo(MedioPago::class, 'id_mediopago');
     }
 
-     // Definir la relación para obtener las etiquetas asociadas al pedido
+
      public function etiquetas()
      {
          return $this->hasManyThrough(Etiqueta::class, Tag_content::class, 'content_id', 'id', 'id', 'tag_id')
@@ -69,5 +64,17 @@ class Pedido extends Model
     public function labels(): HasMany
     {
         return $this->hasMany(Tag_content::class, 'content_id', 'id')->where('tabla', 'pedidos');
+    }
+
+    public function monedas():BelongsTo{
+        return $this->belongsTo(Moneda::class,'moneda','cod_paypal');
+    }
+
+    public function getTotalAttribute(){
+        // $precio = $this->attributes['total'];
+        $precio = number_format($this->attributes['total'], 2);
+        $simbolo=$this->monedas->simb_moneda;
+        return $precio.'  '.$simbolo;
+
     }
 }

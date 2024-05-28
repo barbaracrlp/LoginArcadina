@@ -113,9 +113,8 @@ class PedidoResource extends Resource
                     ->label('Tipo'),
                 TextInput::make('total')
                     ->label('Total')
-                    ->numeric()
-                    ->inputMode('decimal')
-                    ->suffixIcon('fas-euro-sign'),
+                    ->disabled()
+                    ,
 
                 DatePicker::make('f_modificacion')
                     ->label('Última modificacion')
@@ -166,6 +165,8 @@ class PedidoResource extends Resource
                     ->sortable()
                     ->badge(),
                 // EstadoPedido::make('estado'),
+                Tables\Columns\TextColumn::make('total')
+                    ->label('Total')->sortable(),
                 Tables\Columns\TextInputColumn::make('comentario')
                     ->label('Comentarios')
                     ->visibleFrom('xl')
