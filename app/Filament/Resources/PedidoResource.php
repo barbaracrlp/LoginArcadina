@@ -22,31 +22,24 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Carbon\Carbon;
 use Filament\Forms\Components\Select;
-//para el filtro de las fechas
-use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
-//añado la columna personalizada
-use App\Tables\Columns\EstadoPedido;
+
 use Filament\Forms\Components\Section;
-//añado el filtro de select
+
 use Filament\Tables\Filters\SelectFilter;
-//el fieldset 
-use Filament\Forms\Components\Fieldset;
+
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Get;
-//importo los colores 
+
 use Filament\Support\Colors\Color;
-use Filament\Tables\Columns\IconColumn;
+
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 
-//lo de la view Action Delete
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Enums\ActionsPosition;
-use Illuminate\Console\View\Components\Alert;
-use Illuminate\Validation\ValidationException;
+
 
 class PedidoResource extends Resource
 {
@@ -76,7 +69,7 @@ class PedidoResource extends Resource
                         7 => 'Completado',
                         6 => 'Cancelado',
                     ])
-                   
+
                     ->colors([
                         0 => Color::Zinc,
                         1 => Color::Red,
@@ -89,16 +82,7 @@ class PedidoResource extends Resource
                     ])
                     ->inline()
                     // ->grouped()
-                    ->columnSpanFull()
-                // ->prefixAction(
-                //     Action::make('cambiaEstado')
-                //     ->action(
-                //         function ( ){
-                //             //aqui en teoria tengo que definir la accion que hace la peticion al htt
-                //         }
-                //     )
-                // )
-                ,
+                    ->columnSpanFull(),
                 Forms\Components\TextInput::make('numero')
                     ->disabled()
                     ->label('Numero'),
@@ -123,7 +107,7 @@ class PedidoResource extends Resource
                             return $pastDates;
                         }
                     )
-                  
+
                     ->displayFormat('Y-m-d'),
                 Forms\Components\TextInput::make('tipo')
                     ->label('Tipo'),
@@ -132,7 +116,7 @@ class PedidoResource extends Resource
                     ->numeric()
                     ->inputMode('decimal')
                     ->suffixIcon('fas-euro-sign'),
-              
+
                 DatePicker::make('f_modificacion')
                     ->label('Última modificacion')
                     ->disabled()
@@ -169,7 +153,7 @@ class PedidoResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nombre')
                     ->label('Nombre')
-                    //pongo un searchable por nombre para que sea más fácil que un filtro vamos
+
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
@@ -179,8 +163,6 @@ class PedidoResource extends Resource
                 Tables\Columns\TextColumn::make('tipo')
                     ->label('Tipo')->sortable(),
                 Tables\Columns\TextColumn::make('estado')
-                    //voy a crear enums para asi conseguir los colores siempre
-                    //no se si funcionara
                     ->sortable()
                     ->badge(),
                 // EstadoPedido::make('estado'),
@@ -192,13 +174,7 @@ class PedidoResource extends Resource
                     ->label('Metodo de Pago')
                     ->visibleFrom('md')
                     ->sortable(),
-                // Tables\Columns\TextColumn::make('etiquetas.titulo')
-                //     ->label('Etiqueta'),
-                /**Encontrar manera de que solo aparezca si se tiene etiquetas sino no */
 
-                /**Por respetar el layout Filament no deja ocultar una columna solo en algunos casos
-                 * como por ejemplo cuando no tenemos etiquetas
-                 */
                 Tables\Columns\TextColumn::make('etiquetas_count')
                     ->counts('etiquetas')
                     ->label('')
@@ -254,22 +230,7 @@ class PedidoResource extends Resource
                     ->query(function (Builder $query, array $data) {
                         return $query->where('notas', 'like', '%' . $data['notas'] . '%');
                     }),
-                //                  //ahora creo el primer filtro,por fecha
-                //                  Filter::make('etiquetas.titulo')
-                //                 ->form([
-                //                     TextInput::make('etiqueta')->label('Etiquetas'),
-                //                 ])
-                //                 ->query(function (Builder $query, array $data) {
 
-                //                     $etiqueta = $data['etiqueta'] ?? '';
-                // return $query->where('etiquetas.titulo', 'like', '%' . $etiqueta . '%');
-                //                 }),
-                // SelectFilter::make('etiquetas')->relationship('etiquetas', 'titulo')
-                //     ->native(false)
-                //     ->preload(),
-                /**El filtro anterior muestra solo las etiquetas presentes en la tabla
-                 * el de a continuación presenta todas las de la app
-                 */
                 Filter::make('etiqueta')
                     ->form([
                         Select::make('etiqueta')
@@ -285,9 +246,6 @@ class PedidoResource extends Resource
                         }
                         return $query;
                     }),
-
-
-
 
                 Filter::make('fecha')
                     ->form([
@@ -308,10 +266,6 @@ class PedidoResource extends Resource
 
 
 
-
-
-
-
             ], layout: FiltersLayout::AboveContentCollapsible)
 
 
@@ -321,17 +275,17 @@ class PedidoResource extends Resource
                     ->iconButton(),
 
                 Tables\Actions\Action::make('Eliminar')
-                ->icon('fas-trash')
-                ->iconButton()
-                ->modalAlignment(Alignment::Center)
-                ->form([
-                    \Filament\Forms\Components\Group::make([
-                        TextInput::make('aleatorio')
-                        ->readOnly()->label(''),
-                        TextInput::make('numero')
-                            ->label(''),
-                    ])->columns(2),
-                ])
+                    ->icon('fas-trash')
+                    ->iconButton()
+                    ->modalAlignment(Alignment::Center)
+                    ->form([
+                        \Filament\Forms\Components\Group::make([
+                            TextInput::make('aleatorio')
+                                ->readOnly()->label(''),
+                            TextInput::make('numero')
+                                ->label(''),
+                        ])->columns(2),
+                    ])
                     ->fillForm(function (Pedido $record) {
                         return [
                             'aleatorio' => rand(1000, 9999),
@@ -346,15 +300,30 @@ class PedidoResource extends Resource
                     ))
                     ->action(function (array $data, Pedido $record): void {
 
-                        if ($data['numero'] !== $data['aleatorio']) {
-                            error_log('Noooo Lo borra');
-                            throw ValidationException::withMessages([
-                                'mountedActionsData.0.code' => 'Número incorrecto',
-                            ]);
+                        error_log(print_r($data, true));
+
+                        $numero = $data['numero'];
+                        $aleatorio = $data['aleatorio'];
+
+                        error_log($numero);
+                        error_log($aleatorio);
+
+                        if ($numero == $aleatorio) {
+
+                            $record->delete();
+
+                            Notification::make()
+                                ->title('Eliminado Correctamente')
+                                ->success()
+                                ->persistent()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Error al eliminar Pedido')
+                                ->danger()
+                                ->persistent()
+                                ->send();
                         }
-
-
-                        error_log('Lo borra');
                     })
 
                 // Tables\Actions\DeleteAction::make()
@@ -376,9 +345,9 @@ class PedidoResource extends Resource
                 //             'mountedActionsData.0.code' => 'The secret code is invalid.',
                 //         ]);
                 //     }
-              
+
                 //     $record->delete();
-              
+
                 //     $this->redirect($this->getResource()::getUrl('index'));
                 // })
 

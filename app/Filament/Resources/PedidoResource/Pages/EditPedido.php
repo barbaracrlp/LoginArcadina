@@ -17,9 +17,9 @@ use Filament\Support\Facades\FilamentView;
 use Filament\Resources\Pages;
 use Filament\Forms;
 use Filament\Forms\Get;
+use Illuminate\Contracts\View\View;
 use Illuminate\Validation\ValidationException;
-
-
+use PhpParser\Node\Stmt\Label;
 
 use function Laravel\Prompts\alert;
 use function Laravel\Prompts\error;
@@ -35,13 +35,15 @@ class EditPedido extends EditRecord
         return [
           
             Actions\DeleteAction::make()
+            ->icon('fas-trash')
                 ->mountUsing(function (Form $form) {
                     $form->fill(['secret' => strval(rand(1000, 9999))]);
                 })
                 ->form([
                     \Filament\Forms\Components\Group::make([
                         Forms\Components\Placeholder::make('secret')
-                            ->content(fn (Get $get) => 'Por favor introduce el siguiente numero para confirmar ' . $get('secret')),
+                            ->content(fn (Get $get) => 'Por favor introduce el siguiente numero para confirmar: ' . $get('secret'))
+                            ->label(''),
                         Forms\Components\Hidden::make('secret'),
                         Forms\Components\TextInput::make('code')
                             ->label('Número')
@@ -65,6 +67,10 @@ class EditPedido extends EditRecord
                 ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
                 ->modalSubmitActionLabel('Sí, Eliminar Pedido')
                 ->modalCancelActionLabel('Cancelar')
+                // ->modalContent(fn (Pedido $record,): View => view(
+                //     'filament.actions.deletePedido',
+                //     ['record' => $record,],
+                // ))
                 ->label('Eliminar')
         ];
     }
