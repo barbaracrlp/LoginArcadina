@@ -334,7 +334,7 @@ class ClienteResource extends Resource
                     ->color('info')
                     ->iconButton()
                     ->modalHeading('Información Cliente'),
-                //primer intento de crear accion de eliminar con texto custom
+             
                 Action::make('Eliminar')
                     ->action(fn (Cliente $record) => $record->delete())
                     ->requiresConfirmation()
@@ -348,14 +348,14 @@ class ClienteResource extends Resource
                     ->modalIcon('fas-trash'),
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
-                // Tables\Actions\BulkActionGroup::make([
+               
                 Tables\Actions\DeleteBulkAction::make()->label('Eliminar')
                     ->requiresConfirmation(),
-                // ]),
+                
             ]);
     }
 
-    //aqui creo la infolist
+   
     public static function infolist(Infolist $infolist): Infolist
     {
 

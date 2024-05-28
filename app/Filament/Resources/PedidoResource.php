@@ -76,8 +76,7 @@ class PedidoResource extends Resource
                         7 => 'Completado',
                         6 => 'Cancelado',
                     ])
-                    //se pueden agregar tambien iconos, uno para cada opcion, pero ya 
-                    //sobrecargaria el front (creo yo vamos)
+                   
                     ->colors([
                         0 => Color::Zinc,
                         1 => Color::Red,
@@ -124,7 +123,7 @@ class PedidoResource extends Resource
                             return $pastDates;
                         }
                     )
-                    //->disabled()
+                  
                     ->displayFormat('Y-m-d'),
                 Forms\Components\TextInput::make('tipo')
                     ->label('Tipo'),
@@ -133,9 +132,7 @@ class PedidoResource extends Resource
                     ->numeric()
                     ->inputMode('decimal')
                     ->suffixIcon('fas-euro-sign'),
-                //para los estados voy a hacer un select
-                //al final cambio a togglebuttons pero no se si se podran definir las acciones
-                //si no se pueden será mejor dejarlo como select y ya 
+              
                 DatePicker::make('f_modificacion')
                     ->label('Última modificacion')
                     ->disabled()
@@ -349,25 +346,15 @@ class PedidoResource extends Resource
                     ))
                     ->action(function (array $data, Pedido $record): void {
 
-                        $numero = $data['numero'];
-                        $aleatorio = $data['aleatorio'];
-
-                        if ($numero == $aleatorio) {
-                            $record->delete();
-
-                            Notification::make()
-                                ->title('Eliminado Correctamente')
-                                ->success()
-                                ->persistent()
-                                ->send();
+                        if ($data['numero'] !== $data['aleatorio']) {
+                            error_log('Noooo Lo borra');
+                            throw ValidationException::withMessages([
+                                'mountedActionsData.0.code' => 'Número incorrecto',
+                            ]);
                         }
-                        else{
-                            Notification::make()
-                                ->title('Error al eliminar Pedido')
-                                ->danger()
-                                ->persistent()
-                                ->send();
-                        }
+
+
+                        error_log('Lo borra');
                     })
 
                 // Tables\Actions\DeleteAction::make()

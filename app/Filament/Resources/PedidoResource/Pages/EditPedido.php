@@ -19,7 +19,7 @@ use Filament\Forms;
 use Filament\Forms\Get;
 use Illuminate\Validation\ValidationException;
 
-//importo la view 
+
 
 use function Laravel\Prompts\alert;
 use function Laravel\Prompts\error;
@@ -33,8 +33,7 @@ class EditPedido extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\DeleteAction::make(),
-
+          
             Actions\DeleteAction::make()
                 ->mountUsing(function (Form $form) {
                     $form->fill(['secret' => strval(rand(1000, 9999))]);
@@ -57,7 +56,7 @@ class EditPedido extends EditRecord
                         ]);
                     }
 
-                    //   $record->delete();
+                    $record->delete();
                     error_log('Lo borra');
 
                     $this->redirect($this->getResource()::getUrl('index'));
@@ -133,7 +132,7 @@ class EditPedido extends EditRecord
     }
 
 
-    //en el record tengo lo que son todos los datos de ese momento 
+
 
 
     public function callApiHttpCambioEstado(string $url, array $params, int $timeout = 5): array
