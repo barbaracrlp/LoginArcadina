@@ -365,7 +365,7 @@ class PedidoResource extends Resource
     {
         return [
 
-            EtiquetasRelationManager::class,
+            // EtiquetasRelationManager::class,
         ];
     }
 
