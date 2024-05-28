@@ -32,6 +32,8 @@ class AlbumResource extends Resource
 
     protected static ?string $navigationGroup = "Tienda";
 
+    public static ?string $label = 'Galeria';
+
 
 
     public static function form(Form $form): Form
