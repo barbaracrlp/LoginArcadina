@@ -3,15 +3,22 @@
 namespace App\Filament\Resources\PedidoResource\Pages;
 
 use App\Filament\Resources\PedidoResource;
+use App\Models\Pedido;
 use App\Models\Token;
+
 use Filament\Actions;
 use Filament\Facades\Filament;
+use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Http;
 
 
 use Filament\Support\Facades\FilamentView;
 use Filament\Resources\Pages;
+use Filament\Forms;
+use Filament\Forms\Get;
+use Illuminate\Validation\ValidationException;
+
 //importo la view 
 
 use function Laravel\Prompts\alert;
@@ -27,6 +34,39 @@ class EditPedido extends EditRecord
     {
         return [
             // Actions\DeleteAction::make(),
+
+            Actions\DeleteAction::make()
+                ->mountUsing(function (Form $form) {
+                    $form->fill(['secret' => strval(rand(1000, 9999))]);
+                })
+                ->form([
+                    \Filament\Forms\Components\Group::make([
+                        Forms\Components\Placeholder::make('secret')
+                            ->content(fn (Get $get) => 'Por favor introduce el siguiente numero para confirmar ' . $get('secret')),
+                        Forms\Components\Hidden::make('secret'),
+                        Forms\Components\TextInput::make('code')
+                            ->label('Número')
+                            ->required(),
+                    ]),
+
+                ])
+                ->action(function (array $data, Pedido $record): void {
+                    if ($data['code'] !== $data['secret']) {
+                        throw ValidationException::withMessages([
+                            'mountedActionsData.0.code' => 'Número incorrecto',
+                        ]);
+                    }
+
+                    //   $record->delete();
+                    error_log('Lo borra');
+
+                    $this->redirect($this->getResource()::getUrl('index'));
+                })
+                ->modalHeading('Eliminar Pedido')
+                ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
+                ->modalSubmitActionLabel('Sí, Eliminar Pedido')
+                ->modalCancelActionLabel('Cancelar')
+                ->label('Eliminar')
         ];
     }
 
@@ -37,9 +77,6 @@ class EditPedido extends EditRecord
     {
 
 
-
-        // error_log('Guardando registro...');
-        //aqui no tengo que guardar el record sino el estado del formulario
         $data = $this->form->getState(afterValidate: function () {
             $this->callHook('afterValidate');
             $this->callHook('beforeSave');
@@ -47,57 +84,31 @@ class EditPedido extends EditRecord
 
         $id_nuevo = $this->record->id;
         $estado_nuevo = $data['estado'];
-        //aqui tengo guardado el estado nuevo
-        // error_log($id_nuevo . "<--aqui esta el id en teoria");
-        // error_log("estado nuevo: " . $estado_nuevo);
 
-        // $data=$this->record->toArray();//aqui guardo todos los datos del formulario en uno
-        // error_log(json_encode($data));
-        // error_log('arriba esta la variable que saca del formulario');
-        /**aqui saco los datos del formulario y le añado las variables que sean necesario añadir para 
-         * hacer la peticion 
-         * 
-         */
-        $data = json_encode($data); //guardo todo el formulario como   json
-        $data = json_decode($data, true); //a arreglo asociativo
-        $data['id'] = $id_nuevo; //añado la variable nueva
+        $data = json_encode($data);
+        $data = json_decode($data, true);
+        $data['id'] = $id_nuevo;
 
-        //busco el token
         $token = Token::getToken();
         error_log(' Token :' . $token);
 
-        $data['auth_token'] = $token; //añado la variable nueva
-        //necesito definir una variable que sea un array donde guarde los parámetros a pasar 
+        $data['auth_token'] = $token;
+
         $params = [];
-        $params['auth_token'] = $token; //le agrego el token
+        $params['auth_token'] = $token;
         $params['ajaxsubmit'] = 'pedido_estado';
         $params['estado'] = $estado_nuevo;
         $params['envia_mail'] = 'no';
         $params['id_pedido'] = $id_nuevo;
 
 
-        //tengo que hacer la variable de parametros como form-urlundercoded 
-        //nueva variable parametros 
-        $parametros = [
-            'auth_token' => $token,
-            'ajaxsubmit' => 'pedido_estado',
-            'estado' => $estado_nuevo,
-            'envia_mail' => 'no',
-        ];
-
-
-        // error_log(json_encode($params) . "<--aqui estan los parametros peronjsonencode");
         $url_del_API = 'https://barbaratest01.arcadina.web2/gestion/api/ajaxsubmit.php';
 
 
         $respuesta = EditPedido::callApiHttpCambioEstado($url_del_API, $params, $timeout = 5);
-        // error_log(json_encode($respuesta));
 
 
 
-
-        //llamo al API que en teoria hace lo que tiene que hacer
-        //ahora redirijo cogiendo el final de la funcion original del vendor
         if ($shouldSendSavedNotification) {
             $this->getSavedNotification()?->send();
         }
@@ -123,7 +134,7 @@ class EditPedido extends EditRecord
 
 
     //en el record tengo lo que son todos los datos de ese momento 
-    //record es la instancia de pedido que hay 
+
 
     public function callApiHttpCambioEstado(string $url, array $params, int $timeout = 5): array
     {
@@ -133,10 +144,7 @@ class EditPedido extends EditRecord
         ];
 
         try {
-            // $response = Http::timeout($timeout)->post($url, $params);
-            //withoutverifying para evitar el error de acceso de ssl
-            // $response = Http::withoutVerifying()->timeout($timeout)->post($url, $params);
-            //tengo que cambiar la forma en la que hace la peticion
+
             $response = Http::asForm()->withoutVerifying()->timeout($timeout)->post($url, $params);
 
             $statusCode = $response->status();
@@ -174,5 +182,4 @@ class EditPedido extends EditRecord
         }
         return empty($ret) ? [] : $ret;
     }
-
 }

@@ -32,6 +32,7 @@ use Filament\Tables\Filters\SelectFilter;
 //el fieldset 
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Get;
 //importo los colores 
 use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\IconColumn;
@@ -45,6 +46,7 @@ use Filament\Notifications\Notification;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Enums\ActionsPosition;
 use Illuminate\Console\View\Components\Alert;
+use Illuminate\Validation\ValidationException;
 
 class PedidoResource extends Resource
 {
@@ -129,7 +131,8 @@ class PedidoResource extends Resource
                 TextInput::make('total')
                     ->label('Total')
                     ->numeric()
-                    ->inputMode('decimal'),
+                    ->inputMode('decimal')
+                    ->suffixIcon('fas-euro-sign'),
                 //para los estados voy a hacer un select
                 //al final cambio a togglebuttons pero no se si se podran definir las acciones
                 //si no se pueden será mejor dejarlo como select y ya 
@@ -317,52 +320,9 @@ class PedidoResource extends Resource
 
             ->actions([
                 Tables\Actions\EditAction::make()
-                ->icon('fas-pen-to-square')
+                    ->icon('fas-pen-to-square')
                     ->iconButton(),
-                // Tables\Actions\Action::make('delete')
-                // ->action(fn(Pedido $record)=>$record->delete())
-                // ->requiresConfirmation()
-                // ->modalHeading('Vas a eliminar el pedido siguiente
-                // {{$record->numero}}')
-                // ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
-                // ->modalSubmitActionLabel('Eliminar'),
-                // Tables\Actions\DeleteAction::make('delete')
-                //     ->requiresConfirmation()
-                //     ->modalHeading('Eliminar Pedido')
-                //     ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.'),
 
-                // ->requiresValidation(function ($record, $data) {
-                //     // Validar que el número introducido es igual al número aleatorio generado
-                //     return $data['confirmation_number'] == $data['randomNumber'];
-                // }),
-
-                /**Otro intento de la Delete Action  */
-                // Tables\Actions\Action::make('Delete')
-                // ->label('Eliminar')
-
-                //     ->color('danger')
-                //     ->modalContent(fn (Pedido $record,): View => view(
-                //         'filament.actions.deletePedido',
-                //         ['record' => $record, 'aleatorio' => rand(1000, 9999)],
-                //     ))
-                //     ->modalSubmitActionLabel('Eliminar')
-                //     ->modalCancelActionLabel('Cancelar')
-                //     ->color('danger')
-                //     ->action(function (Pedido $record, Request $request) {
-                //         $userNum = $request->input('userNum');
-                //         error_log($userNum."el del susuario");
-
-                //         $aleatorio = $request->input('aleatorio');
-                //         error_log($aleatorio."el del susuario");
-
-                //         if ($userNum === $aleatorio) {
-                //             error_log("Se borra");
-                //         }
-                //         else{
-                //             error_log(" No Se borra");
-                //         }
-                //     })
-                //     ,
                 Tables\Actions\Action::make('Eliminar')
                 ->icon('fas-trash')
                 ->iconButton()
@@ -388,13 +348,13 @@ class PedidoResource extends Resource
                         ['record' => $record,],
                     ))
                     ->action(function (array $data, Pedido $record): void {
-                        
+
                         $numero = $data['numero'];
                         $aleatorio = $data['aleatorio'];
 
                         if ($numero == $aleatorio) {
                             $record->delete();
-                            
+
                             Notification::make()
                                 ->title('Eliminado Correctamente')
                                 ->success()
@@ -410,8 +370,33 @@ class PedidoResource extends Resource
                         }
                     })
 
+                // Tables\Actions\DeleteAction::make()
+                // ->mountUsing(function (Form $form) {
+                //     $form->fill(['secret' => strval(rand(1000, 9999))]);
+                // })
+                // ->form([
+                //     Forms\Components\Placeholder::make('secret')
+                //         ->content(fn(Get $get) => 'Please fill in this code to delete this record ' . $get('secret') ),
+                //     Forms\Components\Hidden::make('secret'),
+                //     Forms\Components\TextInput::make('code')
+                //         ->label('Secret code')
+                //         ->required(),
+                // ])
+                // ->action(function (array $data, Pedido $record): void {
+                //     if ($data['code']!==$data['secret'])
+                //     {
+                //         throw ValidationException::withMessages([
+                //             'mountedActionsData.0.code' => 'The secret code is invalid.',
+                //         ]);
+                //     }
+              
+                //     $record->delete();
+              
+                //     $this->redirect($this->getResource()::getUrl('index'));
+                // })
 
-                ],position: ActionsPosition::BeforeColumns)
+
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
