@@ -16,7 +16,7 @@ class ListClientes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Nuevo +'),
+            // Actions\CreateAction::make()->label('Nuevo +'),
 
 
 
