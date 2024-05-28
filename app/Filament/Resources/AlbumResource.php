@@ -91,7 +91,7 @@ class AlbumResource extends Resource
             ])
             ->filters([])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -111,8 +111,8 @@ class AlbumResource extends Resource
     {
         return [
             'index' => Pages\ListAlbums::route('/'),
-            'create' => Pages\CreateAlbum::route('/create'),
-            'edit' => Pages\EditAlbum::route('/{record}/edit'),
+            // 'create' => Pages\CreateAlbum::route('/create'),
+            // 'edit' => Pages\EditAlbum::route('/{record}/edit'),
         ];
     }
 }
