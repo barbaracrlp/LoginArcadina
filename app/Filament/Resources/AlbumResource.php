@@ -25,7 +25,7 @@ class AlbumResource extends Resource
 
     protected static ?string $navigationLabel= 'Galerías';
 
-    protected static ?string $navigationGroup = "Images";
+    protected static ?string $navigationGroup = "Tienda";
 
     
 
