@@ -132,7 +132,8 @@ class AlbumResource extends Resource
                         if(! $data['etiqueta']){
                             return null;
                         }
-                        return 'etiqueta'.$data['etiqueta'];
+                        $etiqueta = Etiqueta::find($data['etiqueta']);
+                        return $etiqueta ? 'Etiqueta: ' . $etiqueta->titulo : null;
                     }),
 
                     SelectFilter::make('publicado')
