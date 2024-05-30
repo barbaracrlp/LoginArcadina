@@ -63,8 +63,7 @@ class AlbumResource extends Resource
                 // ->offIcon('heroicon-m-eye-slash')
                 // ->onColor('primary')
                 // ->offColor('neutral'),
-                //la fecha com a tal es crea al fer el commit a la DB no al crear una galeria
-                //es la fecha de creacion
+                
 
             ]);
     }
@@ -89,9 +88,7 @@ class AlbumResource extends Resource
                         'fas-image' => 'foto',
                         'fas-circle-play' => 'video',
                     ]),
-                // Tables\Columns\TextColumn::make('estado')
-                //     ->sortable()
-                //     ->searchable(),
+             
                 Tables\Columns\TextColumn::make('fecha')
                     ->sortable()
                     ->dateTime('d-m-Y'),

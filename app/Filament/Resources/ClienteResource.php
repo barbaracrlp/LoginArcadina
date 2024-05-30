@@ -3,11 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ClienteResource\Pages;
-use App\Filament\Resources\ClienteResource\RelationManagers;
+
 use App\Models\Cliente;
 
 use Filament\Forms;
-use Filament\Forms\Components\Group;
+
 use Filament\Forms\Components\Section as ComponentsSection;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 
 
 use Filament\Infolists\Infolist;
@@ -24,14 +24,14 @@ use Filament\Infolists\Components\Section;
 
 use Filament\Tables\Enums\ActionsPosition;
 
-//los import necesarios para la accion de la columna del email
+
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Support\Facades\Mail;
 
 use Filament\Tables\Filters\Filter;
 
-//importo la clase de encriptacion
+
 use App\Filament\Pages\Auth\encriptaCliente;
 use App\Mail\ClienteEmail;
 use App\Models\Etiqueta;
@@ -40,7 +40,7 @@ use Filament\Tables\Enums\FiltersLayout;
 
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Date;
+
 
 class ClienteResource extends Resource
 {
@@ -59,11 +59,8 @@ class ClienteResource extends Resource
     {
         return $form
             ->schema([
-                //agregamos el formulario 
-
                 Forms\Components\Checkbox::make('multiple')
                     ->label('Usuario Múltiple')
-
                     ->autofocus(),
                 Forms\Components\TextInput::make('usuario')
                     ->label('Nombre')
@@ -93,10 +90,6 @@ class ClienteResource extends Resource
                             ->label('Localidad'),
                         Forms\Components\TextInput::make('provincia')
                             ->label('Provincia'),
-                        //aqui necesito tener el select con todos los paises de la relacion
-                        //mira el de veterinarios con los dueños es tal cual
-
-                        //el pais no funciona 
                         Forms\Components\Select::make('pais_id')
                             ->relationship('pais', 'nombre_es')
                             ->searchable()
@@ -115,20 +108,13 @@ class ClienteResource extends Resource
     {
         return $table
             ->columns([
-                // IconColumn::make('etiquetas.titulo')
-                // ->icon('fas-tag')
-                // ->color('primary')
-                // ->label('')
-                // ->size('sm'),
+                
                 Tables\Columns\TextColumn::make('usuario')
                     ->label('Usuario')
                     ->grow(false)
                     ->sortable()
                     ->searchable(),
-                //agregamos las columnas de la tabla
-                /**La primera opcion es mejor ya que enseña el numero de etiquetas
-                 * si usamos el iconColumn tenemos un icono por cada etiqueta que hay
-                 */
+               
                 Tables\Columns\TextColumn::make('etiquetas_count')
                     ->counts('etiquetas')
                     ->exists('etiquetas')
@@ -151,11 +137,9 @@ class ClienteResource extends Resource
                     ->disabled()
                     ->visibleFrom('md')
                     ->grow(false)
-                //funciona haciendo una funcion en el modelo de cliente
-                //donde hago un "cast" que lo transforma en un booleano
-                //no queda bonito pero es lo que hay
+                
                 ,
-                Tables\Columns\TextColumn::make('mail') //al email se le debe añadir una accion de enviar email
+                Tables\Columns\TextColumn::make('mail') 
                     ->label('Email')
                     ->sortable()
                     ->searchable()
@@ -197,6 +181,12 @@ class ClienteResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query->where('usuario', 'like', '%' . $data['usuario'] . '%');
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['usuario']){
+                            return null;
+                        }
+                        return 'Usuario: '.$data['usuario'];
                     }),
 
                 Filter::make('nombre')
@@ -205,6 +195,12 @@ class ClienteResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query->where('nombre', 'like', '%' . $data['nombre'] . '%');
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['nombre']){
+                            return null;
+                        }
+                        return 'Nombre: '.$data['nombre'];
                     }),
 
                 Filter::make('mail')
@@ -213,6 +209,12 @@ class ClienteResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query->where('mail', 'like', '%' . $data['mail'] . '%');
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['mail']){
+                            return null;
+                        }
+                        return 'Email: '.$data['mail'];
                     }),
 
                 Filter::make('telefono')
@@ -221,22 +223,13 @@ class ClienteResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query->where('telefono', 'like', '%' . $data['telefono'] . '%');
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['telefono']){
+                            return null;
+                        }
+                        return 'Tel: '.$data['telefono'];
                     }),
-
-
-                /**No se pueden mostrar todas las etiquetas de la app ya que filamet necesita tener 
-                 * definida la relacion para no buscar directamente una columna en la BD
-                 * Como mucho se podríasn poner todas pero desactivar de alguna manera las opciones no presentes en la tabla actual
-                 * aunque no tendría demasiado sentido
-                 * O crear un filtro custom 
-                 */
-                // SelectFilter::make('etiquetas')
-                //     ->relationship('etiquetas', 'titulo')
-                //     // ->options(Etiqueta::all()->pluck('titulo', 'id')->toArray())
-                //     ->native(false)
-                //     ->preload(),
-
-                /**Intento de crear el filtro pers */
 
                 Filter::make('etiqueta')
                     ->form([
@@ -252,6 +245,13 @@ class ClienteResource extends Resource
                             });
                         }
                         return $query;
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['etiqueta']){
+                            return null;
+                        }
+                        $etiqueta = Etiqueta::find($data['etiqueta']);
+                        return $etiqueta ? 'Etiqueta: ' . $etiqueta->titulo : null;
                     }),
 
                 Filter::make('acceso')
@@ -276,52 +276,83 @@ class ClienteResource extends Resource
                         $yesterday = Carbon::yesterday();
 
                         switch ($data['acceso']) {
-                            case '0': // Hoy
+                            case '0': 
                                 $query->whereDate('last_login', $today);
                                 break;
 
-                            case '1': // Ayer
+                            case '1': 
                                 $query->whereDate('last_login', $yesterday);
                                 break;
 
-                            case '7': // Últimos 7 días
+                            case '7': 
                                 $query->where('last_login', '>=', $today->subDays(7));
                                 break;
 
-                            case '15': // Últimos 15 días
+                            case '15':
                                 $query->where('last_login', '>=', $today->subDays(15));
                                 break;
 
-                            case '30': // Últimos 30 días
+                            case '30': 
                                 $query->where('last_login', '>=', $today->subDays(30));
                                 break;
 
-                            case '30-90': // Entre 30 y 90 días
+                            case '30-90': 
                                 $query->whereBetween('last_login', [$today->subDays(90), $today->subDays(30)]);
                                 break;
 
-                            case '90': // Más de 90 días
+                            case '90': 
                                 $query->where('last_login', '<', $today->subDays(90));
                                 break;
 
-                            case 'N': // No ha accedido nunca
+                            case 'N': 
                                 $query->whereNull('last_login');
                                 break;
                         }
                         return $query;
                     })
-                ,
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['acceso']){
+                            return null;
+                        }
 
+                        switch ($data['acceso']) {
+                            case '0':
+                                return 'Hoy'; 
+                                break;
 
-                //primer filtro de multiple
+                            case '1':
+                                return 'Ayer'; 
+                                break;
+
+                            case '7':
+                                return 'Últimos 7 días'; 
+                                break;
+
+                            case '15':
+                                return 'Últimos 15 días';
+                                break;
+
+                            case '30':
+                                return 'Últimos 30 días'; 
+                                
+                                break;
+
+                            case '30-90':
+                                return 'Entre 30 y 90 días'; 
+                         
+                                break;
+
+                            case '90':
+                                return 'Más de 90 días'; 
+                            
+                                break;
+
+                        }
+                    }),
+
                 Filter::make('multiple')
                     ->query(fn (Builder $query): Builder => $query->where('multiple', 'si')),
-                /**hará falta un filtro de ultimo acceso un selectfilter */
-
-
-                /**El filtro de select para las fechas */
-
-
+      
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
                 Tables\Actions\EditAction::make()
@@ -377,9 +408,6 @@ class ClienteResource extends Resource
                         TextEntry::make('localidad')->label('Localidad'),
                         TextEntry::make('Provincia')->label('provincia'),
                         TextEntry::make('pais.nombre_es')->label('País'),
-                        // TextEntry::make('etiqueta.titulo')->label('Etiqueta'),
-                        //aquí va a tener que ir el país 
-                        //necesito el modelo del pais que coj
                         TextEntry::make('usuario')->label('Usuario'),
                     ])->columns(3),
 
@@ -407,10 +435,10 @@ class ClienteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //necesito crear un relationmanager para los pedidos
-            /**necesitas definiar las funciones de ralcion en los modelos
-         * despues crear el relation manager
-         */
+            /**TODO: unir los clientes con pedidos por RelationManager
+             *  Crearlo y después Definirlo
+             * Definir las relaciones correctas en los modelos
+             */
         ];
     }
 
