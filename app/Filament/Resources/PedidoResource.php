@@ -163,27 +163,32 @@ class PedidoResource extends Resource
                     ->label('Numero')
                     ->visibleFrom('md')
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('nombre')
                     ->label('Cliente')
-
                     ->searchable()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('fecha')
                     ->label('Fecha')
                     ->dateTime('Y-m-d')
                     ->sortable(),
+                    
                 Tables\Columns\TextColumn::make('tipo')
                     ->label('Tipo')->sortable(),
+
                 Tables\Columns\TextColumn::make('estado')
                     ->sortable()
                     ->badge(),
-                // EstadoPedido::make('estado'),
+
                 Tables\Columns\TextColumn::make('total')
                     ->label('Total')->sortable(),
+
                 Tables\Columns\TextInputColumn::make('comentario')
                     ->label('Comentarios')
                     ->visibleFrom('xl')
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('medioPago.titulo')
                     ->label('Metodo de Pago')
                     ->visibleFrom('md')
@@ -316,8 +321,6 @@ class PedidoResource extends Resource
                         return $indicators;
                     }),
 
-
-
             ], layout: FiltersLayout::AboveContentCollapsible)
 
 
@@ -377,7 +380,6 @@ class PedidoResource extends Resource
                                 ->send();
                         }
                     })
-
 
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
