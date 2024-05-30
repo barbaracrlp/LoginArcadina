@@ -6,7 +6,9 @@ use App\Filament\Resources\AlbumResource\Pages;
 use App\Filament\Resources\AlbumResource\RelationManagers;
 use App\Models\Album;
 use App\Models\Etiqueta;
+use Carbon\Carbon;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -102,7 +104,15 @@ class AlbumResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query->where('titulo', 'like', '%' . $data['titulo'] . '%');
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['titulo']){
+                            return null;
+                        }
+                        return 'Titulo: '.$data['titulo'];
                     }),
+
+
                 Filter::make('etiqueta')
                     ->form([
                         Select::make('etiqueta')
@@ -117,6 +127,12 @@ class AlbumResource extends Resource
                             });
                         }
                         return $query;
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['etiqueta']){
+                            return null;
+                        }
+                        return 'etiqueta'.$data['etiqueta'];
                     }),
 
                     SelectFilter::make('publicado')
@@ -125,6 +141,37 @@ class AlbumResource extends Resource
                         false => 'No Publicado',
                     ])
                     ->native(false),
+
+                    Filter::make('fecha')
+                    ->form([
+                        DatePicker::make('created_from')->native(false)->label('Desde:'),
+                        DatePicker::make('created_until')->native(false)->label('Hasta:'),
+                    ])->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
+                            );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+                 
+                        if ($data['created_from'] ?? null) {
+                            $indicators['created_from'] = 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
+                        }
+                 
+                        if ($data['created_until'] ?? null) {
+                            $indicators['created_until'] = 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
+                        }
+                 
+                        return $indicators;
+                    }),
+
 
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->actions([
