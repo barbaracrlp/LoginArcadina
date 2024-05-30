@@ -35,6 +35,7 @@ use Filament\Tables\Filters\Filter;
 use App\Filament\Pages\Auth\encriptaCliente;
 use App\Mail\ClienteEmail;
 use App\Models\Etiqueta;
+use App\Models\Pais;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Enums\FiltersLayout;
 
@@ -90,16 +91,12 @@ class ClienteResource extends Resource
                             ->label('Localidad'),
                         Forms\Components\TextInput::make('provincia')
                             ->label('Provincia'),
-                        Forms\Components\Select::make('pais_id')
+                            Forms\Components\Select::make('pais_id')
                             ->relationship('pais', 'nombre_es')
+                            ->options(Pais::all()->pluck('nombre_es', 'id')->toArray())
                             ->searchable()
                             ->native(false)
-                            ->preload()
-                            ->createOptionForm([
-                                Forms\Components\TextInput::make('nombre_es')
-                                    ->required()
-                                    ->maxLength(255)
-                            ]),
+                            ->preload(),
                     ]),
             ])->columns(1);
     }
@@ -346,6 +343,7 @@ class ClienteResource extends Resource
                                 return 'Más de 90 días'; 
                             
                                 break;
+
 
                         }
                     }),

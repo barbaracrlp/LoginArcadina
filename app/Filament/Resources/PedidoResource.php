@@ -7,6 +7,7 @@ use App\Filament\Resources\PedidoResource\Pages;
 
 use App\Models\Etiqueta;
 use App\Models\MedioPago;
+use App\Models\Pais;
 use App\Models\Pedido;
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -88,27 +89,6 @@ class PedidoResource extends Resource
                     ->disabled()
                     ->label('Cliente'),
 
-                Section::make('Datos Cliente')
-                    ->schema([
-                        // ...
-                        TextInput::make('email'),
-                        TextInput::make('telefono'),
-                        TextInput::make('direccion'),
-                        TextInput::make('localidad'),
-                        TextInput::make('provincia'),
-                        Forms\Components\Select::make('pais_id')
-                            ->relationship('pais', 'nombre_es')
-                            ->searchable()
-                            ->native(false)
-                            ->preload()
-                            ->createOptionForm([
-                                Forms\Components\TextInput::make('nombre_es')
-                                    ->required()
-                                    ->maxLength(255)
-                            ]),
-
-                    ])->collapsible()->columns(3),
-
                 DatePicker::make('fecha')
                     ->label('Fecha')
                     ->disabled()
@@ -145,6 +125,24 @@ class PedidoResource extends Resource
                     ->searchable()
                     ->native(false)
                     ->preload(),
+
+                Section::make('Datos Cliente')
+                    ->schema([
+                        // ...
+                        TextInput::make('email'),
+                        TextInput::make('telefono'),
+                        Forms\Components\Select::make('pais_id')
+                            ->relationship('pais', 'nombre_es')
+                            ->options(Pais::all()->pluck('nombre_es', 'id')->toArray())
+                            ->searchable()
+                            ->native(false)
+                            ->preload(),
+                        TextInput::make('direccion'),
+                        TextInput::make('localidad'),
+                        TextInput::make('provincia'),
+
+
+                    ])->collapsible()->columns(3),
 
                 Section::make('Notas')
                     ->schema([
