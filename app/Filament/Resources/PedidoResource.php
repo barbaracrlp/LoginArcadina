@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\ClienteResource\RelationManagers\EtiquetasRelationManager;
 use App\Filament\Resources\PedidoResource\Pages;
-use App\Filament\Resources\PedidoResource\RelationManagers;
-use App\Filament\Resources\PedidoResource\RelationManagers\EtiquetasRelationManager;
-use App\Models\Cliente;
+
 use App\Models\Etiqueta;
 use App\Models\MedioPago;
 use App\Models\Pedido;
@@ -57,7 +56,6 @@ class PedidoResource extends Resource
     {
         return $form
             ->schema([
-                //agregamos los elementos del formulario
                 Forms\Components\ToggleButtons::make('estado')
                     ->options([
                         0 => 'Sin Confirmar',
@@ -69,7 +67,6 @@ class PedidoResource extends Resource
                         7 => 'Completado',
                         6 => 'Cancelado',
                     ])
-
                     ->colors([
                         0 => Color::Zinc,
                         1 => Color::Red,
@@ -81,33 +78,28 @@ class PedidoResource extends Resource
                         6 => Color::Neutral,
                     ])
                     ->inline()
-                    // ->grouped()
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('numero')
                     ->disabled()
                     ->label('Numero'),
                 Forms\Components\TextInput::make('nombre')
                     ->disabled()
-                    ->label('Nombre'),
+                    ->label('Cliente'),
                 DatePicker::make('fecha')
                     ->label('Fecha')
                     ->disabled()
-                    //a ver si asi se cambia el datePicker
                     ->native(false)
                     ->disabledDates(
                         function () {
                             $pastDates = [];
                             $currentDate = Carbon::now();
-
-                            // Generate past dates
-                            for ($i = 1; $i <= 60; $i++) { // You can adjust the number of past days as needed
+                            for ($i = 1; $i <= 60; $i++) { 
                                 $pastDates[] = $currentDate->subDay()->format('Y-m-d');
                             }
 
                             return $pastDates;
                         }
                     )
-
                     ->displayFormat('Y-m-d'),
                 Forms\Components\TextInput::make('tipo')
                     ->label('Tipo'),
@@ -126,11 +118,6 @@ class PedidoResource extends Resource
                     ->searchable()
                     ->native(false)
                     ->preload(),
-                Forms\components\TextInput::make('etiquetas.titulo'),
-                // Select::make('')
-                // ->relationship('etiquetas', 'titulo')
-                // ->disabled()
-                //     ->prefixIcon('fas-tag'),
                 Section::make('Notas')
                     ->schema([
                         // ...
@@ -151,7 +138,7 @@ class PedidoResource extends Resource
                     ->visibleFrom('md')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nombre')
-                    ->label('Nombre')
+                    ->label('Cliente')
 
                     ->searchable()
                     ->sortable(),
@@ -192,16 +179,19 @@ class PedidoResource extends Resource
                         'seleccion' => 'Seleccion',
                     ])->native(false),
 
-                SelectFilter::make('cliente')
-                    ->relationship('cliente', 'usuario')
+                SelectFilter::make('nombre')
+                ->options(Pedido::all()->pluck('nombre', 'nombre')->toArray())
                     ->searchable()
                     ->preload()
-                    ->native(false),
+                    ->native(false)
+                    ->label('Cliente'),
+                    
                 SelectFilter::make('medioPago')
                     ->relationship('medioPago', 'titulo')
                     ->searchable()
                     ->preload()
                     ->native(false),
+
                 SelectFilter::make('estado')
                     ->options([
                         0 => 'Sin Confirmar',
@@ -215,12 +205,21 @@ class PedidoResource extends Resource
                     ])
                     ->native(false)
                     ->multiple(),
+
                 Filter::make('comentario')
                     ->form([
                         TextInput::make('comentario')->label('Busca Comentario'),
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query->where('comentario', 'like', '%' . $data['comentario'] . '%');
+                    })
+                    ->indicateUsing(function(array $data){
+                        if(! $data['comentario']){
+                            return null;
+                        }
+                        return Tables\Filters\Indicator::make( 'comentario')
+                        ->label('Comentario: '.$data['comentario'])
+                        ->color(Color::Lime);
                     }),
 
 
@@ -230,6 +229,12 @@ class PedidoResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query->where('notas', 'like', '%' . $data['notas'] . '%');
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['notas']){
+                            return null;
+                        }
+                        return 'Notas: ' . $data['notas'];
                     }),
 
                 Filter::make('etiqueta')
@@ -246,6 +251,13 @@ class PedidoResource extends Resource
                             });
                         }
                         return $query;
+                    })
+                    ->indicateUsing(function(array $data): ?string{
+                        if(! $data['etiqueta']){
+                            return null;
+                        }
+                        $etiqueta = Etiqueta::find($data['etiqueta']);
+                        return $etiqueta ? 'Etiqueta: ' . $etiqueta->titulo : null;
                     }),
 
                 Filter::make('fecha')
@@ -263,6 +275,19 @@ class PedidoResource extends Resource
                                 $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
                             );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+                 
+                        if ($data['created_from'] ?? null) {
+                            $indicators['created_from'] = 'Desde: ' . Carbon::parse($data['created_from'])->format('d-m-Y');
+                        }
+                 
+                        if ($data['created_until'] ?? null) {
+                            $indicators['created_until'] = 'Hasta: ' . Carbon::parse($data['created_until'])->format('d-m-Y');
+                        }
+                 
+                        return $indicators;
                     }),
 
 
@@ -365,7 +390,7 @@ class PedidoResource extends Resource
     {
         return [
 
-            // EtiquetasRelationManager::class,
+             EtiquetasRelationManager::class,
         ];
     }
 

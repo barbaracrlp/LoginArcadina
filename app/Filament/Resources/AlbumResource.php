@@ -160,11 +160,11 @@ class AlbumResource extends Resource
                         $indicators = [];
                  
                         if ($data['created_from'] ?? null) {
-                            $indicators['created_from'] = 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
+                            $indicators['created_from'] = 'Desde: ' . Carbon::parse($data['created_from'])->format('d-m-Y');
                         }
                  
                         if ($data['created_until'] ?? null) {
-                            $indicators['created_until'] = 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
+                            $indicators['created_until'] = 'Hasta: ' . Carbon::parse($data['created_until'])->format('d-m-Y');
                         }
                  
                         return $indicators;
