@@ -352,31 +352,6 @@ class PedidoResource extends Resource
                         }
                     })
 
-                // Tables\Actions\DeleteAction::make()
-                // ->mountUsing(function (Form $form) {
-                //     $form->fill(['secret' => strval(rand(1000, 9999))]);
-                // })
-                // ->form([
-                //     Forms\Components\Placeholder::make('secret')
-                //         ->content(fn(Get $get) => 'Please fill in this code to delete this record ' . $get('secret') ),
-                //     Forms\Components\Hidden::make('secret'),
-                //     Forms\Components\TextInput::make('code')
-                //         ->label('Secret code')
-                //         ->required(),
-                // ])
-                // ->action(function (array $data, Pedido $record): void {
-                //     if ($data['code']!==$data['secret'])
-                //     {
-                //         throw ValidationException::withMessages([
-                //             'mountedActionsData.0.code' => 'The secret code is invalid.',
-                //         ]);
-                //     }
-
-                //     $record->delete();
-
-                //     $this->redirect($this->getResource()::getUrl('index'));
-                // })
-
 
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([

@@ -28,7 +28,7 @@ class EditPedido extends EditRecord
 {
     protected static string $resource = PedidoResource::class;
 
-    protected static ?string $title = 'Edición de Pedido';
+    protected static ?string $title = 'Edita Pedido';
 
     protected function getHeaderActions(): array
     {
@@ -67,17 +67,13 @@ class EditPedido extends EditRecord
                 ->modalDescription('Eliminar el pedido implica eliminar todos los datos relacionados.')
                 ->modalSubmitActionLabel('Sí, Eliminar Pedido')
                 ->modalCancelActionLabel('Cancelar')
-                // ->modalContent(fn (Pedido $record,): View => view(
-                //     'filament.actions.deletePedido',
-                //     ['record' => $record,],
-                // ))
                 ->label('Eliminar')
         ];
     }
 
 
-    //copio en teoria la funcion original del vendor 
-
+     
+    /**funcion para enviar peticion al API para cambiar de estado */
     public function save(bool $shouldRedirect = true, bool $shouldSendSavedNotification = true): void
     {
 
