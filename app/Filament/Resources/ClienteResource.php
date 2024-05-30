@@ -143,6 +143,7 @@ class ClienteResource extends Resource
                     ->grow(false)
                     ->icon('fas-envelope')
                     //aqui le añado la accion de enviar el email,
+                    /**Falta configurar el servicio de email */
                     ->action(
                         Action::make('sendEmail')
 

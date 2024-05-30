@@ -8,8 +8,4 @@ class Dashboard extends \Filament\Pages\Dashboard
     protected static ?string $title = 'Inicio';
     protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
 
-
-
-
-
 }

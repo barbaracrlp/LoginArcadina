@@ -13,19 +13,14 @@ use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Notifications\Notification;
 
-//importaciones para sobreescribir la autentificacion del login
+
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 
-//la clase nueva extiende la original
+
 class LoginEdit extends BaseAuth
 {
 
-    //añado la nueva vista 
-    /**de momento quito la vista para ver si sirve el renderHook */
-    // protected static string $view = 'viewLogin2';
-
-    //el nuevo formulario
     public function form(Form $form): Form
     {
         return $form
@@ -37,7 +32,6 @@ class LoginEdit extends BaseAuth
             ->statePath('data');
     }
 
-    //cambio los nombres de los inputs
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('mail')
@@ -62,7 +56,7 @@ class LoginEdit extends BaseAuth
 
     protected function getCredentialsFromFormData(array $data): array
     {
-        // error_log('saca las credenciales del formulario');
+
         return [
             'mail' => $data['mail'],
             'pass' => $data['pass'],
@@ -73,7 +67,7 @@ class LoginEdit extends BaseAuth
     //añado el manejo de errores a ver si es por eso
     protected function throwFailureValidationException(): never
     {
-        // error_log('envia error algo falla pero si hace algo');
+
         throw ValidationException::withMessages([
             'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
             'data.mail' => __('filament-panels::pages/auth/login.messages.failed'),
@@ -81,8 +75,7 @@ class LoginEdit extends BaseAuth
         ]);
     }
 
-    //vamos a intentar reescribir todo el metodo de autentificacion de Filament para ver si nos deja entrar con la contraseña que le damos
-    //hace falta implementar el metodo check y validate de la contraseña origina de arcadina
+    
 
     public function authenticate(): ?LoginResponse
     {
@@ -107,12 +100,9 @@ class LoginEdit extends BaseAuth
 
         $data = $this->form->getState();
 
-        // aqui esta la info que se introduce en el formulario 
-
         $email = $data['mail'];
         $password = $data['pass'];
-        // error_log('email es ' . $email);
-        // error_log('password es ' . $password);
+
 
 
 
@@ -120,22 +110,12 @@ class LoginEdit extends BaseAuth
         $user = Usuario::where('mail', $email)->first();
 
         $contraseña = $user->pass;
-        // error_log('contraseña del usuario ' . $contraseña);
-
-        //llamada a la funcion de la contraseña
-
-        //aqui necesito tener en una variable la contraseña del usuario 
-
-
-        // If the user doesn't exist or the password doesn't match, throw a validation exception
-
-        //creo primero la funcion y luego lo que hago es cambiar el nombre en esta condicion de aqui luego
+       
         if (!$user || !self::verificaContraseña($contraseña, $password)) {
             $this->throwFailureValidationException();
         }
 
-        
-        // Optionally, you can perform additional checks or actions here if needed
+    
         if (
             ($user instanceof FilamentUser) &&
             (! $user->canAccessPanel(Filament::getCurrentPanel()))
@@ -147,13 +127,12 @@ class LoginEdit extends BaseAuth
             ->icon('heroicon-o-document-heroicon-o-document-text') 
             ->send();
             Filament::auth()->logout();
-            // error_log('no entra por el acceso');
         
             $this->throwFailureValidationException();
         }
 
         $usuario = Filament::auth()->login($user,false);
-        // If authentication is successful, regenerate the session
+
         session()->regenerate();
 
         return app(LoginResponse::class);
@@ -167,9 +146,6 @@ class LoginEdit extends BaseAuth
     public function verificaContraseña($pass_db, $pass_login): bool
     {
 
-        //asi es el original pero lo convierto en constante
-        //const METHOD = PASSWORD_BCRYPT;
-        // error_log('verifico quese creo como toca ');
         if (!self::check($pass_db)) {
             return FALSE;
         }

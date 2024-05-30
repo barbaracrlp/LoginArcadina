@@ -21,9 +21,6 @@ class Cliente extends Model
     const CREATED_AT = null;
 
 
-    //aqui a lo mejor para la implementacion posterior 
-    //hace falta añadir más datos de la tabla
-    //de momento con estos me sobra
     protected $fillable = [
         'usuario',
         'mail',
@@ -32,10 +29,10 @@ class Cliente extends Model
         'telefono',
         'direccion',
         'multiple',
-        'last_login', //en multiple es si(sin acento) o no
+        'last_login', 
     ];
 
-    //ahora la funcion para utilizar el scope como tal
+ 
 
     protected static function boot()
     {

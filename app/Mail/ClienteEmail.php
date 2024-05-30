@@ -21,14 +21,11 @@ class ClienteEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
+  
 
     //defino las variables
      public $asunto;
      public $contenido;
-    // public $usuario;
      public $cliente;
 
 
@@ -39,7 +36,6 @@ class ClienteEmail extends Mailable
 
          $this->asunto=$asunto;
          $this->contenido=$contenido;
-        // $this->usuario=$usuario;
          $this->cliente=$cliente;
 
 

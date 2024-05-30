@@ -22,7 +22,6 @@ class EditCliente extends EditRecord
             Actions\DeleteAction::make()->label("Eliminar"),
         ];
     }
-
-  //alguna manera de crear un formulario 
+ 
 
 }

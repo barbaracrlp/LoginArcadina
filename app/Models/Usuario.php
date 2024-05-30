@@ -18,7 +18,6 @@ class Usuario extends Authenticatable implements FilamentUser,ContractsHasName
 
     protected $table='usuarios';
 
-    //relleno los campos de la tabla que son para usar
     protected $fillable=[
         'usuario',//nombre
         'mail',
@@ -26,7 +25,6 @@ class Usuario extends Authenticatable implements FilamentUser,ContractsHasName
         'nivel',//nivel para poder acceder
     ];
 
-    //copio del original los hidden
     protected $hidden=[
         'pass',
     ];

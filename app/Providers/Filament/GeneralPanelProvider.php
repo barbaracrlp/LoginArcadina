@@ -37,8 +37,7 @@ class GeneralPanelProvider extends PanelProvider
             ->favicon(asset('images/vectorialCirculo.jpg'))
             ->login(LoginEdit::class)
             ->colors([
-                //cambio los colores,por defecto la fuente es la que me dice
-                //fuente Inter
+           
                 'primary' => "#21ABE3",  
                 'danger' => "#EF4444",
                 'info' => "#21ABE3",
@@ -59,10 +58,8 @@ class GeneralPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                // Widgets\AccountWidget::class,
                 AccountWidget::class,
                 UltimasGalerias::class,
-                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -74,8 +74,9 @@ class Pedido extends Model
         return $this->belongsTo(Moneda::class,'moneda','cod_paypal');
     }
 
+
+    //para que los precios aparezcan ya con el símbolo de la moneda
     public function getTotalAttribute(){
-        // $precio = $this->attributes['total'];
         $precio = number_format($this->attributes['total'], 2);
         $simbolo=$this->monedas->simb_moneda;
         return $precio.'  '.$simbolo;

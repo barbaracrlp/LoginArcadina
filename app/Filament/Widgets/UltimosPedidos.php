@@ -10,7 +10,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class UltimosPedidos extends BaseWidget
 {
-    // protected int | string | array $columnSpan =2;
+
     public function table(Table $table): Table
     {
         return $table

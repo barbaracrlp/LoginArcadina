@@ -72,15 +72,13 @@ class AlbumResource extends Resource
     {
         return $table
             ->columns([
-                //las columnas 
-                //ahora la columna
                 IconColumn::make('etiquetas.titulo')
                     ->icon('fas-tag')->color('primary')->label(''),
                 Tables\Columns\TextColumn::make('titulo')
                     ->label('Título')
                     ->sortable()
                     ->searchable(),
-                //  Tables\Columns\CheckboxColumn::make('publicado'),
+
                 Tables\Columns\ToggleColumn::make('publicado')
                     ->label('Publicado'),
                 IconColumn::make('contenido')

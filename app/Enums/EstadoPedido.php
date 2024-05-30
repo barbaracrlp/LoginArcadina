@@ -8,7 +8,6 @@ use Ramsey\Uuid\Type\Integer;
 enum EstadoPedido :int implements HasLabel,HasColor 
 {
 
-    //caso igual al valor a utilizar
     case SIN_CONFIRMAR  = 0;
     case PENDIENTE_COBRO=1;
     case COBRADO=2;
@@ -18,7 +17,7 @@ enum EstadoPedido :int implements HasLabel,HasColor
     case CANCELADO=6;
     case COMPLETADO=7;
 
-    //AHORA EL METODO DE LABEL
+
     public function getLabel(): ?string
     {
         return match($this)
@@ -35,10 +34,7 @@ enum EstadoPedido :int implements HasLabel,HasColor
     }
 
 
-    //ahora el metodo del color
-
-    //tengo que definir los colores como string en el panel general
-    //para poder aplicar el metodo necesito un string
+    /**Son los colores definidos en el Provider del Panel */
     public function getColor(): string|array|null
     {
         return match($this)
