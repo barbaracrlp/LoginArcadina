@@ -79,12 +79,36 @@ class PedidoResource extends Resource
                     ])
                     ->inline()
                     ->columnSpanFull(),
+
                 Forms\Components\TextInput::make('numero')
                     ->disabled()
                     ->label('Numero'),
+
                 Forms\Components\TextInput::make('nombre')
                     ->disabled()
                     ->label('Cliente'),
+
+                Section::make('Datos Cliente')
+                    ->schema([
+                        // ...
+                        TextInput::make('email'),
+                        TextInput::make('telefono'),
+                        TextInput::make('direccion'),
+                        TextInput::make('localidad'),
+                        TextInput::make('provincia'),
+                        Forms\Components\Select::make('pais_id')
+                            ->relationship('pais', 'nombre_es')
+                            ->searchable()
+                            ->native(false)
+                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('nombre_es')
+                                    ->required()
+                                    ->maxLength(255)
+                            ]),
+
+                    ])->collapsible()->columns(3),
+
                 DatePicker::make('fecha')
                     ->label('Fecha')
                     ->disabled()
@@ -93,7 +117,7 @@ class PedidoResource extends Resource
                         function () {
                             $pastDates = [];
                             $currentDate = Carbon::now();
-                            for ($i = 1; $i <= 60; $i++) { 
+                            for ($i = 1; $i <= 60; $i++) {
                                 $pastDates[] = $currentDate->subDay()->format('Y-m-d');
                             }
 
@@ -101,23 +125,27 @@ class PedidoResource extends Resource
                         }
                     )
                     ->displayFormat('Y-m-d'),
+
                 Forms\Components\TextInput::make('tipo')
-                    ->label('Tipo'),
+                    ->label('Tipo')
+                    ->disabled(),
+
                 TextInput::make('total')
                     ->label('Total')
-                    ->disabled()
-                    ,
+                    ->disabled(),
 
                 DatePicker::make('f_modificacion')
                     ->label('Última modificacion')
                     ->disabled()
                     ->displayFormat('Y-m-d')
                     ->native(false),
+
                 Select::make('id_mediopago')
                     ->relationship('medioPago', 'titulo')
                     ->searchable()
                     ->native(false)
                     ->preload(),
+
                 Section::make('Notas')
                     ->schema([
                         // ...
@@ -180,12 +208,12 @@ class PedidoResource extends Resource
                     ])->native(false),
 
                 SelectFilter::make('nombre')
-                ->options(Pedido::all()->pluck('nombre', 'nombre')->toArray())
+                    ->options(Pedido::all()->pluck('nombre', 'nombre')->toArray())
                     ->searchable()
                     ->preload()
                     ->native(false)
                     ->label('Cliente'),
-                    
+
                 SelectFilter::make('medioPago')
                     ->relationship('medioPago', 'titulo')
                     ->searchable()
@@ -213,13 +241,13 @@ class PedidoResource extends Resource
                     ->query(function (Builder $query, array $data) {
                         return $query->where('comentario', 'like', '%' . $data['comentario'] . '%');
                     })
-                    ->indicateUsing(function(array $data){
-                        if(! $data['comentario']){
+                    ->indicateUsing(function (array $data) {
+                        if (!$data['comentario']) {
                             return null;
                         }
-                        return Tables\Filters\Indicator::make( 'comentario')
-                        ->label('Comentario: '.$data['comentario'])
-                        ->color(Color::Lime);
+                        return Tables\Filters\Indicator::make('comentario')
+                            ->label('Comentario: ' . $data['comentario'])
+                            ->color(Color::Lime);
                     }),
 
 
@@ -230,8 +258,8 @@ class PedidoResource extends Resource
                     ->query(function (Builder $query, array $data) {
                         return $query->where('notas', 'like', '%' . $data['notas'] . '%');
                     })
-                    ->indicateUsing(function(array $data): ?string{
-                        if(! $data['notas']){
+                    ->indicateUsing(function (array $data): ?string {
+                        if (!$data['notas']) {
                             return null;
                         }
                         return 'Notas: ' . $data['notas'];
@@ -252,8 +280,8 @@ class PedidoResource extends Resource
                         }
                         return $query;
                     })
-                    ->indicateUsing(function(array $data): ?string{
-                        if(! $data['etiqueta']){
+                    ->indicateUsing(function (array $data): ?string {
+                        if (!$data['etiqueta']) {
                             return null;
                         }
                         $etiqueta = Etiqueta::find($data['etiqueta']);
@@ -278,15 +306,15 @@ class PedidoResource extends Resource
                     })
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
-                 
+
                         if ($data['created_from'] ?? null) {
                             $indicators['created_from'] = 'Desde: ' . Carbon::parse($data['created_from'])->format('d-m-Y');
                         }
-                 
+
                         if ($data['created_until'] ?? null) {
                             $indicators['created_until'] = 'Hasta: ' . Carbon::parse($data['created_until'])->format('d-m-Y');
                         }
-                 
+
                         return $indicators;
                     }),
 
@@ -365,7 +393,7 @@ class PedidoResource extends Resource
     {
         return [
 
-             EtiquetasRelationManager::class,
+            EtiquetasRelationManager::class,
         ];
     }
 

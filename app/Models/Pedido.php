@@ -22,7 +22,11 @@ class Pedido extends Model
         'estado',
         'nombre',
         'direccion',
+        'localidad',
+        'id_pais',
         'telefono',
+        'email',
+        'codpos',
         'comentario',
         'tipo',
         'notas',
@@ -76,5 +80,10 @@ class Pedido extends Model
         $simbolo=$this->monedas->simb_moneda;
         return $precio.'  '.$simbolo;
 
+    }
+
+    public function pais(): BelongsTo
+    {
+        return $this->belongsTo(Pais::class, 'id_pais');
     }
 }
